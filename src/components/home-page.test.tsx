@@ -10,6 +10,7 @@ import { CurriculumCard } from "./curriculum-card";
 import { DroneCard } from "./drone-card";
 import { LabVisual } from "./lab-visual";
 import { ServiceCard } from "./service-card";
+import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
 
 describe("shared site components", () => {
@@ -44,6 +45,39 @@ describe("shared site components", () => {
     expect(
       screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
     ).toHaveAttribute("target", "_blank");
+  });
+
+  it("renders localized English site chrome", () => {
+    const site = getSiteContent("en");
+
+    render(
+      <>
+        <SiteHeader
+          brandName={site.brand.name}
+          navigation={site.navigation}
+          primaryCta={site.hero.primaryCta}
+          homeHref="/en"
+          locale="en"
+        />
+        <SiteFooter
+          brandName={site.brand.name}
+          tagline={site.brand.description}
+          navigation={site.navigation}
+          locale="en"
+        />
+      </>,
+    );
+
+    expect(screen.getByRole("link", { name: "Drone Viet" })).toHaveAttribute(
+      "href",
+      "/en",
+    );
+    expect(screen.getByRole("navigation", { name: "Main navigation" })).toBeInTheDocument();
+    expect(screen.getByText("Research & education systems")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Contact us now" })).toHaveAttribute(
+      "rel",
+      "noopener noreferrer",
+    );
   });
 
   it("renders featured drone, curriculum, service, and lab visual cards", () => {

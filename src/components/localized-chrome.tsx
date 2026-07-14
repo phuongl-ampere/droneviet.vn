@@ -27,6 +27,8 @@ export function LocalizedChrome({ children, content }: LocalizedChromeProps) {
         brandName={site.brand.name}
         navigation={site.navigation}
         primaryCta={site.hero.primaryCta}
+        homeHref={locale === "vi" ? "/" : "/en"}
+        locale={locale}
         languageSwitch={{
           href: getAlternateLocaleHref(pathname, locale),
           label: getLanguageSwitchLabel(locale),
@@ -37,8 +39,8 @@ export function LocalizedChrome({ children, content }: LocalizedChromeProps) {
         brandName={site.brand.name}
         tagline={site.brand.description}
         navigation={site.navigation}
+        locale={locale}
       />
     </>
   );
 }
-
