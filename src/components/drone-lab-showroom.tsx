@@ -42,7 +42,7 @@ type PointerState = {
   y: number;
 };
 
-const stationPositions = [-0.45, 1.05, 2.55, 4.05, 5.55];
+const stationPositions = [-4.8, -2.4, 0, 2.4, 4.8];
 const accentColors = ["#00D1C1", "#4FD1FF", "#FFB020", "#8BE28B", "#B2A4FF"];
 const isTestEnvironment = process.env.NODE_ENV === "test";
 
@@ -279,7 +279,7 @@ function DroneModel3D({ drone, index, active }: DroneModel3DProps) {
   return (
     <group ref={groupRef}>
       <Float speed={1.2} rotationIntensity={0.1} floatIntensity={active ? 0.22 : 0.08}>
-        <group scale={active ? 1.72 : 1.46}>
+        <group scale={active ? 1.22 : 0.94}>
           <mesh castShadow>
             <boxGeometry args={[0.72, 0.24, 0.48]} />
             <meshStandardMaterial
@@ -358,16 +358,18 @@ function LabScene({ drones, progress, pointer, reducedMotion }: LabSceneProps) {
   const activeIndex = Math.round(progress * Math.max(stations.length - 1, 1));
 
   useFrame(({ camera }) => {
-    const travelStart = 1.05;
-    const travelEnd = 4.05;
-    const cameraX = reducedMotion ? 1.05 : THREE.MathUtils.lerp(travelStart, travelEnd, progress);
+    const travelStart = stationPositions[0];
+    const travelEnd = stationPositions[stationPositions.length - 1];
+    const cameraX = reducedMotion
+      ? travelStart
+      : THREE.MathUtils.lerp(travelStart, travelEnd, progress);
     const cameraY = reducedMotion ? 1.95 : 2 + Math.sin(progress * Math.PI) * 0.2;
-    const cameraZ = reducedMotion ? 4.95 : 5.05 - Math.sin(progress * Math.PI) * 0.55;
+    const cameraZ = reducedMotion ? 5.55 : 5.7 - Math.sin(progress * Math.PI) * 0.5;
     const parallaxX = reducedMotion ? 0 : pointer.x * 0.26;
     const parallaxY = reducedMotion ? 0 : -pointer.y * 0.12;
 
     camera.position.lerp(new THREE.Vector3(cameraX + parallaxX, cameraY + parallaxY, cameraZ), 0.07);
-    target.set(cameraX + parallaxX * 0.8, 1.05 + parallaxY, 1.25);
+    target.set(cameraX - 1.35 + parallaxX * 0.8, 1.05 + parallaxY, 1.25);
     camera.lookAt(target);
   });
 
@@ -394,7 +396,7 @@ function LabScene({ drones, progress, pointer, reducedMotion }: LabSceneProps) {
           position={[stationPositions[index], 1.1, index % 2 === 0 ? 1.28 : 1.52]}
           rotation={[0, index % 2 === 0 ? -0.08 : 0.08, 0]}
         >
-          <mesh position={[0, 0, -0.08]}>
+          <mesh position={[0, -0.84, 0]} rotation={[-Math.PI / 2, 0, 0]}>
             <ringGeometry args={[0.9, 1.05, 64]} />
             <meshBasicMaterial
               color={accentColors[index % accentColors.length]}
@@ -403,7 +405,7 @@ function LabScene({ drones, progress, pointer, reducedMotion }: LabSceneProps) {
               side={THREE.DoubleSide}
             />
           </mesh>
-          <mesh position={[0, 0, -0.1]}>
+          <mesh position={[0, -0.845, 0]} rotation={[-Math.PI / 2, 0, 0]}>
             <circleGeometry args={[0.78, 64]} />
             <meshBasicMaterial
               color={accentColors[index % accentColors.length]}
@@ -449,7 +451,7 @@ function InteractiveDroneLabShowroom(props: DroneLabShowroomProps) {
           <Canvas
             shadows
             dpr={[1, 1.5]}
-            camera={{ position: [1.05, 2, 5.05], fov: 40, near: 0.1, far: 60 }}
+            camera={{ position: [-4.8, 2.1, 5.7], fov: 42, near: 0.1, far: 60 }}
             gl={{
               antialias: true,
               alpha: false,

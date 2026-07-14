@@ -19,10 +19,17 @@ export function getLocaleFromPathname(pathname: string): Locale {
 }
 
 export function getAlternateLocaleHref(pathname: string, locale: Locale): string {
+  if (locale === "vi" && pathname.startsWith("/san-pham/")) {
+    return pathname.replace("/san-pham/", "/en/products/");
+  }
+
+  if (locale === "en" && pathname.startsWith("/en/products/")) {
+    return pathname.replace("/en/products/", "/san-pham/");
+  }
+
   return locale === "vi" ? viToEn.get(pathname) ?? "/en" : enToVi.get(pathname) ?? "/";
 }
 
 export function getLanguageSwitchLabel(locale: Locale): string {
   return locale === "vi" ? "EN" : "VI";
 }
-
