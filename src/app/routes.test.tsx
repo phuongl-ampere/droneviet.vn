@@ -77,6 +77,7 @@ describe("public routes", () => {
 
     render(await ArticlesPage());
     expect(screen.getByRole("heading", { name: "Tin tức và học liệu" })).toBeInTheDocument();
+    expect(screen.getAllByRole("article")).toHaveLength(2);
     expect(
       screen.getByText("Drone trong lớp học STEM và nghiên cứu ứng dụng"),
     ).toBeInTheDocument();

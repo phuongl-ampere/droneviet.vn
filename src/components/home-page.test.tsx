@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import {
   getCurriculumItems,
@@ -103,5 +103,32 @@ describe("shared site components", () => {
     expect(
       screen.getByText("Tư vấn phòng lab drone nghiên cứu & giáo dục"),
     ).toBeInTheDocument();
+  });
+
+  it("uses localized destinations for English curriculum and service cards", () => {
+    const curriculum = getCurriculumItems("en")[0];
+    const service = getServices("en")[0];
+
+    render(
+      <CurriculumCard
+        item={curriculum}
+        href={`/en/curriculum#${curriculum.slug}`}
+      />,
+    );
+    expect(
+      screen.getByRole("link", { name: curriculum.downloadLabel }),
+    ).toHaveAttribute("href", `/en/curriculum#${curriculum.slug}`);
+
+    cleanup();
+    render(
+      <ServiceCard
+        service={service}
+        href={`/en/services#${service.slug}`}
+      />,
+    );
+    expect(screen.getByRole("link", { name: service.ctaLabel })).toHaveAttribute(
+      "href",
+      `/en/services#${service.slug}`,
+    );
   });
 });

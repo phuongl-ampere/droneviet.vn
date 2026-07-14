@@ -22,11 +22,10 @@ export default async function EnglishServicesPage() {
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {services.map((service) => (
           <div key={service.slug} id={service.slug}>
-            <ServiceCard service={service} />
+            <ServiceCard service={service} href={`/en/services#${service.slug}`} />
           </div>
         ))}
       </div>
     </SectionShell>
   );
 }
-

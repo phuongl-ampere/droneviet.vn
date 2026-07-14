@@ -1,4 +1,4 @@
-import { CalendarDays } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionShell } from "@/components/section-shell";
@@ -19,20 +19,23 @@ export default async function ArticlesPage() {
       title="Tin tức và học liệu"
       description="Nội dung được lưu bằng Markdown trong repo để dễ chỉnh sửa trước khi có admin/database."
     >
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className="grid gap-x-10 gap-y-4 md:grid-cols-2">
         {articles.map((article) => (
-          <Link
-            key={article.slug}
-            href={`/tin-tuc/${article.slug}`}
-            className="rounded-lg border border-slate-200 bg-white p-5 transition hover:-translate-y-1 hover:border-[#00D1C1]/60 hover:shadow-xl hover:shadow-cyan-950/10"
-          >
-            <p className="mb-3 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-[#006D66]">
-              <CalendarDays aria-hidden="true" size={14} />
-              {article.date} · {article.readingTime}
-            </p>
-            <h2 className="text-2xl font-semibold text-[#0B1117]">{article.title}</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-600">{article.summary}</p>
-          </Link>
+          <article key={article.slug} className="group border-t border-[#172226]/16 py-7">
+            <Link href={`/tin-tuc/${article.slug}`} className="block">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#007F75]">
+                <time dateTime={article.date}>{article.date}</time> · {article.category} · {article.readingTime}
+              </p>
+              <h2 className="display-type mt-5 text-3xl font-medium leading-tight tracking-[-0.025em] text-[#10232A] sm:text-4xl">
+                {article.title}
+              </h2>
+              <p className="mt-4 max-w-xl text-sm leading-7 text-slate-600">{article.summary}</p>
+              <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#006D66]">
+                Đọc bài viết
+                <ArrowUpRight aria-hidden="true" size={15} />
+              </span>
+            </Link>
+          </article>
         ))}
       </div>
     </SectionShell>

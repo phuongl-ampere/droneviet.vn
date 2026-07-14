@@ -21,11 +21,10 @@ export default async function EnglishCurriculumPage() {
       <div className="grid gap-5 md:grid-cols-2">
         {curriculum.map((item) => (
           <div key={item.slug} id={item.slug}>
-            <CurriculumCard item={item} />
+            <CurriculumCard item={item} href={`/en/curriculum#${item.slug}`} />
           </div>
         ))}
       </div>
     </SectionShell>
   );
 }
-
