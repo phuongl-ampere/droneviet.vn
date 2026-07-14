@@ -102,6 +102,8 @@ describe("public routes", () => {
     expect(
       screen.getByText(/Thay vì chỉ học thuật toán trên màn hình/),
     ).toBeInTheDocument();
+    expect(screen.getByText("2026-07-05").tagName).toBe("TIME");
+    expect(screen.getByText("2026-07-05")).toHaveAttribute("dateTime", "2026-07-05");
   });
 
   it("renders English home, products, and news pages", async () => {

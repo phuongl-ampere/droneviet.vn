@@ -27,8 +27,14 @@ describe("product detail routes", () => {
     );
 
     expect(screen.getByRole("heading", { name: "DV Primary Lab" })).toBeInTheDocument();
+    expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
     expect(screen.getByText("Lớp STEM nhập môn")).toBeInTheDocument();
     expect(screen.getByText("Câu hỏi thường gặp")).toBeInTheDocument();
+    expect(screen.getByRole("table", { name: "Thông số triển khai" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Liên hệ tư vấn ngay" })).toHaveAttribute(
+      "href",
+      "https://zalo.me/0384070636",
+    );
   });
 
   it("renders English product detail pages with SEO content", async () => {
@@ -50,6 +56,9 @@ describe("product detail routes", () => {
     expect(screen.getByRole("heading", { name: "DV Research Platform" })).toBeInTheDocument();
     expect(screen.getByText("Research lab")).toBeInTheDocument();
     expect(screen.getByText("Frequently asked questions")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Contact us now" })).toHaveAttribute(
+      "href",
+      "https://zalo.me/0384070636",
+    );
   });
 });
-

@@ -45,11 +45,14 @@ export default async function EnglishArticlePage({ params }: ArticlePageProps) {
       title={article.title}
       description={article.summary}
     >
-      <article className="max-w-3xl rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <p className="mb-8 font-mono text-xs uppercase tracking-[0.16em] text-slate-500">
+      <article className="max-w-3xl border-t border-[#172226]/16 bg-white/60 p-6 shadow-[0_24px_80px_rgba(16,35,42,0.05)] sm:p-10">
+        <time
+          dateTime={article.date}
+          className="mb-9 block text-[10px] font-semibold uppercase tracking-[0.16em] text-[#007F75]"
+        >
           {article.date}
-        </p>
-        <div className="space-y-5 text-base leading-8 text-slate-700">
+        </time>
+        <div className="space-y-6 text-[1.05rem] leading-8 text-slate-700">
           {article.content.split(/\n{2,}/).map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
@@ -58,4 +61,3 @@ export default async function EnglishArticlePage({ params }: ArticlePageProps) {
     </SectionShell>
   );
 }
-
