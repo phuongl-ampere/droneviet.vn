@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, Float, Text } from "@react-three/drei";
 import * as THREE from "three";
+import type { Locale } from "@/lib/content";
 import type { DroneModel } from "@/lib/content/schema";
 
 type LinkItem = {
@@ -14,6 +15,7 @@ type LinkItem = {
 };
 
 export type DroneLabShowroomProps = {
+  locale: Locale;
   eyebrow: string;
   title: string;
   description: string;
@@ -21,6 +23,19 @@ export type DroneLabShowroomProps = {
   secondaryCta: LinkItem;
   drones: DroneModel[];
 };
+
+const showroomCopy = {
+  vi: {
+    configuration: "Cấu hình đang giới thiệu",
+    level: "Cấp độ",
+    sequence: "Vị trí trưng bày",
+  },
+  en: {
+    configuration: "Featured configuration",
+    level: "Level",
+    sequence: "Showroom position",
+  },
+} satisfies Record<Locale, Record<string, string>>;
 
 type PointerState = {
   x: number;
@@ -134,6 +149,7 @@ function usePointerParallax(ref: React.RefObject<HTMLElement | null>) {
 }
 
 function TestShowroomFallback({
+  locale,
   eyebrow,
   title,
   description,
@@ -141,12 +157,15 @@ function TestShowroomFallback({
   secondaryCta,
   drones,
 }: DroneLabShowroomProps) {
+  const copy = showroomCopy[locale];
+
   return (
     <section data-testid="drone-lab-showroom">
       <div data-testid="drone-lab-canvas-host" />
       <p>{eyebrow}</p>
       <h1>{title}</h1>
       <p>{description}</p>
+      <p>{copy.configuration}</p>
       <Link href={primaryCta.href} target="_blank" rel="noopener noreferrer">
         {primaryCta.label}
       </Link>
@@ -409,7 +428,7 @@ export function DroneLabShowroom(props: DroneLabShowroomProps) {
 }
 
 function InteractiveDroneLabShowroom(props: DroneLabShowroomProps) {
-  const { eyebrow, title, description, primaryCta, secondaryCta, drones } = props;
+  const { locale, eyebrow, title, description, primaryCta, secondaryCta, drones } = props;
   const sectionRef = useRef<HTMLElement>(null);
   const progress = useScrollProgress(sectionRef);
   const pointer = usePointerParallax(sectionRef);
@@ -417,6 +436,7 @@ function InteractiveDroneLabShowroom(props: DroneLabShowroomProps) {
   const primaryCtaIsExternal = primaryCta.href.startsWith("http");
   const activeIndex = Math.round(progress * Math.max(Math.min(drones.length, 5) - 1, 1));
   const activeDrone = drones[activeIndex] ?? drones[0];
+  const copy = showroomCopy[locale];
 
   return (
     <section
@@ -446,16 +466,16 @@ function InteractiveDroneLabShowroom(props: DroneLabShowroomProps) {
           </Canvas>
         </div>
 
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_42%,rgba(0,209,193,0.16),transparent_30%),linear-gradient(90deg,rgba(7,13,18,0.88),rgba(7,13,18,0.42)_38%,rgba(7,13,18,0.04)_70%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_42%,rgba(0,209,193,0.13),transparent_30%),linear-gradient(90deg,rgba(7,13,18,0.92),rgba(7,13,18,0.45)_40%,rgba(7,13,18,0.04)_72%)]" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#070D12]/95 via-[#070D12]/74 to-[#070D12]/18 md:hidden" />
 
         <div className="relative z-10 mx-auto grid min-h-svh w-full max-w-7xl items-center px-5 py-24 sm:px-8 lg:grid-cols-[0.88fr_1.12fr]">
           <div className="max-w-3xl">
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#00D1C1]/30 bg-[#00D1C1]/10 px-3 py-1 font-mono text-xs uppercase tracking-[0.2em] text-[#00D1C1]">
+            <p className="mb-6 inline-flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7DE0D7]">
               <Sparkles aria-hidden="true" size={14} />
               {eyebrow}
             </p>
-            <h1 className="text-4xl font-semibold tracking-normal sm:text-6xl">
+            <h1 className="display-type text-balance text-5xl font-medium leading-[0.96] tracking-[-0.04em] sm:text-7xl">
               {title}
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
@@ -466,38 +486,38 @@ function InteractiveDroneLabShowroom(props: DroneLabShowroomProps) {
                 href={primaryCta.href}
                 target={primaryCtaIsExternal ? "_blank" : undefined}
                 rel={primaryCtaIsExternal ? "noopener noreferrer" : undefined}
-                className="pointer-events-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#00D1C1] px-5 text-sm font-semibold text-[#0B1117] transition hover:bg-[#27EFE3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:whitespace-nowrap"
+                className="pointer-events-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#10232A] transition hover:bg-[#00D1C1] sm:whitespace-nowrap"
               >
                 {primaryCta.label}
                 <ArrowRight aria-hidden="true" size={18} />
               </Link>
               <Link
                 href={secondaryCta.href}
-                className="pointer-events-auto inline-flex min-h-12 items-center justify-center rounded-lg border border-white/14 px-5 text-sm font-semibold text-white transition hover:bg-white/8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D1C1]"
+                className="pointer-events-auto inline-flex min-h-12 items-center justify-center rounded-full border border-white/18 px-6 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/8"
               >
                 {secondaryCta.label}
               </Link>
             </div>
           </div>
 
-          <aside className="pointer-events-none mt-10 max-w-sm justify-self-start rounded-lg border border-white/12 bg-[#0B1117]/72 p-4 shadow-2xl shadow-cyan-950/20 backdrop-blur md:mt-0 lg:mb-20 lg:self-end lg:justify-self-end">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[#00D1C1]">
-              Active station
+          <aside className="pointer-events-none mt-10 max-w-sm justify-self-start rounded-[1.5rem] border border-white/12 bg-[#10232A]/78 p-5 shadow-2xl shadow-black/25 backdrop-blur-xl md:mt-0 lg:mb-20 lg:self-end lg:justify-self-end">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7DE0D7]">
+              {copy.configuration}
             </p>
-            <h2 className="mt-3 text-2xl font-semibold">{activeDrone?.name}</h2>
+            <h2 className="display-type mt-3 text-3xl font-medium tracking-[-0.025em]">{activeDrone?.name}</h2>
             <p className="mt-2 text-sm leading-6 text-slate-300">
               {activeDrone?.summary}
             </p>
             <div className="mt-4 grid grid-cols-2 gap-3">
-              <div className="rounded-lg border border-white/10 bg-white/6 p-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-slate-400">
-                  Level
+              <div className="border-t border-white/12 pt-3">
+                <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                  {copy.level}
                 </p>
                 <p className="mt-1 font-semibold">{activeDrone?.level}</p>
               </div>
-              <div className="rounded-lg border border-white/10 bg-white/6 p-3">
-                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-slate-400">
-                  Station
+              <div className="border-t border-white/12 pt-3">
+                <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                  {copy.sequence}
                 </p>
                 <p className="mt-1 font-semibold">
                   {String(activeIndex + 1).padStart(2, "0")}
@@ -506,6 +526,7 @@ function InteractiveDroneLabShowroom(props: DroneLabShowroomProps) {
             </div>
           </aside>
         </div>
+        <div className="pointer-events-none absolute -bottom-px left-1/2 z-20 h-9 w-[112%] -translate-x-1/2 rounded-t-[50%] bg-[#F5F7F4] sm:h-12" />
       </div>
     </section>
   );

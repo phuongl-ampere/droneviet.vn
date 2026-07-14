@@ -10,6 +10,7 @@ describe("DroneLabShowroom", () => {
 
     render(
       <DroneLabShowroom
+        locale="vi"
         eyebrow={site.hero.eyebrow}
         title={site.hero.title}
         description={site.hero.description}
@@ -35,6 +36,24 @@ describe("DroneLabShowroom", () => {
     expect(screen.getByText("DV Primary Lab")).toBeInTheDocument();
     expect(screen.getByText("DV Code Fleet")).toBeInTheDocument();
     expect(screen.getByText("DV AI Vision")).toBeInTheDocument();
+    expect(screen.getByText("Cấu hình đang giới thiệu")).toBeInTheDocument();
+  });
+
+  it("localizes the premium product placard", () => {
+    const site = getSiteContent("en");
+
+    render(
+      <DroneLabShowroom
+        locale="en"
+        eyebrow={site.hero.eyebrow}
+        title={site.hero.title}
+        description={site.hero.description}
+        primaryCta={site.hero.primaryCta}
+        secondaryCta={site.hero.secondaryCta}
+        drones={getDroneModels("en")}
+      />,
+    );
+
+    expect(screen.getByText("Featured configuration")).toBeInTheDocument();
   });
 });
-

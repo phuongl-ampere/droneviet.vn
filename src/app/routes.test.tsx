@@ -116,6 +116,9 @@ describe("public routes", () => {
       "https://zalo.me/0384070636",
     );
     expect(screen.getByTestId("drone-lab-showroom")).toBeInTheDocument();
+    expect(screen.getByText("A drone platform for every stage of learning")).toBeInTheDocument();
+    expect(screen.getByText("From first flight to a working lab")).toBeInTheDocument();
+    expect(screen.getByText("A clear path from brief to deployment")).toBeInTheDocument();
     cleanup();
 
     render(await EnglishProductsPage());

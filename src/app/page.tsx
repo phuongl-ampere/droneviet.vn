@@ -1,4 +1,5 @@
-import { Box, CheckCircle2, Rocket } from "lucide-react";
+import { ArrowUpRight, Check, MoveUpRight } from "lucide-react";
+import Link from "next/link";
 import { DroneLabShowroom } from "@/components/drone-lab-showroom";
 import { SectionShell } from "@/components/section-shell";
 import {
@@ -7,16 +8,150 @@ import {
   getSiteContent,
   type Locale,
 } from "@/lib/content";
+import type { DroneModel } from "@/lib/content/schema";
+
+const homeCopy = {
+  vi: {
+    solutionEyebrow: "Solution catalog",
+    solutionTitle: "Một nền tảng drone cho mọi cấp độ học tập",
+    solutionDescription:
+      "Bốn cấu hình trọng điểm kết nối thiết bị, học liệu và dữ liệu — từ chuyến bay đầu tiên đến đề tài nghiên cứu.",
+    servicesEyebrow: "Services",
+    servicesTitle: "Từ chuyến bay đầu tiên đến một phòng lab vận hành được",
+    servicesDescription:
+      "Thiết bị chỉ là điểm bắt đầu. Drone Việt đồng hành từ thiết kế cấu hình đến chuyển giao và đào tạo.",
+    processEyebrow: "Deployment",
+    processTitle: "Lộ trình rõ ràng từ yêu cầu đến triển khai",
+    processDescription:
+      "Ba bước có kiểm soát để giải pháp phù hợp mục tiêu, không gian và năng lực vận hành thực tế.",
+    viewProduct: "Xem cấu hình",
+    featured: "Cấu hình tiêu biểu",
+  },
+  en: {
+    solutionEyebrow: "Solution catalog",
+    solutionTitle: "A drone platform for every stage of learning",
+    solutionDescription:
+      "Four core configurations connect hardware, curriculum, and data — from a first flight to applied research.",
+    servicesEyebrow: "Services",
+    servicesTitle: "From first flight to a working lab",
+    servicesDescription:
+      "Hardware is only the beginning. Drone Viet supports configuration, transfer, and instructor readiness.",
+    processEyebrow: "Deployment",
+    processTitle: "A clear path from brief to deployment",
+    processDescription:
+      "Three controlled steps align the solution with real objectives, space, and operating capability.",
+    viewProduct: "View configuration",
+    featured: "Featured configuration",
+  },
+} satisfies Record<Locale, Record<string, string>>;
+
+function DroneMark() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 260 150" className="h-32 w-56 sm:h-40 sm:w-72">
+      <g fill="none" stroke="currentColor" strokeWidth="3">
+        <ellipse cx="52" cy="42" rx="34" ry="12" />
+        <ellipse cx="208" cy="42" rx="34" ry="12" />
+        <ellipse cx="52" cy="108" rx="34" ry="12" />
+        <ellipse cx="208" cy="108" rx="34" ry="12" />
+        <path d="M72 50 112 68M188 50 148 68M72 100l40-20m76 20-40-20" />
+      </g>
+      <path d="M106 59h48l16 16-16 18h-48L90 75Z" fill="currentColor" />
+      <path d="M118 66h24l9 9-9 10h-24l-9-10Z" fill="#00A99B" />
+    </svg>
+  );
+}
+
+function FeaturedSolution({
+  drone,
+  index,
+  locale,
+}: {
+  drone: DroneModel;
+  index: number;
+  locale: Locale;
+}) {
+  const copy = homeCopy[locale];
+  const hrefBase = locale === "vi" ? "/san-pham" : "/en/products";
+  const isLead = index === 0;
+
+  return (
+    <article
+      className={
+        isLead
+          ? "group relative overflow-hidden rounded-[2rem] bg-[#10232A] p-7 text-white md:col-span-2 md:grid md:min-h-[34rem] md:grid-cols-[0.9fr_1.1fr] md:items-end md:p-10 lg:row-span-2 lg:col-span-1"
+          : "group flex min-h-[16rem] flex-col border-t border-[#172226]/16 py-7 sm:px-5"
+      }
+    >
+      {isLead ? (
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_32%,rgba(0,169,155,0.22),transparent_34%)]" />
+      ) : null}
+      <div
+        className={
+          isLead
+            ? "relative order-2 mt-12 md:order-1 md:mt-0"
+            : "flex flex-1 flex-col"
+        }
+      >
+        <p
+          className={
+            isLead
+              ? "text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7DE0D7]"
+              : "text-[10px] font-semibold uppercase tracking-[0.18em] text-[#007F75]"
+          }
+        >
+          {isLead ? copy.featured : drone.level}
+        </p>
+        <h3
+          className={`display-type mt-4 font-medium leading-none tracking-[-0.035em] ${
+            isLead ? "text-5xl sm:text-6xl" : "text-3xl text-[#10232A]"
+          }`}
+        >
+          {drone.name}
+        </h3>
+        <p className={`mt-5 text-sm leading-7 ${isLead ? "text-slate-300" : "text-slate-600"}`}>
+          {drone.summary}
+        </p>
+        <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
+          {drone.useCases.slice(0, 2).map((useCase) => (
+            <span
+              key={useCase}
+              className={`text-xs ${isLead ? "text-slate-400" : "text-slate-500"}`}
+            >
+              {useCase}
+            </span>
+          ))}
+        </div>
+        <Link
+          href={`${hrefBase}/${drone.slug}`}
+          className={`mt-8 inline-flex w-fit items-center gap-2 border-b pb-1 text-sm font-semibold transition ${
+            isLead
+              ? "border-[#7DE0D7]/60 text-white hover:border-white"
+              : "border-[#00A99B]/50 text-[#006D66] hover:border-[#10232A] hover:text-[#10232A]"
+          }`}
+        >
+          {copy.viewProduct}
+          <ArrowUpRight aria-hidden="true" size={15} />
+        </Link>
+      </div>
+      {isLead ? (
+        <div className="relative order-1 grid place-items-center text-[#D9F6F2] md:order-2 md:self-center">
+          <DroneMark />
+        </div>
+      ) : null}
+    </article>
+  );
+}
 
 export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
   const site = getSiteContent(locale);
   const featuredDrones = getDroneModels(locale).filter((drone) => drone.featured);
-  const services = getServices(locale);
-  const compactServices = services.slice(0, 3);
+  const services = getServices(locale).slice(0, 3);
+  const copy = homeCopy[locale];
 
   return (
     <>
       <DroneLabShowroom
+        locale={locale}
         eyebrow={site.hero.eyebrow}
         title={site.hero.title}
         description={site.hero.description}
@@ -26,107 +161,75 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
       />
 
       <SectionShell
-        eyebrow="Solution catalog"
-        title="5 cấu hình drone trọng điểm"
-        description="Từ lớp học cấp 1 đến lab nghiên cứu đại học."
+        eyebrow={copy.solutionEyebrow}
+        title={copy.solutionTitle}
+        description={copy.solutionDescription}
       >
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-x-10 gap-y-2 lg:grid-cols-[1.08fr_0.92fr]">
           {featuredDrones.map((drone, index) => (
-            <article
-              key={drone.slug}
-              className="group relative overflow-hidden rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-[#00D1C1]/60 hover:shadow-2xl hover:shadow-cyan-950/10"
-            >
-              <div className="absolute inset-x-0 top-0 h-1 bg-[#00D1C1]" />
-              <div className="mb-6 flex items-center justify-between">
-                <span className="rounded-full bg-[#0B1117] px-3 py-1 font-mono text-xs text-white">
-                  {drone.level}
-                </span>
-                <span className="font-mono text-xs text-slate-400">
-                  0{index + 1}
-                </span>
-              </div>
-              <div className="mb-5 grid size-14 place-items-center rounded-lg bg-[#00D1C1]/10 text-[#006D66]">
-                <Box aria-hidden="true" size={24} />
-              </div>
-              <h3 className="text-xl font-semibold text-[#0B1117]">{drone.name}</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                {drone.summary}
+            <FeaturedSolution key={drone.slug} drone={drone} index={index} locale={locale} />
+          ))}
+        </div>
+      </SectionShell>
+
+      <SectionShell
+        eyebrow={copy.servicesEyebrow}
+        title={copy.servicesTitle}
+        description={copy.servicesDescription}
+        tone="dark"
+      >
+        <div className="grid gap-x-10 md:grid-cols-3">
+          {services.map((service) => (
+            <article key={service.slug} className="border-t border-white/20 py-7">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#7DE0D7]">
+                {service.audience.slice(0, 2).join(" · ")}
               </p>
-              <div className="mt-5 space-y-2">
-                {drone.learningOutcomes.slice(0, 2).map((outcome) => (
-                  <p key={outcome} className="flex gap-2 text-sm text-slate-700">
-                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#00D1C1]" />
-                    <span>{outcome}</span>
+              <h3 className="display-type mt-5 text-3xl font-medium leading-tight">
+                {service.title}
+              </h3>
+              <p className="mt-4 text-sm leading-7 text-slate-300">{service.summary}</p>
+              <div className="mt-6 space-y-3">
+                {service.deliverables.slice(0, 2).map((deliverable) => (
+                  <p key={deliverable} className="flex gap-2 text-sm text-slate-400">
+                    <Check aria-hidden="true" className="mt-0.5 text-[#7DE0D7]" size={15} />
+                    {deliverable}
                   </p>
                 ))}
               </div>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {drone.useCases.slice(0, 2).map((useCase) => (
-                  <span
-                    key={useCase}
-                    className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"
-                  >
-                    {useCase}
-                  </span>
-                ))}
-              </div>
             </article>
           ))}
         </div>
       </SectionShell>
 
       <SectionShell
-        eyebrow="Services"
-        title="Triển khai nhanh, đúng mục tiêu"
-        description="Thiết bị, lab, giáo trình và nền tảng nghiên cứu."
-        tone="dark"
+        eyebrow={copy.processEyebrow}
+        title={copy.processTitle}
+        description={copy.processDescription}
       >
-        <div className="grid gap-4 md:grid-cols-3">
-          {compactServices.map((service) => (
-            <article
-              key={service.slug}
-              className="rounded-lg border border-white/10 bg-white/8 p-5 text-white backdrop-blur transition hover:border-[#00D1C1]/50 hover:bg-white/12"
-            >
-              <div className="mb-5 grid size-12 place-items-center rounded-lg bg-[#00D1C1]/12 text-[#00D1C1]">
-                <CheckCircle2 aria-hidden="true" size={22} />
-              </div>
-              <h3 className="text-xl font-semibold">{service.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-300">
-                {service.summary}
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {service.deliverables.slice(0, 3).map((deliverable) => (
-                  <span
-                    key={deliverable}
-                    className="rounded-full border border-white/10 px-3 py-1 text-xs text-slate-200"
-                  >
-                    {deliverable}
-                  </span>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-      </SectionShell>
-
-      <SectionShell
-        eyebrow="Deployment"
-        title="3 bước đưa drone vào lớp học và lab"
-        description="Rõ mục tiêu, đúng thiết bị, vận hành được ngay."
-      >
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="relative grid gap-0 md:grid-cols-3">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 1000 120"
+            preserveAspectRatio="none"
+            className="pointer-events-none absolute left-0 top-8 hidden h-24 w-full text-[#00A99B]/20 md:block"
+          >
+            <path d="M20 70C220 5 315 115 500 55S790 10 980 65" fill="none" stroke="currentColor" strokeWidth="2" />
+          </svg>
           {site.process.map((step, index) => (
             <article
               key={step.title}
-              className="relative overflow-hidden rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
+              className="relative border-t border-[#172226]/18 py-8 md:min-h-72 md:px-7"
             >
-              <div className="absolute -right-8 -top-8 size-24 rounded-full bg-[#00D1C1]/10" />
-              <p className="font-mono text-sm text-[#006D66]">0{index + 1}</p>
-              <div className="mt-5 grid size-11 place-items-center rounded-lg bg-[#0B1117] text-[#00D1C1]">
-                <Rocket aria-hidden="true" size={20} />
+              <div className="flex items-center justify-between">
+                <span className="display-type text-4xl italic text-[#00A99B]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <MoveUpRight aria-hidden="true" className="text-[#D69C54]" size={20} />
               </div>
-              <h3 className="mt-5 text-xl font-semibold text-[#0B1117]">{step.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{step.summary}</p>
+              <h3 className="display-type mt-12 text-3xl font-medium leading-tight text-[#10232A]">
+                {step.title}
+              </h3>
+              <p className="mt-4 text-sm leading-7 text-slate-600">{step.summary}</p>
             </article>
           ))}
         </div>
