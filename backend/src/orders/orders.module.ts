@@ -8,6 +8,7 @@ import { AuditModule } from "../audit/audit.module";
 import { PromotionsModule } from "../promotions/promotions.module";
 import { CoursesModule } from "../courses/courses.module";
 import { PaymentsModule } from "../payments/payments.module";
+import { AdminOrdersController } from "./admin-orders.controller";
 import { OrdersController } from "./orders.controller";
 import { OrdersService } from "./orders.service";
 import { ReservationCleanupService } from "./reservation-cleanup.service";
@@ -21,7 +22,7 @@ import { ReservationCleanupService } from "./reservation-cleanup.service";
     CoursesModule,
     TypeOrmModule.forFeature([InventoryItem, Order, OrderLine]),
   ],
-  controllers: [OrdersController],
+  controllers: [OrdersController, AdminOrdersController],
   providers: [OrdersService, ReservationCleanupService],
   exports: [OrdersService],
 })

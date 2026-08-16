@@ -14,12 +14,10 @@ const transitions: Record<OrderStatus, OrderStatus[]> = {
   [OrderStatus.CANCELLED]: [],
   [OrderStatus.DELIVERED]: [OrderStatus.REFUND_REQUESTED],
   [OrderStatus.PACKING]: [
-    OrderStatus.CANCELLED,
     OrderStatus.REFUND_REQUESTED,
     OrderStatus.SHIPPED,
   ],
   [OrderStatus.PAID]: [
-    OrderStatus.CANCELLED,
     OrderStatus.PACKING,
     OrderStatus.REFUND_REQUESTED,
   ],

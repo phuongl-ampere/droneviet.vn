@@ -49,4 +49,44 @@ describe("CoursesService", () => {
       expect.objectContaining({ reservedSeats: 9 }),
     );
   });
+
+  it("releases confirmed course seats when operations cancels a paid order", async () => {
+    const andWhere = vi.fn().mockReturnThis();
+    const sessionRepository = { save: vi.fn() };
+    const enrollmentRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        andWhere,
+        getMany: vi.fn().mockResolvedValue([
+          {
+            quantity: 2,
+            session: { reservedSeats: 4 },
+            status: "confirmed",
+          },
+        ]),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(),
+    };
+    const manager = {
+      getRepository: vi.fn((entity) =>
+        entity.name === "CourseSession" ? sessionRepository : enrollmentRepository,
+      ),
+    };
+    const service = new CoursesService({} as never);
+
+    await service.releaseEnrollmentsForOrder(manager as never, "order-1");
+
+    expect(andWhere).toHaveBeenCalledWith(
+      "enrollment.status IN (:...statuses)",
+      { statuses: ["reserved", "confirmed"] },
+    );
+    expect(sessionRepository.save).toHaveBeenCalledWith(
+      expect.objectContaining({ reservedSeats: 2 }),
+    );
+    expect(enrollmentRepository.save).toHaveBeenCalledWith(
+      expect.objectContaining({ status: "cancelled" }),
+    );
+  });
 });

@@ -13,7 +13,7 @@ import { PromotionsService } from "../promotions/promotions.service";
 import { InventoryReservationService } from "../inventory/inventory-reservation.service";
 import { Order, OrderPaymentMethod } from "./entities/order.entity";
 import { OrderLine } from "./entities/order-line.entity";
-import { OrderStatus } from "./order-workflow";
+import { canTransitionOrder, OrderStatus } from "./order-workflow";
 
 export interface CreateOrderInput {
   contactEmail?: string;
@@ -28,6 +28,18 @@ export interface CreateOrderInput {
   promotionCode?: string;
   shippingAddress?: string;
 }
+
+export interface TransitionOrderInput {
+  actorId?: string;
+  nextStatus: OrderStatus;
+  orderId: string;
+}
+
+const paymentManagedStatuses = new Set<OrderStatus>([
+  OrderStatus.PAID,
+  OrderStatus.PAYMENT_FAILED,
+  OrderStatus.PENDING_PAYMENT,
+]);
 
 @Injectable()
 export class OrdersService {
@@ -211,6 +223,78 @@ export class OrdersService {
       }
 
       return expiredOrders.length;
+    });
+  }
+
+  async listForOperations(): Promise<Order[]> {
+    return this.dataSource.getRepository(Order).find({
+      order: { createdAt: "DESC" },
+      relations: { lines: true },
+    });
+  }
+
+  async transitionOrder(input: TransitionOrderInput): Promise<Order> {
+    return this.dataSource.transaction(async (manager) => {
+      const orderRepository = manager.getRepository(Order);
+      const order = await orderRepository
+        .createQueryBuilder("order")
+        .leftJoinAndSelect("order.lines", "line")
+        .where("order.id = :id", { id: input.orderId })
+        .setLock("pessimistic_write")
+        .getOne();
+
+      if (!order) {
+        throw new NotFoundException("Order was not found");
+      }
+
+      if (paymentManagedStatuses.has(input.nextStatus)) {
+        throw new BadRequestException(
+          "Payment status changes must use the payment workflow",
+        );
+      }
+
+      if (
+        input.nextStatus === OrderStatus.CANCELLED &&
+        order.paymentMethod === OrderPaymentMethod.PAYOS
+      ) {
+        throw new BadRequestException(
+          "PayOS orders must be cancelled through the payment workflow",
+        );
+      }
+
+      const previousStatus = order.status;
+      if (!canTransitionOrder(previousStatus, input.nextStatus)) {
+        throw new BadRequestException(
+          `Order cannot transition from ${previousStatus} to ${input.nextStatus}`,
+        );
+      }
+
+      if (input.nextStatus === OrderStatus.CANCELLED) {
+        if (previousStatus === OrderStatus.PENDING_PAYMENT) {
+          await this.reservations.releaseForOrder(manager, order);
+        } else {
+          await this.reservations.restockForOrder(manager, order);
+        }
+        await this.courses.releaseEnrollmentsForOrder(manager, order.id);
+      }
+
+      if (input.nextStatus === OrderStatus.REFUNDED) {
+        await this.reservations.restockForOrder(manager, order);
+        await this.courses.releaseEnrollmentsForOrder(manager, order.id);
+      }
+
+      order.status = input.nextStatus;
+      await orderRepository.save(order);
+      await this.audit.recordWithManager(manager, {
+        action: "order.status_transition",
+        actorId: input.actorId,
+        aggregateId: order.id,
+        aggregateType: "order",
+        nextState: { status: order.status },
+        previousState: { status: previousStatus },
+      });
+
+      return order;
     });
   }
 

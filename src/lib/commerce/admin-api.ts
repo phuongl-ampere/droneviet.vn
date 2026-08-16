@@ -7,6 +7,33 @@ export interface AdminSession {
   };
 }
 
+export type AdminOrderStatus =
+  | "cancelled"
+  | "delivered"
+  | "packing"
+  | "paid"
+  | "payment_failed"
+  | "pending_payment"
+  | "refund_requested"
+  | "refunded"
+  | "shipped";
+
+export interface AdminOrder {
+  contactName: string;
+  contactPhone: string;
+  createdAt: string;
+  id: string;
+  lines: Array<{
+    id: string;
+    quantity: number;
+    title: string;
+  }>;
+  orderNumber: string;
+  paymentMethod: "bank_transfer" | "cod" | "payos";
+  status: AdminOrderStatus;
+  totalVnd: number;
+}
+
 function apiUrl(path: string): string {
   const baseUrl = process.env.NEXT_PUBLIC_COMMERCE_API_URL?.replace(/\/$/, "");
 
@@ -100,4 +127,27 @@ export function createAdminArticle(
     method: "POST",
     body: JSON.stringify(payload),
   }, accessToken);
+}
+
+export function listAdminOrders(accessToken: string) {
+  return request<AdminOrder[]>(
+    "/admin/orders",
+    { method: "GET" },
+    accessToken,
+  );
+}
+
+export function transitionAdminOrder(
+  accessToken: string,
+  orderId: string,
+  nextStatus: AdminOrderStatus,
+) {
+  return request<AdminOrder>(
+    `/admin/orders/${orderId}/transition`,
+    {
+      body: JSON.stringify({ nextStatus }),
+      method: "POST",
+    },
+    accessToken,
+  );
 }

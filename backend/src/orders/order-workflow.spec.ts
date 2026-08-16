@@ -25,4 +25,16 @@ describe("order workflow", () => {
       canTransitionOrder(OrderStatus.PENDING_PAYMENT, OrderStatus.SHIPPED),
     ).toBe(false);
   });
+
+  it("requires a refund workflow instead of cancelling a paid order", () => {
+    expect(
+      canTransitionOrder(OrderStatus.PAID, OrderStatus.CANCELLED),
+    ).toBe(false);
+    expect(
+      canTransitionOrder(OrderStatus.PACKING, OrderStatus.CANCELLED),
+    ).toBe(false);
+    expect(
+      canTransitionOrder(OrderStatus.PAID, OrderStatus.REFUND_REQUESTED),
+    ).toBe(true);
+  });
 });

@@ -292,4 +292,230 @@ describe("OrdersService", () => {
       service.findOrderForContact("DV-TRACK01", "0911111111"),
     ).rejects.toThrow("Order was not found");
   });
+
+  it("moves a paid order to packing and records the operations audit", async () => {
+    const order = {
+      id: "order-1",
+      lines: [],
+      status: OrderStatus.PAID,
+    };
+    const orderRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        getOne: vi.fn().mockResolvedValue(order),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(async (value) => value),
+    };
+    const manager = {
+      getRepository: vi.fn(() => orderRepository),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const audit = { recordWithManager: vi.fn() };
+    const service = new OrdersService(
+      dataSource as never,
+      {} as never,
+      {} as never,
+      audit as never,
+      {} as never,
+    );
+
+    await expect(
+      service.transitionOrder({
+        actorId: "operator-1",
+        nextStatus: OrderStatus.PACKING,
+        orderId: "order-1",
+      }),
+    ).resolves.toEqual(
+      expect.objectContaining({ status: OrderStatus.PACKING }),
+    );
+
+    expect(audit.recordWithManager).toHaveBeenCalledWith(
+      manager,
+      expect.objectContaining({
+        action: "order.status_transition",
+        actorId: "operator-1",
+        nextState: { status: OrderStatus.PACKING },
+        previousState: { status: OrderStatus.PAID },
+      }),
+    );
+  });
+
+  it("releases a pending order reservation when operations cancels it", async () => {
+    const order = {
+      id: "order-1",
+      lines: [],
+      paymentMethod: OrderPaymentMethod.COD,
+      status: OrderStatus.PENDING_PAYMENT,
+    };
+    const orderRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        getOne: vi.fn().mockResolvedValue(order),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(async (value) => value),
+    };
+    const manager = {
+      getRepository: vi.fn(() => orderRepository),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const reservations = {
+      releaseForOrder: vi.fn(),
+      restockForOrder: vi.fn(),
+    };
+    const courses = { releaseEnrollmentsForOrder: vi.fn() };
+    const service = new OrdersService(
+      dataSource as never,
+      reservations as never,
+      courses as never,
+      { recordWithManager: vi.fn() } as never,
+      {} as never,
+    );
+
+    await service.transitionOrder({
+      nextStatus: OrderStatus.CANCELLED,
+      orderId: "order-1",
+    });
+
+    expect(reservations.releaseForOrder).toHaveBeenCalledWith(manager, order);
+    expect(reservations.restockForOrder).not.toHaveBeenCalled();
+    expect(courses.releaseEnrollmentsForOrder).toHaveBeenCalledWith(
+      manager,
+      "order-1",
+    );
+  });
+
+  it("rejects cancellation while a PayOS payment link can still capture funds", async () => {
+    const order = {
+      id: "order-1",
+      lines: [],
+      paymentMethod: OrderPaymentMethod.PAYOS,
+      status: OrderStatus.PENDING_PAYMENT,
+    };
+    const orderRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        getOne: vi.fn().mockResolvedValue(order),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(),
+    };
+    const manager = {
+      getRepository: vi.fn(() => orderRepository),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const reservations = { releaseForOrder: vi.fn() };
+    const service = new OrdersService(
+      dataSource as never,
+      reservations as never,
+      { releaseEnrollmentsForOrder: vi.fn() } as never,
+      { recordWithManager: vi.fn() } as never,
+      {} as never,
+    );
+
+    await expect(
+      service.transitionOrder({
+        nextStatus: OrderStatus.CANCELLED,
+        orderId: "order-1",
+      }),
+    ).rejects.toThrow("PayOS orders must be cancelled through the payment workflow");
+
+    expect(reservations.releaseForOrder).not.toHaveBeenCalled();
+    expect(orderRepository.save).not.toHaveBeenCalled();
+  });
+
+  it("restocks a refunded order after operations confirms the refund", async () => {
+    const order = {
+      id: "order-1",
+      lines: [],
+      status: OrderStatus.REFUND_REQUESTED,
+    };
+    const orderRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        getOne: vi.fn().mockResolvedValue(order),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(async (value) => value),
+    };
+    const manager = {
+      getRepository: vi.fn(() => orderRepository),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const reservations = {
+      releaseForOrder: vi.fn(),
+      restockForOrder: vi.fn(),
+    };
+    const courses = { releaseEnrollmentsForOrder: vi.fn() };
+    const service = new OrdersService(
+      dataSource as never,
+      reservations as never,
+      courses as never,
+      { recordWithManager: vi.fn() } as never,
+      {} as never,
+    );
+
+    await service.transitionOrder({
+      nextStatus: OrderStatus.REFUNDED,
+      orderId: "order-1",
+    });
+
+    expect(reservations.restockForOrder).toHaveBeenCalledWith(manager, order);
+    expect(courses.releaseEnrollmentsForOrder).toHaveBeenCalledWith(
+      manager,
+      "order-1",
+    );
+  });
+
+  it("rejects payment status changes from the operations workflow", async () => {
+    const order = {
+      id: "order-1",
+      lines: [],
+      status: OrderStatus.PENDING_PAYMENT,
+    };
+    const orderRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        getOne: vi.fn().mockResolvedValue(order),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(),
+    };
+    const manager = {
+      getRepository: vi.fn(() => orderRepository),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const service = new OrdersService(
+      dataSource as never,
+      {} as never,
+      {} as never,
+      { recordWithManager: vi.fn() } as never,
+      {} as never,
+    );
+
+    await expect(
+      service.transitionOrder({
+        nextStatus: OrderStatus.PAID,
+        orderId: "order-1",
+      }),
+    ).rejects.toThrow("Payment status changes must use the payment workflow");
+
+    expect(orderRepository.save).not.toHaveBeenCalled();
+  });
 });

@@ -90,7 +90,9 @@ export class CoursesService {
       .createQueryBuilder("enrollment")
       .leftJoinAndSelect("enrollment.session", "session")
       .where("enrollment.orderId = :orderId", { orderId })
-      .andWhere("enrollment.status = :status", { status: "reserved" })
+      .andWhere("enrollment.status IN (:...statuses)", {
+        statuses: ["reserved", "confirmed"],
+      })
       .setLock("pessimistic_write")
       .getMany();
     const sessionRepository = manager.getRepository(CourseSession);
