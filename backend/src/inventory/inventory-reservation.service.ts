@@ -6,36 +6,67 @@ import { InventoryItem } from "./entities/inventory-item.entity";
 
 @Injectable()
 export class InventoryReservationService {
-  async releaseForOrder(
+  async commitForOrder(
     manager: EntityManager,
     order: Pick<Order, "lines">,
   ): Promise<void> {
-    const quantities = new Map<string, number>();
-
-    for (const line of order.lines) {
-      quantities.set(
-        line.productVariantId,
-        (quantities.get(line.productVariantId) ?? 0) + line.quantity,
-      );
-    }
+    const quantities = this.quantitiesForOrder(order);
 
     if (quantities.size === 0) {
       return;
     }
 
-    const variantIds = [...quantities.keys()];
     const inventoryRepository = manager.getRepository(InventoryItem);
-    const inventory = await inventoryRepository
-      .createQueryBuilder("inventory")
-      .where("inventory.productVariantId IN (:...variantIds)", { variantIds })
-      .setLock("pessimistic_write")
-      .getMany();
+    const inventory = await this.lockInventory(
+      manager,
+      [...quantities.keys()],
+    );
+
+    for (const item of inventory) {
+      const quantity = quantities.get(item.productVariantId) ?? 0;
+      item.onHand = Math.max(0, item.onHand - quantity);
+      item.reserved = Math.max(0, item.reserved - quantity);
+      await inventoryRepository.save(item);
+    }
+  }
+
+  async releaseForOrder(
+    manager: EntityManager,
+    order: Pick<Order, "lines">,
+  ): Promise<void> {
+    const quantities = this.quantitiesForOrder(order);
+
+    if (quantities.size === 0) {
+      return;
+    }
+
+    const inventoryRepository = manager.getRepository(InventoryItem);
+    const inventory = await this.lockInventory(manager, [...quantities.keys()]);
 
     for (const item of inventory) {
       item.reserved = Math.max(
         0,
         item.reserved - (quantities.get(item.productVariantId) ?? 0),
       );
+      await inventoryRepository.save(item);
+    }
+  }
+
+  async restockForOrder(
+    manager: EntityManager,
+    order: Pick<Order, "lines">,
+  ): Promise<void> {
+    const quantities = this.quantitiesForOrder(order);
+
+    if (quantities.size === 0) {
+      return;
+    }
+
+    const inventoryRepository = manager.getRepository(InventoryItem);
+    const inventory = await this.lockInventory(manager, [...quantities.keys()]);
+
+    for (const item of inventory) {
+      item.onHand += quantities.get(item.productVariantId) ?? 0;
       await inventoryRepository.save(item);
     }
   }
@@ -70,13 +101,8 @@ export class InventoryReservationService {
       return;
     }
 
-    const variantIds = [...quantities.keys()];
     const inventoryRepository = manager.getRepository(InventoryItem);
-    const inventory = await inventoryRepository
-      .createQueryBuilder("inventory")
-      .where("inventory.productVariantId IN (:...variantIds)", { variantIds })
-      .setLock("pessimistic_write")
-      .getMany();
+    const inventory = await this.lockInventory(manager, [...quantities.keys()]);
     const inventoryByVariant = new Map(
       inventory.map((item) => [item.productVariantId, item]),
     );
@@ -93,5 +119,34 @@ export class InventoryReservationService {
       item.reserved += quantity;
       await inventoryRepository.save(item);
     }
+  }
+
+  private async lockInventory(
+    manager: EntityManager,
+    variantIds: string[],
+  ): Promise<InventoryItem[]> {
+    return manager
+      .getRepository(InventoryItem)
+      .createQueryBuilder("inventory")
+      .where("inventory.productVariantId IN (:...variantIds)", { variantIds })
+      .setLock("pessimistic_write")
+      .getMany();
+  }
+
+  private quantitiesForOrder(order: Pick<Order, "lines">): Map<string, number> {
+    const quantities = new Map<string, number>();
+
+    for (const line of order.lines) {
+      if (!line.reservesInventory) {
+        continue;
+      }
+
+      quantities.set(
+        line.productVariantId,
+        (quantities.get(line.productVariantId) ?? 0) + line.quantity,
+      );
+    }
+
+    return quantities;
   }
 }

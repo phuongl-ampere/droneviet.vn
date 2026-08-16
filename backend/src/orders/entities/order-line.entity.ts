@@ -35,6 +35,9 @@ export class OrderLine {
   @Column({ type: "int", unsigned: true })
   quantity!: number;
 
+  @Column({ default: false })
+  reservesInventory!: boolean;
+
   @Column({ type: "bigint", unsigned: true, transformer: bigintVndTransformer })
   subtotalVnd!: number;
 

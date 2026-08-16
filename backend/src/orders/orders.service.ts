@@ -88,6 +88,9 @@ export class OrdersService {
           courseSessionId: line.courseSessionId ?? null,
           productVariantId: variant.id,
           quantity: line.quantity,
+          reservesInventory:
+            variant.purchaseMode !== PurchaseMode.PREORDER &&
+            variant.product.kind !== ProductKind.COURSE,
           sku: variant.sku,
           subtotalVnd: variant.priceVnd * line.quantity,
           title: `${variant.product.name} - ${variant.title}`,
@@ -101,9 +104,7 @@ export class OrdersService {
           productVariantId: line.productVariantId,
           purchaseMode: variantsById.get(line.productVariantId)!.purchaseMode,
           quantity: line.quantity,
-          requiresInventory:
-            variantsById.get(line.productVariantId)!.product.kind !==
-            ProductKind.COURSE,
+          requiresInventory: line.reservesInventory,
         })),
       );
 

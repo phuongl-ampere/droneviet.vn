@@ -171,6 +171,7 @@ export class PaymentsService {
       if (payment.order.status === OrderStatus.PENDING_PAYMENT) {
         payment.order.status = OrderStatus.PAID;
         payment.order.reservationExpiresAt = null;
+        await this.reservations.commitForOrder(manager, payment.order);
         await this.courses.confirmEnrollmentsForOrder(manager, payment.order.id);
         await orderRepository.save(payment.order);
         await this.audit.recordWithManager(manager, {
@@ -196,6 +197,7 @@ export class PaymentsService {
       payment.order.status = OrderStatus.PAID;
       payment.order.reservationExpiresAt = null;
       await paymentRepository.save(payment);
+      await this.reservations.commitForOrder(manager, payment.order);
       await this.courses.confirmEnrollmentsForOrder(manager, payment.order.id);
       await orderRepository.save(payment.order);
       await this.audit.recordWithManager(manager, {
