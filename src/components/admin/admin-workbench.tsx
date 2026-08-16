@@ -49,8 +49,8 @@ const orderTransitions: Record<AdminOrderStatus, AdminOrderStatus[]> = {
 
 function availableOrderTransitions(order: AdminOrder): AdminOrderStatus[] {
   if (
-    order.status === "pending_payment" &&
-    order.paymentMethod === "payos"
+    order.paymentMethod === "payos" &&
+    (order.status === "pending_payment" || order.status === "refund_requested")
   ) {
     return [];
   }

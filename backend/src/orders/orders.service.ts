@@ -262,6 +262,15 @@ export class OrdersService {
         );
       }
 
+      if (
+        input.nextStatus === OrderStatus.REFUNDED &&
+        order.paymentMethod === OrderPaymentMethod.PAYOS
+      ) {
+        throw new BadRequestException(
+          "PayOS refunds must be completed through the payment workflow",
+        );
+      }
+
       const previousStatus = order.status;
       if (!canTransitionOrder(previousStatus, input.nextStatus)) {
         throw new BadRequestException(
