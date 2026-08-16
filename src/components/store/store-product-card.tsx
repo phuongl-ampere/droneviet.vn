@@ -1,6 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { ProductDroneVisual } from "@/components/product-detail";
 import { AddToCartButton } from "./add-to-cart-button";
 import {
   formatVnd,
@@ -32,7 +32,14 @@ export function StoreProductCard({ product }: StoreProductCardProps) {
         aria-label={product.name}
         className={`relative grid aspect-[1.2] place-items-center overflow-hidden p-8 ${stageClasses[product.accent]}`}
       >
-        <ProductDroneVisual />
+        <Image
+          src={product.imageSrc}
+          alt={`Generic quadcopter flight photo representing ${product.name}`}
+          fill
+          sizes="(min-width: 1280px) 28vw, (min-width: 640px) 45vw, 100vw"
+          className="object-cover opacity-90 transition duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
+        />
+        <span className="absolute inset-0 bg-[#071117]/30" />
         {product.badge ? (
           <span className="absolute left-4 top-4 bg-white px-2.5 py-1 text-[11px] font-semibold text-[#10232A]">
             {product.badge}

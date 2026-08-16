@@ -21,6 +21,7 @@ export interface StoreProduct {
   badge?: string;
   specs: Array<{ label: string; value: string }>;
   accent: "aqua" | "graphite" | "ice" | "sand";
+  imageSrc: string;
 }
 
 export interface StoreProductFilter {
@@ -42,6 +43,7 @@ export const storeProducts: StoreProduct[] = [
     variantId: "11111111-1111-4111-8111-111111111111",
     badge: "Bán chạy",
     accent: "ice",
+    imageSrc: "/store/quadcopter-flight-01.jpg",
     specs: [
       { label: "Đối tượng", value: "Cấp 1-2" },
       { label: "Nhóm học", value: "2-4 học sinh" },
@@ -58,6 +60,7 @@ export const storeProducts: StoreProduct[] = [
     variantId: "22222222-2222-4222-8222-222222222222",
     compareAtVnd: 27_500_000,
     accent: "aqua",
+    imageSrc: "/store/quadcopter-flight-02.jpg",
     specs: [
       { label: "Quy mô", value: "5-10 drone" },
       { label: "Nội dung", value: "Code + robotics" },
@@ -74,6 +77,7 @@ export const storeProducts: StoreProduct[] = [
     variantId: "33333333-3333-4333-8333-333333333333",
     badge: "Đặt trước",
     accent: "graphite",
+    imageSrc: "/store/quadcopter-flight-03.jpg",
     specs: [
       { label: "Dữ liệu", value: "Flight logs" },
       { label: "Hướng nghiên cứu", value: "AI/IoT" },
@@ -90,6 +94,7 @@ export const storeProducts: StoreProduct[] = [
     variantId: "44444444-4444-4444-8444-444444444444",
     badge: "Báo giá lab",
     accent: "sand",
+    imageSrc: "/store/quadcopter-flight-01.jpg",
     specs: [
       { label: "Payload", value: "Camera + sensor" },
       { label: "Dữ liệu", value: "Telemetry" },
@@ -105,6 +110,7 @@ export const storeProducts: StoreProduct[] = [
     priceVnd: 12_800_000,
     variantId: "55555555-5555-4555-8555-555555555555",
     accent: "ice",
+    imageSrc: "/store/quadcopter-flight-02.jpg",
     specs: [
       { label: "Đào tạo", value: "1-2 ngày" },
       { label: "Hỗ trợ", value: "Remote/on-site" },
