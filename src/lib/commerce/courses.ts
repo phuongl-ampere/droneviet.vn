@@ -5,6 +5,7 @@ export interface StoreCourse {
   level: string;
   priceVnd: number;
   purchaseMode: CoursePurchaseMode;
+  sessionId?: string;
   variantId?: string;
   seatsRemaining?: number;
   sessionLabel: string;
@@ -22,6 +23,7 @@ export const storeCourses: StoreCourse[] = [
     variantId: "66666666-6666-4666-8666-666666666666",
     seatsRemaining: 8,
     sessionLabel: "Khai giảng 14/09",
+    sessionId: "99999999-9999-4999-8999-999999999999",
     slug: "drone-nhap-mon-cap-1",
     summary:
       "An toàn bay, điều khiển cơ bản, lập trình khối lệnh và thử thách mê cung.",
@@ -35,6 +37,7 @@ export const storeCourses: StoreCourse[] = [
     variantId: "77777777-7777-4777-8777-777777777777",
     seatsRemaining: 5,
     sessionLabel: "Khai giảng 21/09",
+    sessionId: "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee",
     slug: "lap-trinh-drone-cap-2",
     summary:
       "Thuật toán, tọa độ, cảm biến và nhiệm vụ bay theo nhóm.",
@@ -48,6 +51,7 @@ export const storeCourses: StoreCourse[] = [
     variantId: "88888888-8888-4888-8888-888888888888",
     seatsRemaining: 10,
     sessionLabel: "Khai giảng 05/10",
+    sessionId: "bbbbbbbb-cccc-4ddd-8eee-ffffffffffff",
     slug: "du-an-drone-cap-3",
     summary:
       "Dự án ứng dụng drone với dữ liệu, camera, AI cơ bản và báo cáo kỹ thuật.",

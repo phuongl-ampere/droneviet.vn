@@ -9,6 +9,14 @@ import {
   PurchaseMode,
 } from "../catalog/entities/product-variant.entity";
 import { InventoryItem } from "../inventory/entities/inventory-item.entity";
+import {
+  Course,
+  CoursePurchaseMode,
+} from "../courses/entities/course.entity";
+import {
+  CourseSession,
+  CourseSessionStatus,
+} from "../courses/entities/course-session.entity";
 import { appDataSource } from "./data-source";
 
 interface CommerceSeedProduct {
@@ -132,10 +140,69 @@ export const commerceSeedProducts: CommerceSeedProduct[] = [
   },
 ];
 
+const commerceSeedCourses = [
+  {
+    id: "14141414-1414-4141-8141-141414141414",
+    locale: "vi",
+    purchaseMode: CoursePurchaseMode.CHECKOUT,
+    slug: "drone-nhap-mon-cap-1",
+    summary: "An toàn bay, điều khiển cơ bản và lập trình khối lệnh.",
+    title: "Drone nhập môn cho cấp 1",
+    tuitionVnd: 2_400_000,
+  },
+  {
+    id: "15151515-1515-4151-8151-151515151515",
+    locale: "vi",
+    purchaseMode: CoursePurchaseMode.CHECKOUT,
+    slug: "lap-trinh-drone-cap-2",
+    summary: "Tọa độ, cảm biến và nhiệm vụ bay theo nhóm.",
+    title: "Lập trình drone cho cấp 2",
+    tuitionVnd: 3_600_000,
+  },
+  {
+    id: "16161616-1616-4161-8161-161616161616",
+    locale: "vi",
+    purchaseMode: CoursePurchaseMode.CHECKOUT,
+    slug: "du-an-drone-cap-3",
+    summary: "Dự án drone với dữ liệu, camera và AI cơ bản.",
+    title: "Dự án drone ứng dụng cho cấp 3",
+    tuitionVnd: 5_200_000,
+  },
+] as const;
+
+const commerceSeedSessions = [
+  {
+    capacity: 8,
+    courseId: "14141414-1414-4141-8141-141414141414",
+    id: "99999999-9999-4999-8999-999999999999",
+    reservedSeats: 0,
+    startsAt: new Date("2026-09-14T09:00:00.000Z"),
+    status: CourseSessionStatus.OPEN,
+  },
+  {
+    capacity: 5,
+    courseId: "15151515-1515-4151-8151-151515151515",
+    id: "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee",
+    reservedSeats: 0,
+    startsAt: new Date("2026-09-21T09:00:00.000Z"),
+    status: CourseSessionStatus.OPEN,
+  },
+  {
+    capacity: 10,
+    courseId: "16161616-1616-4161-8161-161616161616",
+    id: "bbbbbbbb-cccc-4ddd-8eee-ffffffffffff",
+    reservedSeats: 0,
+    startsAt: new Date("2026-10-05T09:00:00.000Z"),
+    status: CourseSessionStatus.OPEN,
+  },
+] as const;
+
 export async function seedCatalogProducts(manager: EntityManager): Promise<void> {
   const productRepository = manager.getRepository(Product);
   const variantRepository = manager.getRepository(ProductVariant);
   const inventoryRepository = manager.getRepository(InventoryItem);
+  const courseRepository = manager.getRepository(Course);
+  const sessionRepository = manager.getRepository(CourseSession);
 
   await productRepository.upsert(
     commerceSeedProducts.map((product) => ({
@@ -169,6 +236,8 @@ export async function seedCatalogProducts(manager: EntityManager): Promise<void>
     })),
     ["productVariantId"],
   );
+  await courseRepository.upsert([...commerceSeedCourses], ["id"]);
+  await sessionRepository.upsert([...commerceSeedSessions], ["id"]);
 }
 
 async function main(): Promise<void> {

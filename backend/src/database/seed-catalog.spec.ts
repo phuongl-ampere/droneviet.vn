@@ -6,12 +6,16 @@ describe("seedCatalogProducts", () => {
     const productRepository = { upsert: vi.fn() };
     const variantRepository = { upsert: vi.fn() };
     const inventoryRepository = { upsert: vi.fn() };
+    const courseRepository = { upsert: vi.fn() };
+    const sessionRepository = { upsert: vi.fn() };
 
     await seedCatalogProducts({
       getRepository: vi.fn((entity) => {
         if (entity.name === "Product") return productRepository;
         if (entity.name === "ProductVariant") return variantRepository;
-        return inventoryRepository;
+        if (entity.name === "InventoryItem") return inventoryRepository;
+        if (entity.name === "Course") return courseRepository;
+        return sessionRepository;
       }),
     } as never);
 
@@ -46,5 +50,22 @@ describe("seedCatalogProducts", () => {
       inventoryRepository.upsert.mock.calls[0]?.[0]?.[0],
     ).not.toHaveProperty("reserved");
     expect(commerceSeedProducts).toHaveLength(8);
+    expect(courseRepository.upsert).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          slug: "drone-nhap-mon-cap-1",
+        }),
+      ]),
+      ["id"],
+    );
+    expect(sessionRepository.upsert).toHaveBeenCalledWith(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: "99999999-9999-4999-8999-999999999999",
+          reservedSeats: 0,
+        }),
+      ]),
+      ["id"],
+    );
   });
 });

@@ -51,6 +51,6 @@ describe("createDatabaseOptions", () => {
         CourseEnrollment,
       ]),
     );
-    expect(options.migrations).toHaveLength(10);
+    expect(options.migrations).toHaveLength(11);
   });
 });

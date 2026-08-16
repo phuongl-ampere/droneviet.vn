@@ -10,6 +10,7 @@
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/database/data-source.ts",
     "seed:catalog": "ts-node src/database/seed-catalog.ts",
+    "seed:admin": "ts-node src/database/seed-admin.ts",
     "test": "vitest run --config vitest.config.mts",
     "test:watch": "vitest --config vitest.config.mts"
   },

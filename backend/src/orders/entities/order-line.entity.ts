@@ -20,6 +20,9 @@ export class OrderLine {
   @Column()
   productVariantId!: string;
 
+  @Column({ nullable: true })
+  courseSessionId!: string | null;
+
   @Column()
   sku!: string;
 

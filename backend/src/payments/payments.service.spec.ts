@@ -23,6 +23,7 @@ describe("PaymentsService", () => {
       dataSource as never,
       payos as never,
       {} as never,
+      {} as never,
     );
 
     await expect(
@@ -92,6 +93,7 @@ describe("PaymentsService", () => {
       dataSource as never,
       payos as never,
       { releaseForOrder: vi.fn() } as never,
+      { confirmEnrollmentsForOrder: vi.fn() } as never,
     );
 
     await expect(
@@ -114,6 +116,7 @@ describe("PaymentsService", () => {
     const service = new PaymentsService(
       dataSource as never,
       payos as never,
+      {} as never,
       {} as never,
     );
 
@@ -166,10 +169,12 @@ describe("PaymentsService", () => {
       transaction: vi.fn((callback) => callback(manager)),
     };
     const reservations = { releaseForOrder: vi.fn() };
+    const courses = { releaseEnrollmentsForOrder: vi.fn() };
     const service = new PaymentsService(
       dataSource as never,
       { verifyWebhookSignature: vi.fn() } as never,
       reservations as never,
+      courses as never,
     );
 
     await expect(
@@ -181,6 +186,10 @@ describe("PaymentsService", () => {
     ).resolves.toBe(true);
 
     expect(reservations.releaseForOrder).toHaveBeenCalledWith(manager, order);
+    expect(courses.releaseEnrollmentsForOrder).toHaveBeenCalledWith(
+      manager,
+      "order-1",
+    );
     expect(payment.status).toBe(PaymentStatus.FAILED);
     expect(order.status).toBe(OrderStatus.PAYMENT_FAILED);
   });
@@ -218,10 +227,12 @@ describe("PaymentsService", () => {
       transaction: vi.fn((callback) => callback(manager)),
     };
     const reservations = { releaseForOrder: vi.fn() };
+    const courses = { releaseEnrollmentsForOrder: vi.fn() };
     const service = new PaymentsService(
       dataSource as never,
       { verifyWebhookSignature: vi.fn() } as never,
       reservations as never,
+      courses as never,
     );
 
     await expect(
@@ -273,6 +284,7 @@ describe("PaymentsService", () => {
       dataSource as never,
       { verifyWebhookSignature: vi.fn() } as never,
       {} as never,
+      { confirmEnrollmentsForOrder: vi.fn() } as never,
     );
 
     await expect(

@@ -46,12 +46,16 @@ export class InventoryReservationService {
       productVariantId: string;
       purchaseMode: PurchaseMode;
       quantity: number;
+      requiresInventory: boolean;
     }>,
   ): Promise<void> {
     const quantities = new Map<string, number>();
 
     for (const requirement of requirements) {
-      if (requirement.purchaseMode === "preorder") {
+      if (
+        requirement.purchaseMode === "preorder" ||
+        !requirement.requiresInventory
+      ) {
         continue;
       }
 

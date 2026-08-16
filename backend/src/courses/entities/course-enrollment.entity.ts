@@ -16,6 +16,9 @@ export class CourseEnrollment {
   @Column()
   sessionId!: string;
 
+  @Column({ nullable: true })
+  orderId!: string | null;
+
   @Column()
   contactName!: string;
 
@@ -27,6 +30,13 @@ export class CourseEnrollment {
 
   @Column({ type: "int", unsigned: true })
   quantity!: number;
+
+  @Column({
+    type: "enum",
+    enum: ["reserved", "confirmed", "cancelled"],
+    default: "reserved",
+  })
+  status!: "reserved" | "confirmed" | "cancelled";
 
   @ManyToOne(() => CourseSession, (session) => session.enrollments, {
     onDelete: "CASCADE",

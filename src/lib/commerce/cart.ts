@@ -1,5 +1,6 @@
 export interface CartLine {
   priceVnd: number;
+  courseSessionId?: string;
   quantity: number;
   slug: string;
   title: string;

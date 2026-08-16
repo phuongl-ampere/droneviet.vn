@@ -5,6 +5,7 @@ import { useCart } from "./cart-provider";
 
 interface AddToCartButtonProps {
   priceVnd: number;
+  courseSessionId?: string;
   slug: string;
   title: string;
   variantId?: string;
@@ -12,6 +13,7 @@ interface AddToCartButtonProps {
 
 export function AddToCartButton({
   priceVnd,
+  courseSessionId,
   slug,
   title,
   variantId,
@@ -24,6 +26,7 @@ export function AddToCartButton({
       onClick={() =>
         addLine({
           priceVnd,
+          courseSessionId,
           quantity: 1,
           slug,
           title,

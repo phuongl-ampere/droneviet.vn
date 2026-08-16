@@ -44,7 +44,11 @@ describe("OrdersService", () => {
       transaction: vi.fn((callback) => callback(manager)),
     };
     const reservationService = { reserve: vi.fn() };
-    const service = new OrdersService(dataSource as never, reservationService as never);
+    const service = new OrdersService(
+      dataSource as never,
+      reservationService as never,
+      { reserveEnrollmentWithManager: vi.fn() } as never,
+    );
 
     await expect(
       service.createOrder({
@@ -111,6 +115,7 @@ describe("OrdersService", () => {
     const service = new OrdersService(
       dataSource as never,
       { reserve: vi.fn() } as never,
+      { reserveEnrollmentWithManager: vi.fn() } as never,
     );
 
     await expect(
@@ -121,6 +126,76 @@ describe("OrdersService", () => {
         paymentMethod: OrderPaymentMethod.PAYOS,
       }),
     ).rejects.toThrow("Variant variant-draft is unavailable");
+  });
+
+  it("reserves a scheduled course seat when an order includes a course session", async () => {
+    const variantRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        getMany: vi.fn().mockResolvedValue([
+          {
+            id: "variant-course-g1",
+            isActive: true,
+            priceVnd: 2_400_000,
+            product: {
+              kind: "course",
+              name: "Drone nhập môn cho cấp 1",
+              status: "published",
+            },
+            purchaseMode: PurchaseMode.CHECKOUT,
+            sku: "DV-COURSE-G1",
+            title: "Khai giảng 14/09",
+          },
+        ]),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+    };
+    const orderRepository = {
+      create: vi.fn((order) => order),
+      save: vi.fn(async (order) => ({ ...order, id: "order-course-1" })),
+    };
+    const orderLineRepository = {
+      create: vi.fn((line) => line),
+      save: vi.fn(),
+    };
+    const manager = {
+      getRepository: vi.fn((entity) => {
+        if (entity.name === "ProductVariant") return variantRepository;
+        if (entity.name === "Order") return orderRepository;
+        return orderLineRepository;
+      }),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const courses = { reserveEnrollmentWithManager: vi.fn() };
+    const service = new OrdersService(
+      dataSource as never,
+      { reserve: vi.fn() } as never,
+      courses as never,
+    );
+
+    await service.createOrder({
+      contactName: "Nguyen Van A",
+      contactPhone: "0900000000",
+      lines: [
+        {
+          courseSessionId: "session-g1",
+          quantity: 1,
+          variantId: "variant-course-g1",
+        },
+      ],
+      paymentMethod: OrderPaymentMethod.PAYOS,
+    });
+
+    expect(courses.reserveEnrollmentWithManager).toHaveBeenCalledWith(
+      manager,
+      expect.objectContaining({
+        orderId: "order-course-1",
+        sessionId: "session-g1",
+      }),
+    );
   });
 
   it("releases expired pending-payment reservations", async () => {
@@ -150,6 +225,10 @@ describe("OrdersService", () => {
     const service = new OrdersService(
       dataSource as never,
       reservationService as never,
+      {
+        releaseEnrollmentsForOrder: vi.fn(),
+        reserveEnrollmentWithManager: vi.fn(),
+      } as never,
     );
 
     await expect(

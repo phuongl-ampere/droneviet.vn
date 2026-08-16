@@ -41,6 +41,7 @@ describe("submitCheckout", () => {
           contactPhone: "0900000000",
           lines: [
             {
+              courseSessionId: undefined,
               quantity: 1,
               variantId: "11111111-1111-4111-8111-111111111111",
             },

@@ -51,6 +51,7 @@ export default async function CourseDetailPage({
             <div className="mt-9">
               <AddToCartButton
                 priceVnd={course.priceVnd}
+                courseSessionId={course.sessionId}
                 slug={`course-${course.slug}`}
                 title={course.title}
                 variantId={course.variantId}

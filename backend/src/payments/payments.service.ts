@@ -6,6 +6,7 @@ import {
 import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource, EntityManager } from "typeorm";
 import { InventoryReservationService } from "../inventory/inventory-reservation.service";
+import { CoursesService } from "../courses/courses.service";
 import { Order, OrderPaymentMethod } from "../orders/entities/order.entity";
 import { OrderStatus } from "../orders/order-workflow";
 import { PayosService } from "./payos.service";
@@ -29,6 +30,7 @@ export class PaymentsService {
     private readonly dataSource: DataSource,
     private readonly payos: PayosService,
     private readonly reservations: InventoryReservationService,
+    private readonly courses: CoursesService,
   ) {}
 
   async createPayosCheckout(
@@ -167,6 +169,7 @@ export class PaymentsService {
       if (payment.order.status === OrderStatus.PENDING_PAYMENT) {
         payment.order.status = OrderStatus.PAID;
         payment.order.reservationExpiresAt = null;
+        await this.courses.confirmEnrollmentsForOrder(manager, payment.order.id);
         await orderRepository.save(payment.order);
       }
 
@@ -184,6 +187,7 @@ export class PaymentsService {
       payment.order.status = OrderStatus.PAID;
       payment.order.reservationExpiresAt = null;
       await paymentRepository.save(payment);
+      await this.courses.confirmEnrollmentsForOrder(manager, payment.order.id);
       await orderRepository.save(payment.order);
       return true;
     }
@@ -195,6 +199,7 @@ export class PaymentsService {
 
       payment.status = PaymentStatus.FAILED;
       await this.reservations.releaseForOrder(manager, payment.order);
+      await this.courses.releaseEnrollmentsForOrder(manager, payment.order.id);
       payment.order.status = OrderStatus.PAYMENT_FAILED;
       payment.order.reservationExpiresAt = null;
       await paymentRepository.save(payment);

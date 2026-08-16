@@ -14,6 +14,10 @@ export class CreateOrderLineDto {
   @Min(1)
   quantity!: number;
 
+  @IsOptional()
+  @IsString()
+  courseSessionId?: string;
+
   @IsString()
   variantId!: string;
 }

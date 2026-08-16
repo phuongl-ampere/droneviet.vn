@@ -6,7 +6,8 @@ import {
   ProductVariant,
   PurchaseMode,
 } from "../catalog/entities/product-variant.entity";
-import { ProductStatus } from "../catalog/entities/product.entity";
+import { ProductKind, ProductStatus } from "../catalog/entities/product.entity";
+import { CoursesService } from "../courses/courses.service";
 import { InventoryReservationService } from "../inventory/inventory-reservation.service";
 import { Order, OrderPaymentMethod } from "./entities/order.entity";
 import { OrderLine } from "./entities/order-line.entity";
@@ -16,7 +17,11 @@ export interface CreateOrderInput {
   contactEmail?: string;
   contactName: string;
   contactPhone: string;
-  lines: Array<{ quantity: number; variantId: string }>;
+  lines: Array<{
+    courseSessionId?: string;
+    quantity: number;
+    variantId: string;
+  }>;
   paymentMethod: OrderPaymentMethod;
   shippingAddress?: string;
 }
@@ -27,6 +32,7 @@ export class OrdersService {
     @InjectDataSource()
     private readonly dataSource: DataSource,
     private readonly reservations: InventoryReservationService,
+    private readonly courses: CoursesService,
   ) {}
 
   async createOrder(input: CreateOrderInput): Promise<Order> {
@@ -74,6 +80,7 @@ export class OrdersService {
         }
 
         return {
+          courseSessionId: line.courseSessionId ?? null,
           productVariantId: variant.id,
           quantity: line.quantity,
           sku: variant.sku,
@@ -89,6 +96,9 @@ export class OrdersService {
           productVariantId: line.productVariantId,
           purchaseMode: variantsById.get(line.productVariantId)!.purchaseMode,
           quantity: line.quantity,
+          requiresInventory:
+            variantsById.get(line.productVariantId)!.product.kind !==
+            ProductKind.COURSE,
         })),
       );
 
@@ -121,6 +131,28 @@ export class OrdersService {
         ),
       );
 
+      for (const line of calculatedLines) {
+        const variant = variantsById.get(line.productVariantId)!;
+        if (variant.product.kind !== ProductKind.COURSE) {
+          continue;
+        }
+
+        if (!line.courseSessionId) {
+          throw new BadRequestException(
+            `Course variant ${line.productVariantId} requires a session`,
+          );
+        }
+
+        await this.courses.reserveEnrollmentWithManager(manager, {
+          contactEmail: input.contactEmail,
+          contactName: input.contactName,
+          contactPhone: input.contactPhone,
+          orderId: order.id,
+          quantity: line.quantity,
+          sessionId: line.courseSessionId,
+        });
+      }
+
       return order;
     });
   }
@@ -140,6 +172,7 @@ export class OrdersService {
 
       for (const order of expiredOrders) {
         await this.reservations.releaseForOrder(manager, order);
+        await this.courses.releaseEnrollmentsForOrder(manager, order.id);
         order.reservationExpiresAt = null;
         order.status = OrderStatus.PAYMENT_FAILED;
         await orderRepository.save(order);

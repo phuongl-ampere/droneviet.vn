@@ -24,6 +24,7 @@ export async function submitCheckout(input: SubmitCheckoutInput) {
     }
 
     return {
+      courseSessionId: line.courseSessionId,
       quantity: line.quantity,
       variantId: line.variantId,
     };
