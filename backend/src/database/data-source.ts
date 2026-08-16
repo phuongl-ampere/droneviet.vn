@@ -4,8 +4,10 @@ import { ProductVariant } from "../catalog/entities/product-variant.entity";
 import { Product } from "../catalog/entities/product.entity";
 import { Article } from "../content/entities/article.entity";
 import { ContentRevision } from "../content/entities/content-revision.entity";
+import { User } from "../auth/entities/user.entity";
 import { InitialCatalogMigration1766918700000 } from "./migrations/1766918700000-initial-catalog";
 import { ContentMigration1766918800000 } from "./migrations/1766918800000-content";
+import { UsersMigration1766918900000 } from "./migrations/1766918900000-users";
 
 export function createDatabaseOptions(
   environment: NodeJS.ProcessEnv,
@@ -18,10 +20,11 @@ export function createDatabaseOptions(
     password: environment.DATABASE_PASSWORD ?? "droneviet",
     database: environment.DATABASE_NAME ?? "droneviet",
     charset: "utf8mb4",
-    entities: [Product, ProductVariant, Article, ContentRevision],
+    entities: [Product, ProductVariant, Article, ContentRevision, User],
     migrations: [
       InitialCatalogMigration1766918700000,
       ContentMigration1766918800000,
+      UsersMigration1766918900000,
     ],
     synchronize: false,
   };

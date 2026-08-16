@@ -3,6 +3,7 @@ import { ProductVariant } from "../catalog/entities/product-variant.entity";
 import { Product } from "../catalog/entities/product.entity";
 import { Article } from "../content/entities/article.entity";
 import { ContentRevision } from "../content/entities/content-revision.entity";
+import { User } from "../auth/entities/user.entity";
 import { createDatabaseOptions } from "./data-source";
 
 describe("createDatabaseOptions", () => {
@@ -29,8 +30,9 @@ describe("createDatabaseOptions", () => {
         ProductVariant,
         Article,
         ContentRevision,
+        User,
       ]),
     );
-    expect(options.migrations).toHaveLength(2);
+    expect(options.migrations).toHaveLength(3);
   });
 });
