@@ -44,10 +44,12 @@ describe("OrdersService", () => {
       transaction: vi.fn((callback) => callback(manager)),
     };
     const reservationService = { reserve: vi.fn() };
+    const audit = { recordWithManager: vi.fn() };
     const service = new OrdersService(
       dataSource as never,
       reservationService as never,
       { reserveEnrollmentWithManager: vi.fn() } as never,
+      audit as never,
     );
 
     await expect(
@@ -80,6 +82,13 @@ describe("OrdersService", () => {
           quantity: 2,
         }),
       ]),
+    );
+    expect(audit.recordWithManager).toHaveBeenCalledWith(
+      manager,
+      expect.objectContaining({
+        action: "order.created",
+        aggregateType: "order",
+      }),
     );
   });
 
@@ -116,6 +125,7 @@ describe("OrdersService", () => {
       dataSource as never,
       { reserve: vi.fn() } as never,
       { reserveEnrollmentWithManager: vi.fn() } as never,
+      { recordWithManager: vi.fn() } as never,
     );
 
     await expect(
@@ -174,6 +184,7 @@ describe("OrdersService", () => {
       dataSource as never,
       { reserve: vi.fn() } as never,
       courses as never,
+      { recordWithManager: vi.fn() } as never,
     );
 
     await service.createOrder({
@@ -229,6 +240,7 @@ describe("OrdersService", () => {
         releaseEnrollmentsForOrder: vi.fn(),
         reserveEnrollmentWithManager: vi.fn(),
       } as never,
+      { recordWithManager: vi.fn() } as never,
     );
 
     await expect(
@@ -261,6 +273,7 @@ describe("OrdersService", () => {
       dataSource as never,
       {} as never,
       {} as never,
+      { recordWithManager: vi.fn() } as never,
     );
 
     await expect(

@@ -7,6 +7,7 @@ import { InjectDataSource } from "@nestjs/typeorm";
 import { DataSource, EntityManager } from "typeorm";
 import { InventoryReservationService } from "../inventory/inventory-reservation.service";
 import { CoursesService } from "../courses/courses.service";
+import { AuditService } from "../audit/audit.service";
 import { Order, OrderPaymentMethod } from "../orders/entities/order.entity";
 import { OrderStatus } from "../orders/order-workflow";
 import { PayosService } from "./payos.service";
@@ -31,6 +32,7 @@ export class PaymentsService {
     private readonly payos: PayosService,
     private readonly reservations: InventoryReservationService,
     private readonly courses: CoursesService,
+    private readonly audit: AuditService,
   ) {}
 
   async createPayosCheckout(
@@ -171,6 +173,13 @@ export class PaymentsService {
         payment.order.reservationExpiresAt = null;
         await this.courses.confirmEnrollmentsForOrder(manager, payment.order.id);
         await orderRepository.save(payment.order);
+        await this.audit.recordWithManager(manager, {
+          action: "order.payment_repaired",
+          aggregateId: payment.order.id,
+          aggregateType: "order",
+          nextState: { status: payment.order.status },
+          previousState: { status: OrderStatus.PENDING_PAYMENT },
+        });
       }
 
       return true;
@@ -189,6 +198,13 @@ export class PaymentsService {
       await paymentRepository.save(payment);
       await this.courses.confirmEnrollmentsForOrder(manager, payment.order.id);
       await orderRepository.save(payment.order);
+      await this.audit.recordWithManager(manager, {
+        action: "order.payment_paid",
+        aggregateId: payment.order.id,
+        aggregateType: "order",
+        nextState: { status: payment.order.status },
+        previousState: { status: OrderStatus.PENDING_PAYMENT },
+      });
       return true;
     }
 
@@ -204,6 +220,13 @@ export class PaymentsService {
       payment.order.reservationExpiresAt = null;
       await paymentRepository.save(payment);
       await orderRepository.save(payment.order);
+      await this.audit.recordWithManager(manager, {
+        action: "order.payment_failed",
+        aggregateId: payment.order.id,
+        aggregateType: "order",
+        nextState: { status: payment.order.status },
+        previousState: { status: OrderStatus.PENDING_PAYMENT },
+      });
       return true;
     }
 

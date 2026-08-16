@@ -8,6 +8,7 @@ import {
 } from "../catalog/entities/product-variant.entity";
 import { ProductKind, ProductStatus } from "../catalog/entities/product.entity";
 import { CoursesService } from "../courses/courses.service";
+import { AuditService } from "../audit/audit.service";
 import { InventoryReservationService } from "../inventory/inventory-reservation.service";
 import { Order, OrderPaymentMethod } from "./entities/order.entity";
 import { OrderLine } from "./entities/order-line.entity";
@@ -33,6 +34,7 @@ export class OrdersService {
     private readonly dataSource: DataSource,
     private readonly reservations: InventoryReservationService,
     private readonly courses: CoursesService,
+    private readonly audit: AuditService,
   ) {}
 
   async createOrder(input: CreateOrderInput): Promise<Order> {
@@ -131,6 +133,13 @@ export class OrdersService {
         ),
       );
 
+      await this.audit.recordWithManager(manager, {
+        action: "order.created",
+        aggregateId: order.id,
+        aggregateType: "order",
+        nextState: { status: order.status, totalVnd: order.totalVnd },
+      });
+
       for (const line of calculatedLines) {
         const variant = variantsById.get(line.productVariantId)!;
         if (variant.product.kind !== ProductKind.COURSE) {
@@ -176,6 +185,13 @@ export class OrdersService {
         order.reservationExpiresAt = null;
         order.status = OrderStatus.PAYMENT_FAILED;
         await orderRepository.save(order);
+        await this.audit.recordWithManager(manager, {
+          action: "order.reservation_expired",
+          aggregateId: order.id,
+          aggregateType: "order",
+          nextState: { status: order.status },
+          previousState: { status: OrderStatus.PENDING_PAYMENT },
+        });
       }
 
       return expiredOrders.length;

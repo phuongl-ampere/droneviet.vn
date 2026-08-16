@@ -24,6 +24,7 @@ describe("PaymentsService", () => {
       payos as never,
       {} as never,
       {} as never,
+      { recordWithManager: vi.fn() } as never,
     );
 
     await expect(
@@ -89,11 +90,13 @@ describe("PaymentsService", () => {
     const payos = {
       verifyWebhookSignature: vi.fn().mockReturnValue(true),
     };
+    const audit = { recordWithManager: vi.fn() };
     const service = new PaymentsService(
       dataSource as never,
       payos as never,
       { releaseForOrder: vi.fn() } as never,
       { confirmEnrollmentsForOrder: vi.fn() } as never,
+      audit as never,
     );
 
     await expect(
@@ -106,6 +109,13 @@ describe("PaymentsService", () => {
     ).resolves.toBe(true);
     expect(order.status).toBe(OrderStatus.PAID);
     expect(payment.status).toBe(PaymentStatus.PAID);
+    expect(audit.recordWithManager).toHaveBeenCalledWith(
+      manager,
+      expect.objectContaining({
+        action: "order.payment_paid",
+        aggregateType: "order",
+      }),
+    );
   });
 
   it("rejects a webhook with an invalid signature before looking up payments", async () => {
@@ -118,6 +128,7 @@ describe("PaymentsService", () => {
       payos as never,
       {} as never,
       {} as never,
+      { recordWithManager: vi.fn() } as never,
     );
 
     await expect(
@@ -175,6 +186,7 @@ describe("PaymentsService", () => {
       { verifyWebhookSignature: vi.fn() } as never,
       reservations as never,
       courses as never,
+      { recordWithManager: vi.fn() } as never,
     );
 
     await expect(
@@ -233,6 +245,7 @@ describe("PaymentsService", () => {
       { verifyWebhookSignature: vi.fn() } as never,
       reservations as never,
       courses as never,
+      { recordWithManager: vi.fn() } as never,
     );
 
     await expect(
@@ -285,6 +298,7 @@ describe("PaymentsService", () => {
       { verifyWebhookSignature: vi.fn() } as never,
       {} as never,
       { confirmEnrollmentsForOrder: vi.fn() } as never,
+      { recordWithManager: vi.fn() } as never,
     );
 
     await expect(
