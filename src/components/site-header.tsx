@@ -54,14 +54,24 @@ export function SiteHeader({
           {locale === "vi"
             ? dronePillars.map((pillar) => (
                 <div key={pillar.slug} className="group relative">
-                  <button
-                    type="button"
-                    aria-haspopup="true"
-                    className="relative block py-3 text-[13px] font-medium text-slate-300 transition hover:text-white focus:text-white"
-                  >
-                    {pillar.title}
-                    <span className="absolute inset-x-0 bottom-1 h-px origin-left scale-x-0 bg-[#00D1C1] transition-transform duration-300 group-hover:scale-x-100 group-focus-within:scale-x-100" />
-                  </button>
+                  {pillar.slug === "cua-hang" ? (
+                    <Link
+                      href="/cua-hang"
+                      className="relative block py-3 text-[13px] font-medium text-slate-300 transition hover:text-white focus:text-white"
+                    >
+                      {pillar.title}
+                      <span className="absolute inset-x-0 bottom-1 h-px origin-left scale-x-0 bg-[#00D1C1] transition-transform duration-300 group-hover:scale-x-100 group-focus-within:scale-x-100" />
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      aria-haspopup="true"
+                      className="relative block py-3 text-[13px] font-medium text-slate-300 transition hover:text-white focus:text-white"
+                    >
+                      {pillar.title}
+                      <span className="absolute inset-x-0 bottom-1 h-px origin-left scale-x-0 bg-[#00D1C1] transition-transform duration-300 group-hover:scale-x-100 group-focus-within:scale-x-100" />
+                    </button>
+                  )}
                   <div className="invisible absolute left-0 top-full z-50 w-80 border border-white/12 bg-[#10232A] p-4 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                     <div className="grid">
                       {pillar.items.map((item) => (

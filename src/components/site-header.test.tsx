@@ -13,8 +13,12 @@ describe("SiteHeader", () => {
     );
 
     expect(
-      screen.getByRole("button", { name: "Đào tạo & Chứng chỉ" }),
+      screen.getByRole("button", { name: /Đào tạo/ }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Cửa hàng" })).toHaveAttribute(
+      "href",
+      "/cua-hang",
+    );
     expect(
       screen
         .getAllByRole("link", { name: "Đăng ký khóa học" })
