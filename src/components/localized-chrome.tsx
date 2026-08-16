@@ -25,6 +25,7 @@ export function LocalizedChrome({ children, content }: LocalizedChromeProps) {
   const isCommerceRoute =
     pathname.startsWith("/cua-hang") ||
     pathname.startsWith("/gio-hang") ||
+    pathname.startsWith("/khoa-hoc") ||
     pathname.startsWith("/thanh-toan");
 
   if (isAdminRoute) {
