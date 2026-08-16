@@ -52,9 +52,14 @@ export function StoreHeader() {
             href="/gio-hang"
             aria-label={`Giỏ hàng (${lineCount})`}
             title="Giỏ hàng"
-            className="grid size-10 place-items-center hover:bg-black/5"
+            className="relative grid size-10 place-items-center hover:bg-black/5"
           >
             <ShoppingBag aria-hidden="true" size={18} />
+            {lineCount > 0 ? (
+              <span className="absolute right-0.5 top-0.5 grid size-4 place-items-center bg-[#006D66] text-[10px] font-bold text-white">
+                {lineCount}
+              </span>
+            ) : null}
           </Link>
           <button
             type="button"

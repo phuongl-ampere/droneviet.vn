@@ -1,6 +1,7 @@
 "use client";
 
 import { ShoppingBag } from "lucide-react";
+import { useState } from "react";
 import { useCart } from "./cart-provider";
 
 interface AddToCartButtonProps {
@@ -19,11 +20,12 @@ export function AddToCartButton({
   variantId,
 }: AddToCartButtonProps) {
   const { addLine } = useCart();
+  const [wasAdded, setWasAdded] = useState(false);
 
   return (
     <button
       type="button"
-      onClick={() =>
+      onClick={() => {
         addLine({
           priceVnd,
           courseSessionId,
@@ -31,12 +33,13 @@ export function AddToCartButton({
           slug,
           title,
           variantId,
-        })
-      }
+        });
+        setWasAdded(true);
+      }}
       className="inline-flex min-h-10 items-center gap-2 bg-[#10232A] px-3.5 text-sm font-semibold text-white transition hover:bg-[#006D66]"
     >
       <ShoppingBag aria-hidden="true" size={15} />
-      Thêm vào giỏ
+      {wasAdded ? "Đã thêm vào giỏ" : "Thêm vào giỏ"}
     </button>
   );
 }
