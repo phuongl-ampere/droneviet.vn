@@ -188,6 +188,18 @@ export default async function StorePage({ searchParams }: StorePageProps) {
               <StoreProductCard key={product.slug} product={product} />
             ))}
           </div>
+          <p className="mt-8 text-xs leading-5 text-slate-500">
+            Ảnh drone: Igor Savin,{" "}
+            <a
+              href="https://creativecommons.org/licenses/by-sa/3.0/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline underline-offset-2"
+            >
+              CC BY-SA 3.0
+            </a>
+            .
+          </p>
         </div>
       </section>
     </main>
