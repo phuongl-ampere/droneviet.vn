@@ -1,4 +1,4 @@
-import { ArrowUpRight, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, ShieldCheck, UserRound } from "lucide-react";
 import Link from "next/link";
 import { dronePillars } from "@/lib/drone-pillars";
 
@@ -92,6 +92,14 @@ export function SiteHeader({
         <div className="flex items-center gap-2">
           {locale === "vi" ? (
             <>
+              <Link
+                href="/dang-nhap"
+                aria-label="Đăng nhập"
+                title="Đăng nhập"
+                className="grid size-10 place-items-center border border-white/12 text-slate-200 transition hover:border-[#00D1C1] hover:text-[#00D1C1]"
+              >
+                <UserRound aria-hidden="true" size={17} />
+              </Link>
               <Link
                 href="/admin"
                 aria-label="Quản trị"

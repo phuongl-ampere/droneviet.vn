@@ -38,5 +38,9 @@ describe("SiteHeader", () => {
       "href",
       "/admin",
     );
+    expect(screen.getByRole("link", { name: "Đăng nhập" })).toHaveAttribute(
+      "href",
+      "/dang-nhap",
+    );
   });
 });
