@@ -6,6 +6,7 @@ import { ContentRevision } from "../content/entities/content-revision.entity";
 import { User } from "../auth/entities/user.entity";
 import { OrderLine } from "../orders/entities/order-line.entity";
 import { Order } from "../orders/entities/order.entity";
+import { QuoteRequest } from "../quotes/entities/quote-request.entity";
 import { createDatabaseOptions } from "./data-source";
 
 describe("createDatabaseOptions", () => {
@@ -35,8 +36,9 @@ describe("createDatabaseOptions", () => {
         User,
         Order,
         OrderLine,
+        QuoteRequest,
       ]),
     );
-    expect(options.migrations).toHaveLength(4);
+    expect(options.migrations).toHaveLength(5);
   });
 });

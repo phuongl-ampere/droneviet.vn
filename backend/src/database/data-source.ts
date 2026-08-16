@@ -7,10 +7,12 @@ import { ContentRevision } from "../content/entities/content-revision.entity";
 import { User } from "../auth/entities/user.entity";
 import { OrderLine } from "../orders/entities/order-line.entity";
 import { Order } from "../orders/entities/order.entity";
+import { QuoteRequest } from "../quotes/entities/quote-request.entity";
 import { InitialCatalogMigration1766918700000 } from "./migrations/1766918700000-initial-catalog";
 import { ContentMigration1766918800000 } from "./migrations/1766918800000-content";
 import { UsersMigration1766918900000 } from "./migrations/1766918900000-users";
 import { OrdersMigration1766919000000 } from "./migrations/1766919000000-orders";
+import { QuoteRequestsMigration1766919100000 } from "./migrations/1766919100000-quote-requests";
 
 export function createDatabaseOptions(
   environment: NodeJS.ProcessEnv,
@@ -31,12 +33,14 @@ export function createDatabaseOptions(
       User,
       Order,
       OrderLine,
+      QuoteRequest,
     ],
     migrations: [
       InitialCatalogMigration1766918700000,
       ContentMigration1766918800000,
       UsersMigration1766918900000,
       OrdersMigration1766919000000,
+      QuoteRequestsMigration1766919100000,
     ],
     synchronize: false,
   };

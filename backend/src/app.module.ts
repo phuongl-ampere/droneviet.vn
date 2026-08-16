@@ -7,6 +7,7 @@ import { CatalogModule } from "./catalog/catalog.module";
 import { ContentModule } from "./content/content.module";
 import { DatabaseModule } from "./database/database.module";
 import { OrdersModule } from "./orders/orders.module";
+import { QuotesModule } from "./quotes/quotes.module";
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { OrdersModule } from "./orders/orders.module";
     CatalogModule,
     ContentModule,
     OrdersModule,
+    QuotesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
