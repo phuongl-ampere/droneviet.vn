@@ -27,7 +27,7 @@ export class InitialCatalogMigration1766918700000
           {
             name: "kind",
             type: "enum",
-            enum: ["accessory", "bundle", "drone", "education_kit"],
+            enum: ["accessory", "bundle", "course", "drone", "education_kit"],
           },
           {
             name: "status",

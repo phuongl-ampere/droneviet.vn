@@ -5,6 +5,7 @@ export interface StoreCourse {
   level: string;
   priceVnd: number;
   purchaseMode: CoursePurchaseMode;
+  variantId?: string;
   seatsRemaining?: number;
   sessionLabel: string;
   slug: string;
@@ -18,6 +19,7 @@ export const storeCourses: StoreCourse[] = [
     level: "Nhập môn STEM",
     priceVnd: 2_400_000,
     purchaseMode: "checkout",
+    variantId: "66666666-6666-4666-8666-666666666666",
     seatsRemaining: 8,
     sessionLabel: "Khai giảng 14/09",
     slug: "drone-nhap-mon-cap-1",
@@ -30,6 +32,7 @@ export const storeCourses: StoreCourse[] = [
     level: "Lập trình drone",
     priceVnd: 3_600_000,
     purchaseMode: "checkout",
+    variantId: "77777777-7777-4777-8777-777777777777",
     seatsRemaining: 5,
     sessionLabel: "Khai giảng 21/09",
     slug: "lap-trinh-drone-cap-2",
@@ -42,6 +45,7 @@ export const storeCourses: StoreCourse[] = [
     level: "Project-based",
     priceVnd: 5_200_000,
     purchaseMode: "checkout",
+    variantId: "88888888-8888-4888-8888-888888888888",
     seatsRemaining: 10,
     sessionLabel: "Khai giảng 05/10",
     slug: "du-an-drone-cap-3",

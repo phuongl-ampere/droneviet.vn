@@ -11,6 +11,7 @@ import { ProductVariant } from "./product-variant.entity";
 export enum ProductKind {
   ACCESSORY = "accessory",
   BUNDLE = "bundle",
+  COURSE = "course",
   DRONE = "drone",
   EDUCATION_KIT = "education_kit",
 }

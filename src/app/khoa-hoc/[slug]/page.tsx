@@ -53,6 +53,7 @@ export default async function CourseDetailPage({
                 priceVnd={course.priceVnd}
                 slug={`course-${course.slug}`}
                 title={course.title}
+                variantId={course.variantId}
               />
             </div>
           ) : (
