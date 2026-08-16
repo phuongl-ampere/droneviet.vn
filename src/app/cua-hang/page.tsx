@@ -18,12 +18,6 @@ interface StorePageProps {
   }>;
 }
 
-const shopCategories: Array<{ label: string; value: StoreShopCategory }> = [
-  { label: "Drone", value: "drone" },
-  { label: "Phụ kiện & Linh kiện", value: "parts" },
-  { label: "Drone giáo dục & Combo classroom/lab", value: "education" },
-];
-
 const availability: Array<{ label: string; value: StoreAvailability }> = [
   { label: "Còn hàng", value: "in_stock" },
   { label: "Đặt trước", value: "preorder" },
@@ -78,32 +72,7 @@ export default async function StorePage({ searchParams }: StorePageProps) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
-        <nav
-          className="grid border-y border-black/10 md:grid-cols-3"
-          aria-label="Danh mục cửa hàng"
-        >
-          {shopCategories.map((category) => (
-            <Link
-              key={category.value}
-              href={filterHref({
-                availability: filters.availability,
-                category: category.value,
-                q: filters.q,
-              })}
-              className={`min-h-16 border-b border-black/10 px-4 py-5 text-sm font-semibold md:border-b-0 md:border-r md:last:border-r-0 ${
-                filters.category === category.value
-                  ? "bg-[#10232A] text-white"
-                  : "bg-white text-[#10232A] hover:bg-black/[0.03]"
-              }`}
-            >
-              {category.label}
-            </Link>
-          ))}
-        </nav>
-      </section>
-
-      <section className="mx-auto grid max-w-7xl gap-8 px-5 pb-10 sm:px-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
+      <section className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
         <aside className="hidden lg:block">
           <div className="border-t border-black/15 pt-4">
             <p className="text-sm font-semibold">Tình trạng</p>

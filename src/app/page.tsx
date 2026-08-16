@@ -1,6 +1,6 @@
 import { ArrowUpRight, Check, MoveUpRight } from "lucide-react";
 import Link from "next/link";
-import { DroneLabShowroom } from "@/components/drone-lab-showroom";
+import { DroneHeroCarousel } from "@/components/drone-hero-carousel";
 import { SectionShell } from "@/components/section-shell";
 import { dronePillars } from "@/lib/drone-pillars";
 import {
@@ -144,14 +144,12 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
 
   return (
     <>
-      <DroneLabShowroom
-        locale={locale}
+      <DroneHeroCarousel
         eyebrow={site.hero.eyebrow}
         title={site.hero.title}
         description={site.hero.description}
         primaryCta={site.hero.primaryCta}
         secondaryCta={site.hero.secondaryCta}
-        drones={getDroneModels(locale)}
       />
 
       <SectionShell
@@ -167,9 +165,18 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
               <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                 {pillar.eyebrow}
               </p>
-              <h2 className="mt-4 text-2xl font-semibold text-[#10232A]">
-                {pillar.title}
-              </h2>
+              {pillar.slug === "cua-hang" ? (
+                <Link
+                  href="/cua-hang"
+                  className="mt-4 block text-2xl font-semibold text-[#10232A] hover:text-[#006D66]"
+                >
+                  {pillar.title}
+                </Link>
+              ) : (
+                <h2 className="mt-4 text-2xl font-semibold text-[#10232A]">
+                  {pillar.title}
+                </h2>
+              )}
               <div className="mt-4 grid gap-2 text-sm md:hidden md:group-hover:grid">
                 {pillar.items.map((item) => (
                   <Link

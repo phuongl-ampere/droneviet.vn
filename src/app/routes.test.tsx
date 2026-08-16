@@ -26,12 +26,16 @@ describe("public routes", () => {
     expect(
       screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
     ).toHaveAttribute("target", "_blank");
-    expect(screen.getByTestId("drone-lab-showroom")).toBeInTheDocument();
+    expect(screen.getByTestId("drone-hero-carousel")).toBeInTheDocument();
     expect(screen.getAllByText("DV Primary Lab").length).toBeGreaterThan(0);
     expect(screen.getAllByText("DV Research Platform").length).toBeGreaterThan(0);
     expect(screen.getByText("Solution catalog")).toBeInTheDocument();
     expect(screen.getByText("Services")).toBeInTheDocument();
     expect(screen.getByText("Deployment")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Cửa hàng" })).toHaveAttribute(
+      "href",
+      "/cua-hang",
+    );
     expect(screen.queryByText("Giáo trình và tài liệu đã hoàn thành")).not.toBeInTheDocument();
     expect(screen.queryByText("Hệ sinh thái đối tác giáo dục và nghiên cứu")).not.toBeInTheDocument();
     expect(screen.queryByText("Tin tức và học liệu mới")).not.toBeInTheDocument();
@@ -117,7 +121,7 @@ describe("public routes", () => {
       "href",
       "https://zalo.me/0384070636",
     );
-    expect(screen.getByTestId("drone-lab-showroom")).toBeInTheDocument();
+    expect(screen.getByTestId("drone-hero-carousel")).toBeInTheDocument();
     expect(screen.getByText("A drone platform for every stage of learning")).toBeInTheDocument();
     expect(screen.getByText("From first flight to a working lab")).toBeInTheDocument();
     expect(screen.getByText("A clear path from brief to deployment")).toBeInTheDocument();

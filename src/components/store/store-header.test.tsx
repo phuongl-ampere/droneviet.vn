@@ -29,5 +29,6 @@ describe("StoreHeader", () => {
       "href",
       "/gio-hang",
     );
+    expect(screen.getByRole("banner")).toHaveClass("bg-[#071117]/94");
   });
 });

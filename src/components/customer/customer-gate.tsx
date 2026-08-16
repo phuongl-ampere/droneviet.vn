@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LogIn, UserPlus } from "lucide-react";
+import { Globe2, LogIn, MessageCircle, UserPlus } from "lucide-react";
 import { useState } from "react";
 import {
   loginCustomer,
@@ -11,9 +11,27 @@ import {
 
 export function CustomerGate({ mode }: { mode: "login" | "register" }) {
   const [message, setMessage] = useState("");
+  const [oauthPending, setOauthPending] = useState<"google" | "zalo" | null>(null);
   const [session, setSession] = useState<CustomerSession | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const isRegister = mode === "register";
+
+  function startOauth(provider: "google" | "zalo") {
+    const authUrl =
+      provider === "google"
+        ? process.env.NEXT_PUBLIC_GOOGLE_LOGIN_URL
+        : process.env.NEXT_PUBLIC_ZALO_LOGIN_URL;
+
+    if (!authUrl) {
+      setMessage(
+        `Đăng nhập ${provider === "google" ? "Google" : "Zalo"} chưa được cấu hình.`,
+      );
+      return;
+    }
+
+    setOauthPending(provider);
+    window.location.assign(authUrl);
+  }
 
   if (session) {
     return (
@@ -64,8 +82,38 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
               : "Đăng nhập để tiếp tục với Drone Việt."}
           </p>
 
+          {!isRegister ? (
+            <>
+              <div className="mt-8 grid gap-3">
+                <button
+                  type="button"
+                  onClick={() => startOauth("google")}
+                  disabled={oauthPending !== null}
+                  className="inline-flex min-h-11 items-center justify-center gap-3 border border-black/15 bg-white text-sm font-semibold hover:border-[#006D66] disabled:text-slate-400"
+                >
+                  <Globe2 aria-hidden="true" size={18} />
+                  Tiếp tục với Google
+                </button>
+                <button
+                  type="button"
+                  onClick={() => startOauth("zalo")}
+                  disabled={oauthPending !== null}
+                  className="inline-flex min-h-11 items-center justify-center gap-3 border border-black/15 bg-white text-sm font-semibold hover:border-[#006D66] disabled:text-slate-400"
+                >
+                  <MessageCircle aria-hidden="true" size={18} />
+                  Tiếp tục với Zalo
+                </button>
+              </div>
+              <div className="my-7 flex items-center gap-3 text-xs text-slate-400">
+                <span className="h-px flex-1 bg-black/10" />
+                hoặc dùng email
+                <span className="h-px flex-1 bg-black/10" />
+              </div>
+            </>
+          ) : null}
+
           <form
-            className="mt-8"
+            className={isRegister ? "mt-8" : ""}
             onSubmit={async (event) => {
               event.preventDefault();
               setSubmitting(true);

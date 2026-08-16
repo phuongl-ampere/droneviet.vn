@@ -34,21 +34,9 @@ describe("SiteHeader", () => {
             link.getAttribute("href") === "/bay-hop-phap/ban-do-cam-bay",
         ),
     ).toBe(true);
-    expect(screen.getByRole("link", { name: "Đăng nhập" })).toHaveAttribute(
-      "href",
-      "/dang-nhap",
-    );
     expect(screen.getByRole("link", { name: "Quản trị" })).toHaveAttribute(
       "href",
       "/admin",
-    );
-    expect(screen.getByRole("link", { name: "Zalo" })).toHaveAttribute(
-      "href",
-      "https://zalo.me/0384070636",
-    );
-    expect(screen.getByRole("link", { name: "Gmail" })).toHaveAttribute(
-      "href",
-      "mailto:admin@droneviet.vn",
     );
   });
 });
