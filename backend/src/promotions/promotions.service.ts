@@ -68,20 +68,23 @@ export class PromotionsService {
       throw new BadRequestException("Promotion code is unavailable");
     }
 
-    promo.usageCount += 1;
-    await repository.save(promo);
+    const discountVnd = calculatePromotionDiscount(
+      {
+        maxDiscountVnd: promo.maxDiscountVnd ?? undefined,
+        minimumOrderVnd: promo.minimumOrderVnd ?? undefined,
+        type: promo.type === PromoType.PERCENTAGE ? "percentage" : "fixed",
+        value: promo.value,
+      },
+      subtotalVnd,
+    );
+    if (discountVnd > 0) {
+      promo.usageCount += 1;
+      await repository.save(promo);
+    }
 
     return {
       code: promo.code,
-      discountVnd: calculatePromotionDiscount(
-        {
-          maxDiscountVnd: promo.maxDiscountVnd ?? undefined,
-          minimumOrderVnd: promo.minimumOrderVnd ?? undefined,
-          type: promo.type === PromoType.PERCENTAGE ? "percentage" : "fixed",
-          value: promo.value,
-        },
-        subtotalVnd,
-      ),
+      discountVnd,
     };
   }
 }
