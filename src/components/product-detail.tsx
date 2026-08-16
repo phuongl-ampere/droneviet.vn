@@ -84,7 +84,7 @@ function getCopy(locale: "vi" | "en") {
       };
 }
 
-function ProductDroneVisual() {
+export function ProductDroneVisual() {
   return (
     <svg
       aria-hidden="true"

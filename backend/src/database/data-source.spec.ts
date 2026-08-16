@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { ProductVariant } from "../catalog/entities/product-variant.entity";
 import { Product } from "../catalog/entities/product.entity";
+import { Article } from "../content/entities/article.entity";
+import { ContentRevision } from "../content/entities/content-revision.entity";
 import { createDatabaseOptions } from "./data-source";
 
 describe("createDatabaseOptions", () => {
@@ -22,8 +24,13 @@ describe("createDatabaseOptions", () => {
       username: "droneviet",
     });
     expect(options.entities).toEqual(
-      expect.arrayContaining([Product, ProductVariant]),
+      expect.arrayContaining([
+        Product,
+        ProductVariant,
+        Article,
+        ContentRevision,
+      ]),
     );
-    expect(options.migrations).toHaveLength(1);
+    expect(options.migrations).toHaveLength(2);
   });
 });

@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { CatalogModule } from "./catalog/catalog.module";
+import { ContentModule } from "./content/content.module";
 import { DatabaseModule } from "./database/database.module";
 
 @Module({
@@ -10,6 +11,7 @@ import { DatabaseModule } from "./database/database.module";
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     CatalogModule,
+    ContentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

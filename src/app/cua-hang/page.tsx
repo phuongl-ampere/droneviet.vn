@@ -1,0 +1,141 @@
+import Link from "next/link";
+import { SlidersHorizontal } from "lucide-react";
+import { StoreProductCard } from "@/components/store/store-product-card";
+import {
+  filterStoreProducts,
+  storeProducts,
+  type StoreAvailability,
+  type StoreCollection,
+} from "@/lib/commerce/storefront-catalog";
+
+interface StorePageProps {
+  searchParams?: Promise<{
+    availability?: StoreAvailability;
+    collection?: StoreCollection;
+  }>;
+}
+
+const collections: Array<{ label: string; value: StoreCollection }> = [
+  { label: "Drone giáo dục", value: "stem" },
+  { label: "Drone nghiên cứu", value: "research" },
+  { label: "Đào tạo giảng viên", value: "training" },
+  { label: "Phụ kiện", value: "accessories" },
+];
+
+const availability: Array<{ label: string; value: StoreAvailability }> = [
+  { label: "Còn hàng", value: "in_stock" },
+  { label: "Đặt trước", value: "preorder" },
+  { label: "Báo giá lab", value: "quote_only" },
+];
+
+function filterHref(
+  next: Partial<{ availability: StoreAvailability; collection: StoreCollection }>,
+) {
+  const params = new URLSearchParams();
+
+  if (next.collection) {
+    params.set("collection", next.collection);
+  }
+
+  if (next.availability) {
+    params.set("availability", next.availability);
+  }
+
+  const query = params.toString();
+  return query ? `/cua-hang?${query}` : "/cua-hang";
+}
+
+export default async function StorePage({ searchParams }: StorePageProps) {
+  const filters = (await searchParams) ?? {};
+  const products = filterStoreProducts(storeProducts, filters);
+
+  return (
+    <main className="min-h-screen bg-[#F6F7F7] text-[#10232A]">
+      <section className="border-b border-black/10 bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
+          <p className="text-xs font-medium text-[#006D66]">Drone Viet Store</p>
+          <h1 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight sm:text-6xl">
+            Cửa hàng Drone Việt
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
+            Thiết bị drone, kit phòng lab và khóa học được cấu hình cho từng
+            giai đoạn học tập và nghiên cứu.
+          </p>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
+        <aside className="hidden lg:block">
+          <div className="border-t border-black/15 pt-4">
+            <p className="text-sm font-semibold">Danh mục</p>
+            <nav className="mt-3 space-y-1" aria-label="Danh mục cửa hàng">
+              <Link
+                href={filterHref({ availability: filters.availability })}
+                className="block py-2 text-sm text-slate-600 hover:text-[#006D66]"
+              >
+                Tất cả thiết bị
+              </Link>
+              {collections.map((collection) => (
+                <Link
+                  key={collection.value}
+                  href={filterHref({
+                    availability: filters.availability,
+                    collection: collection.value,
+                  })}
+                  className={`block py-2 text-sm ${
+                    filters.collection === collection.value
+                      ? "font-semibold text-[#10232A]"
+                      : "text-slate-600 hover:text-[#006D66]"
+                  }`}
+                >
+                  {collection.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <div className="mt-8 border-t border-black/15 pt-4">
+            <p className="text-sm font-semibold">Tình trạng</p>
+            <nav className="mt-3 space-y-1" aria-label="Tình trạng sản phẩm">
+              {availability.map((item) => (
+                <Link
+                  key={item.value}
+                  href={filterHref({
+                    collection: filters.collection,
+                    availability: item.value,
+                  })}
+                  className={`block py-2 text-sm ${
+                    filters.availability === item.value
+                      ? "font-semibold text-[#10232A]"
+                      : "text-slate-600 hover:text-[#006D66]"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </aside>
+
+        <div>
+          <div className="flex items-center justify-between border-b border-black/10 pb-4">
+            <p className="text-sm text-slate-600">
+              {products.length} thiết bị
+            </p>
+            <button
+              type="button"
+              className="inline-flex min-h-10 items-center gap-2 border border-black/15 px-3 text-sm font-semibold lg:hidden"
+            >
+              <SlidersHorizontal aria-hidden="true" size={16} />
+              Bộ lọc
+            </button>
+          </div>
+          <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {products.map((product) => (
+              <StoreProductCard key={product.slug} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
