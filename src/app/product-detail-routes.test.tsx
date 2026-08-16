@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import { CartProvider } from "@/components/store/cart-provider";
 import ProductDetailPage, {
   generateMetadata as generateViProductMetadata,
   generateStaticParams as generateViProductParams,
@@ -21,9 +22,11 @@ describe("product detail routes", () => {
     expect(metadata.alternates?.canonical).toBe("/san-pham/dv-primary-lab");
 
     render(
-      await ProductDetailPage({
-        params: Promise.resolve({ slug: "dv-primary-lab" }),
-      }),
+      <CartProvider>
+        {await ProductDetailPage({
+          params: Promise.resolve({ slug: "dv-primary-lab" }),
+        })}
+      </CartProvider>,
     );
 
     expect(screen.getByRole("heading", { name: "DV Primary Lab" })).toBeInTheDocument();
@@ -31,10 +34,9 @@ describe("product detail routes", () => {
     expect(screen.getByText("Lớp STEM nhập môn")).toBeInTheDocument();
     expect(screen.getByText("Câu hỏi thường gặp")).toBeInTheDocument();
     expect(screen.getByRole("table", { name: "Thông số triển khai" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Liên hệ tư vấn ngay" })).toHaveAttribute(
-      "href",
-      "https://zalo.me/0384070636",
-    );
+    expect(
+      screen.getByRole("button", { name: "Thêm vào giỏ" }),
+    ).toBeInTheDocument();
   });
 
   it("renders English product detail pages with SEO content", async () => {
@@ -48,9 +50,11 @@ describe("product detail routes", () => {
     expect(metadata.alternates?.canonical).toBe("/en/products/dv-research-platform");
 
     render(
-      await EnglishProductDetailPage({
-        params: Promise.resolve({ slug: "dv-research-platform" }),
-      }),
+      <CartProvider>
+        {await EnglishProductDetailPage({
+          params: Promise.resolve({ slug: "dv-research-platform" }),
+        })}
+      </CartProvider>,
     );
 
     expect(screen.getByRole("heading", { name: "DV Research Platform" })).toBeInTheDocument();

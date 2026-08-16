@@ -2,7 +2,12 @@ import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ServiceCard } from "@/components/service-card";
+import { AddToCartButton } from "@/components/store/add-to-cart-button";
 import type { DroneModel } from "@/lib/content/schema";
+import {
+  formatVnd,
+  storeProducts,
+} from "@/lib/commerce/storefront-catalog";
 import {
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
@@ -112,6 +117,9 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
   const productsPath = locale === "vi" ? "/san-pham" : "/en/products";
   const servicesPath = locale === "vi" ? "/dich-vu" : "/en/services";
   const services = getServices(locale).slice(0, 3);
+  const commerceProduct = storeProducts.find(
+    (product) => product.slug === drone.slug,
+  );
 
   return (
     <>
@@ -148,6 +156,22 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
             <p className="mt-7 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
               {drone.summary}
             </p>
+            {commerceProduct ? (
+              <div className="mt-7 border-l-2 border-[#00D1C1] pl-4">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">
+                  {commerceProduct.purchaseMode === "quote_only"
+                    ? locale === "vi"
+                      ? "Cấu hình lab"
+                      : "Lab configuration"
+                    : locale === "vi"
+                      ? "Từ"
+                      : "From"}
+                </p>
+                <p className="mt-1 text-2xl font-semibold text-white">
+                  {formatVnd(commerceProduct.priceVnd)}
+                </p>
+              </div>
+            ) : null}
             <div className="mt-7 flex flex-wrap gap-2">
               {drone.useCases.map((useCase) => (
                 <span
@@ -158,15 +182,25 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
                 </span>
               ))}
             </div>
-            <Link
-              href="https://zalo.me/0384070636"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-9 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#10232A] transition hover:bg-[#00D1C1]"
-            >
-              {copy.cta}
-              <ArrowUpRight aria-hidden="true" size={17} />
-            </Link>
+            {commerceProduct?.purchaseMode === "checkout" ? (
+              <div className="mt-9">
+                <AddToCartButton
+                  priceVnd={commerceProduct.priceVnd}
+                  slug={commerceProduct.slug}
+                  title={commerceProduct.name}
+                />
+              </div>
+            ) : (
+              <Link
+                href="https://zalo.me/0384070636"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-9 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#10232A] transition hover:bg-[#00D1C1]"
+              >
+                {copy.cta}
+                <ArrowUpRight aria-hidden="true" size={17} />
+              </Link>
+            )}
           </div>
 
           <div className="relative grid min-h-[24rem] place-items-center overflow-hidden rounded-[2rem] border border-white/10 bg-[#10232A]/65 p-8 shadow-2xl shadow-black/30 backdrop-blur sm:min-h-[32rem]">

@@ -5,9 +5,12 @@ import { Product } from "../catalog/entities/product.entity";
 import { Article } from "../content/entities/article.entity";
 import { ContentRevision } from "../content/entities/content-revision.entity";
 import { User } from "../auth/entities/user.entity";
+import { OrderLine } from "../orders/entities/order-line.entity";
+import { Order } from "../orders/entities/order.entity";
 import { InitialCatalogMigration1766918700000 } from "./migrations/1766918700000-initial-catalog";
 import { ContentMigration1766918800000 } from "./migrations/1766918800000-content";
 import { UsersMigration1766918900000 } from "./migrations/1766918900000-users";
+import { OrdersMigration1766919000000 } from "./migrations/1766919000000-orders";
 
 export function createDatabaseOptions(
   environment: NodeJS.ProcessEnv,
@@ -20,11 +23,20 @@ export function createDatabaseOptions(
     password: environment.DATABASE_PASSWORD ?? "droneviet",
     database: environment.DATABASE_NAME ?? "droneviet",
     charset: "utf8mb4",
-    entities: [Product, ProductVariant, Article, ContentRevision, User],
+    entities: [
+      Product,
+      ProductVariant,
+      Article,
+      ContentRevision,
+      User,
+      Order,
+      OrderLine,
+    ],
     migrations: [
       InitialCatalogMigration1766918700000,
       ContentMigration1766918800000,
       UsersMigration1766918900000,
+      OrdersMigration1766919000000,
     ],
     synchronize: false,
   };
