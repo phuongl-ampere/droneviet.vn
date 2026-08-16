@@ -184,4 +184,106 @@ describe("PaymentsService", () => {
     expect(payment.status).toBe(PaymentStatus.FAILED);
     expect(order.status).toBe(OrderStatus.PAYMENT_FAILED);
   });
+
+  it("does not release stock twice when a cancellation callback is replayed", async () => {
+    const order = {
+      id: "order-1",
+      lines: [{ productVariantId: "variant-primary", quantity: 1 }],
+      reservationExpiresAt: null,
+      status: OrderStatus.PAYMENT_FAILED,
+    };
+    const payment = {
+      amountVnd: 9_500_000,
+      id: "payment-1",
+      order,
+      orderId: "order-1",
+      provider: PaymentProvider.PAYOS,
+      providerOrderCode: 123456,
+      status: PaymentStatus.FAILED,
+    };
+    const paymentRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        andWhere: vi.fn().mockReturnThis(),
+        getOne: vi.fn().mockResolvedValue(payment),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(),
+    };
+    const manager = {
+      getRepository: vi.fn(() => paymentRepository),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const reservations = { releaseForOrder: vi.fn() };
+    const service = new PaymentsService(
+      dataSource as never,
+      { verifyWebhookSignature: vi.fn() } as never,
+      reservations as never,
+    );
+
+    await expect(
+      service.completePayosAttempt(payment as never, {
+        amount: 9_500_000,
+        orderCode: 123456,
+        status: "CANCELLED",
+      }),
+    ).resolves.toBe(true);
+
+    expect(reservations.releaseForOrder).not.toHaveBeenCalled();
+  });
+
+  it("does not move fulfilled orders back to paid on a replayed payment", async () => {
+    const order = {
+      id: "order-1",
+      lines: [],
+      reservationExpiresAt: null,
+      status: OrderStatus.PACKING,
+    };
+    const payment = {
+      amountVnd: 9_500_000,
+      id: "payment-1",
+      order,
+      orderId: "order-1",
+      provider: PaymentProvider.PAYOS,
+      providerOrderCode: 123456,
+      status: PaymentStatus.PAID,
+    };
+    const paymentRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        andWhere: vi.fn().mockReturnThis(),
+        getOne: vi.fn().mockResolvedValue(payment),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+    };
+    const orderRepository = { save: vi.fn() };
+    const manager = {
+      getRepository: vi.fn((entity) =>
+        entity.name === "PaymentAttempt" ? paymentRepository : orderRepository,
+      ),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const service = new PaymentsService(
+      dataSource as never,
+      { verifyWebhookSignature: vi.fn() } as never,
+      {} as never,
+    );
+
+    await expect(
+      service.completePayosAttempt(payment as never, {
+        amount: 9_500_000,
+        orderCode: 123456,
+        status: "PAID",
+      }),
+    ).resolves.toBe(true);
+
+    expect(order.status).toBe(OrderStatus.PACKING);
+    expect(orderRepository.save).not.toHaveBeenCalled();
+  });
 });

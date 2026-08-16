@@ -33,6 +33,7 @@ function getCopy(locale: "vi" | "en") {
         faqTitle: "Câu hỏi thường gặp",
         faqDescription: "Những thông tin cần biết trước khi lựa chọn cấu hình.",
         cta: "Liên hệ tư vấn ngay",
+        quoteCta: "Yêu cầu báo giá",
         related: "Dịch vụ đi cùng giải pháp",
         relatedDescription:
           "Từ thiết bị đến học liệu và năng lực vận hành, mỗi cấu hình đều có thể được triển khai trọn gói.",
@@ -65,6 +66,7 @@ function getCopy(locale: "vi" | "en") {
         faqTitle: "Frequently asked questions",
         faqDescription: "What to know before choosing a configuration.",
         cta: "Contact us now",
+        quoteCta: "Request a quote",
         related: "Services around the solution",
         relatedDescription:
           "From hardware to curriculum and operating readiness, every configuration can be deployed as a complete system.",
@@ -193,12 +195,12 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
               </div>
             ) : (
               <Link
-                href="https://zalo.me/0384070636"
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`/bao-gia?product=${drone.slug}`}
                 className="mt-9 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#10232A] transition hover:bg-[#00D1C1]"
               >
-                {copy.cta}
+                {commerceProduct?.purchaseMode === "quote_only"
+                  ? copy.quoteCta
+                  : copy.cta}
                 <ArrowUpRight aria-hidden="true" size={17} />
               </Link>
             )}

@@ -12,9 +12,10 @@ describe("ShippingService", () => {
         weightG: 650,
       }),
     ).resolves.toEqual({
-      amountVnd: 0,
+      amountVnd: null,
       carrier: "manual",
       note: "Drone Viet will confirm delivery cost before fulfillment.",
+      pricingStatus: "manual_quote",
     });
   });
 });

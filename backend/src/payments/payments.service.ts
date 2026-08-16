@@ -164,7 +164,7 @@ export class PaymentsService {
     const orderRepository = manager.getRepository(Order);
 
     if (payment.status === PaymentStatus.PAID) {
-      if (payment.order.status !== OrderStatus.PAID) {
+      if (payment.order.status === OrderStatus.PENDING_PAYMENT) {
         payment.order.status = OrderStatus.PAID;
         payment.order.reservationExpiresAt = null;
         await orderRepository.save(payment.order);
@@ -189,6 +189,10 @@ export class PaymentsService {
     }
 
     if (callback.status === "CANCELLED" || callback.status === "EXPIRED") {
+      if (payment.order.status !== OrderStatus.PENDING_PAYMENT) {
+        return true;
+      }
+
       payment.status = PaymentStatus.FAILED;
       await this.reservations.releaseForOrder(manager, payment.order);
       payment.order.status = OrderStatus.PAYMENT_FAILED;

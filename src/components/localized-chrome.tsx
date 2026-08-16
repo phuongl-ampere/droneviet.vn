@@ -26,6 +26,7 @@ export function LocalizedChrome({ children, content }: LocalizedChromeProps) {
     pathname.startsWith("/cua-hang") ||
     pathname.startsWith("/gio-hang") ||
     pathname.startsWith("/khoa-hoc") ||
+    pathname.startsWith("/bao-gia") ||
     pathname.startsWith("/thanh-toan");
 
   if (isAdminRoute) {

@@ -85,7 +85,11 @@ export function StoreProductCard({ product }: StoreProductCardProps) {
             />
           ) : (
             <Link
-              href={`/san-pham/${product.slug}`}
+              href={
+                product.purchaseMode === "quote_only"
+                  ? `/bao-gia?product=${product.slug}`
+                  : `/san-pham/${product.slug}`
+              }
               className="inline-flex min-h-10 items-center gap-2 bg-[#10232A] px-3.5 text-sm font-semibold text-white transition hover:bg-[#006D66]"
             >
               {purchaseLabels[product.purchaseMode]}

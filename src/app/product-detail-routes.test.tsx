@@ -60,9 +60,9 @@ describe("product detail routes", () => {
     expect(screen.getByRole("heading", { name: "DV Research Platform" })).toBeInTheDocument();
     expect(screen.getByText("Research lab")).toBeInTheDocument();
     expect(screen.getByText("Frequently asked questions")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Contact us now" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Request a quote" })).toHaveAttribute(
       "href",
-      "https://zalo.me/0384070636",
+      "/bao-gia?product=dv-research-platform",
     );
   });
 });
