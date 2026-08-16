@@ -181,4 +181,20 @@ export class OrdersService {
       return expiredOrders.length;
     });
   }
+
+  async findOrderForContact(
+    orderNumber: string,
+    contactPhone: string,
+  ): Promise<Order> {
+    const order = await this.dataSource.getRepository(Order).findOne({
+      where: { orderNumber },
+      relations: { lines: true },
+    });
+
+    if (!order || order.contactPhone !== contactPhone.trim()) {
+      throw new NotFoundException("Order was not found");
+    }
+
+    return order;
+  }
 }

@@ -27,7 +27,8 @@ export function LocalizedChrome({ children, content }: LocalizedChromeProps) {
     pathname.startsWith("/gio-hang") ||
     pathname.startsWith("/khoa-hoc") ||
     pathname.startsWith("/bao-gia") ||
-    pathname.startsWith("/thanh-toan");
+    pathname.startsWith("/thanh-toan") ||
+    pathname.startsWith("/theo-doi-don");
 
   if (isAdminRoute) {
     return <main className="flex-1">{children}</main>;

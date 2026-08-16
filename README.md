@@ -48,6 +48,7 @@ cd backend
 npm install
 npm run migration:run
 npm run seed:catalog
+npm run seed:admin
 npm run start:dev
 ```
 

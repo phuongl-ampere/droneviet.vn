@@ -245,4 +245,33 @@ describe("OrdersService", () => {
       }),
     );
   });
+
+  it("returns an order only when the customer phone matches", async () => {
+    const orderRepository = {
+      findOne: vi.fn().mockResolvedValue({
+        contactPhone: "0900000000",
+        lines: [],
+        orderNumber: "DV-TRACK01",
+      }),
+    };
+    const dataSource = {
+      getRepository: vi.fn(() => orderRepository),
+    };
+    const service = new OrdersService(
+      dataSource as never,
+      {} as never,
+      {} as never,
+    );
+
+    await expect(
+      service.findOrderForContact("DV-TRACK01", "0900000000"),
+    ).resolves.toEqual(
+      expect.objectContaining({
+        orderNumber: "DV-TRACK01",
+      }),
+    );
+    await expect(
+      service.findOrderForContact("DV-TRACK01", "0911111111"),
+    ).rejects.toThrow("Order was not found");
+  });
 });

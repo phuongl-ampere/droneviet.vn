@@ -1,4 +1,5 @@
-import { Body, Controller, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Param, Post, Req, UseGuards } from "@nestjs/common";
+import { AuditService } from "../audit/audit.service";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { Roles } from "../auth/roles.decorator";
 import { RolesGuard } from "../auth/roles.guard";
@@ -16,23 +17,58 @@ import { PublishProductContentDto } from "./dto/publish-product-content.dto";
   UserRole.INSTRUCTOR,
 )
 export class AdminContentController {
-  constructor(private readonly contentService: ContentService) {}
+  constructor(
+    private readonly contentService: ContentService,
+    private readonly auditService: AuditService,
+  ) {}
 
   @Post("articles")
-  createArticle(@Body() input: CreateArticleDto) {
-    return this.contentService.createArticle(input);
+  async createArticle(
+    @Body() input: CreateArticleDto,
+    @Req() request: { user?: { sub?: string } },
+  ) {
+    const article = await this.contentService.createArticle(input);
+    await this.auditService.record({
+      action: "content.article.created",
+      actorId: request.user?.sub,
+      aggregateId: article.id,
+      aggregateType: "article",
+      nextState: { status: article.status },
+    });
+    return article;
   }
 
   @Post("articles/:id/publish")
-  publishArticle(@Param("id") id: string, @Body() input: PublishArticleDto) {
-    return this.contentService.publishArticle(id, input);
+  async publishArticle(
+    @Param("id") id: string,
+    @Body() input: PublishArticleDto,
+    @Req() request: { user?: { sub?: string } },
+  ) {
+    const article = await this.contentService.publishArticle(id, input);
+    await this.auditService.record({
+      action: "content.article.published",
+      actorId: request.user?.sub,
+      aggregateId: article.id,
+      aggregateType: "article",
+      nextState: { revisionNumber: article.revisionNumber, status: article.status },
+    });
+    return article;
   }
 
   @Post("products/:id/publish")
-  publishProductContent(
+  async publishProductContent(
     @Param("id") id: string,
     @Body() input: PublishProductContentDto,
+    @Req() request: { user?: { sub?: string } },
   ) {
-    return this.contentService.publishProductContent(id, input);
+    const content = await this.contentService.publishProductContent(id, input);
+    await this.auditService.record({
+      action: "content.product.published",
+      actorId: request.user?.sub,
+      aggregateId: id,
+      aggregateType: "product",
+      nextState: { locale: content.locale },
+    });
+    return content;
   }
 }

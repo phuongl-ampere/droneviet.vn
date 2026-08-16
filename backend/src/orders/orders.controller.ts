@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
 import { OrderPaymentMethod } from "./entities/order.entity";
 import { PaymentsService } from "../payments/payments.service";
 import { CreateOrderDto } from "./dto/create-order.dto";
@@ -21,5 +21,13 @@ export class OrdersController {
     }
 
     return { order };
+  }
+
+  @Get(":orderNumber")
+  findOrder(
+    @Param("orderNumber") orderNumber: string,
+    @Query("phone") phone: string,
+  ) {
+    return this.ordersService.findOrderForContact(orderNumber, phone);
   }
 }

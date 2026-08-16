@@ -1,4 +1,5 @@
-import { Body, Controller, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Post, Req, UseGuards } from "@nestjs/common";
+import { AuditService } from "../audit/audit.service";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { Roles } from "../auth/roles.decorator";
 import { RolesGuard } from "../auth/roles.guard";
@@ -10,10 +11,24 @@ import { CreateProductDto } from "./dto/create-product.dto";
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.SUPER_ADMIN, UserRole.CATALOG_MANAGER)
 export class AdminCatalogController {
-  constructor(private readonly catalogService: CatalogService) {}
+  constructor(
+    private readonly catalogService: CatalogService,
+    private readonly auditService: AuditService,
+  ) {}
 
   @Post("products")
-  createProduct(@Body() input: CreateProductDto) {
-    return this.catalogService.createProduct(input);
+  async createProduct(
+    @Body() input: CreateProductDto,
+    @Req() request: { user?: { sub?: string } },
+  ) {
+    const product = await this.catalogService.createProduct(input);
+    await this.auditService.record({
+      action: "catalog.product.created",
+      actorId: request.user?.sub,
+      aggregateId: product.id,
+      aggregateType: "product",
+      nextState: { status: product.status },
+    });
+    return product;
   }
 }

@@ -13,6 +13,7 @@ import { ProductContent } from "../content/entities/product-content.entity";
 import { Course } from "../courses/entities/course.entity";
 import { CourseSession } from "../courses/entities/course-session.entity";
 import { CourseEnrollment } from "../courses/entities/course-enrollment.entity";
+import { AuditEvent } from "../audit/entities/audit-event.entity";
 import { createDatabaseOptions } from "./data-source";
 
 describe("createDatabaseOptions", () => {
@@ -49,8 +50,9 @@ describe("createDatabaseOptions", () => {
         Course,
         CourseSession,
         CourseEnrollment,
+        AuditEvent,
       ]),
     );
-    expect(options.migrations).toHaveLength(11);
+    expect(options.migrations).toHaveLength(12);
   });
 });

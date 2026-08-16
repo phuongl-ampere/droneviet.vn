@@ -11,6 +11,7 @@ import { QuotesModule } from "./quotes/quotes.module";
 import { PaymentsModule } from "./payments/payments.module";
 import { ShippingModule } from "./shipping/shipping.module";
 import { CoursesModule } from "./courses/courses.module";
+import { AuditModule } from "./audit/audit.module";
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CoursesModule } from "./courses/courses.module";
     PaymentsModule,
     ShippingModule,
     CoursesModule,
+    AuditModule,
   ],
   controllers: [AppController],
   providers: [AppService],
