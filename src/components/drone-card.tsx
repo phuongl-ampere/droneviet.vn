@@ -14,7 +14,7 @@ export function DroneCard({
   ctaLabel = "Xem chi tiết",
 }: DroneCardProps) {
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-[#172226]/10 bg-white shadow-[0_18px_60px_rgba(16,35,42,0.06)] transition duration-500 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(16,35,42,0.12)]">
+    <article className="group flex h-full flex-col overflow-hidden border border-[#172226]/10 bg-white transition hover:border-[#10232A]/40">
       <div className="relative min-h-56 overflow-hidden bg-[#E8EFEC]">
         <div className="absolute inset-0 opacity-45 [background-image:linear-gradient(rgba(16,35,42,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(16,35,42,0.06)_1px,transparent_1px)] [background-size:52px_52px]" />
         <div className="absolute inset-x-12 bottom-5 h-12 rounded-[100%] bg-[#10232A]/10 blur-xl" />
@@ -42,7 +42,7 @@ export function DroneCard({
       </div>
 
       <div className="flex flex-1 flex-col p-6 sm:p-7">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#007F75]">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
           {drone.useCases[0]}
         </p>
         <h3 className="display-type mt-3 text-3xl font-medium tracking-[-0.025em] text-[#10232A]">

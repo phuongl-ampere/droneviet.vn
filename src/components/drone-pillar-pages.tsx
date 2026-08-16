@@ -34,7 +34,7 @@ function PillarDetail({
   description: string;
 }) {
   return (
-    <main className="bg-[#F5F7F4] text-[#10232A]">
+    <main className="bg-white text-[#10232A]">
       <section className="border-b border-black/10 bg-white">
         <div className="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-24">
           <Link className="text-sm font-semibold text-[#006D66] hover:text-[#10232A]" href="/">

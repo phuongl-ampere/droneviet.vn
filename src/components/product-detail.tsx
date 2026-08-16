@@ -214,10 +214,10 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
         </div>
       </section>
 
-      <section className="bg-[#F5F7F4] py-24 text-[#172226] sm:py-32">
+      <section className="bg-white py-24 text-[#172226] sm:py-32">
         <div className="mx-auto grid w-full max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#007F75]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
               {copy.outcomes}
             </p>
             <h2 className="display-type mt-5 text-4xl font-medium leading-tight tracking-[-0.035em] text-[#10232A] sm:text-5xl">
@@ -226,14 +226,14 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
             <div className="mt-8 space-y-4">
               {drone.learningOutcomes.map((outcome) => (
                 <p key={outcome} className="flex gap-3 border-t border-[#172226]/12 pt-4 text-sm leading-7 text-slate-700">
-                  <Check aria-hidden="true" className="mt-1 shrink-0 text-[#00A99B]" size={16} />
+                  <Check aria-hidden="true" className="mt-1 shrink-0 text-[#10232A]" size={16} />
                   <span>{outcome}</span>
                 </p>
               ))}
             </div>
           </div>
 
-          <div className="rounded-[1.5rem] bg-white p-6 shadow-[0_20px_70px_rgba(16,35,42,0.07)] sm:p-9">
+          <div className="border border-[#172226]/10 bg-white p-6 sm:p-9">
             <h2 className="display-type text-3xl font-medium tracking-[-0.025em] text-[#10232A]">
               {copy.specs}
             </h2>
@@ -258,7 +258,7 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
       <section className="bg-white py-24 sm:py-32">
         <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.72fr_1.28fr]">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#007F75]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
               FAQ
             </p>
             <h2 className="display-type mt-5 text-4xl font-medium leading-tight tracking-[-0.035em] text-[#10232A] sm:text-5xl">
@@ -279,11 +279,10 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#10232A] py-24 text-white sm:py-32">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_90%_5%,rgba(0,169,155,0.13),transparent_30%)]" />
-        <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8">
-          <div className="grid gap-6 border-t border-white/15 pt-6 md:grid-cols-[0.72fr_1.28fr]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7DE0D7]">
+      <section className="border-t border-[#172226]/10 bg-white py-24 text-[#10232A] sm:py-32">
+        <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+          <div className="grid gap-6 border-t border-[#172226]/12 pt-6 md:grid-cols-[0.72fr_1.28fr]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
               {copy.related}
             </p>
             <div>

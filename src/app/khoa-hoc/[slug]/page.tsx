@@ -20,7 +20,7 @@ export default async function CourseDetailPage({
   }
 
   return (
-    <main className="min-h-screen bg-[#F6F7F7] text-[#10232A]">
+    <main className="min-h-screen bg-white text-[#10232A]">
       <section className="bg-[#10232A] text-white">
         <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
           <Link

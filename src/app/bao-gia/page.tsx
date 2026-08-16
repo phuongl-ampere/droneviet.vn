@@ -10,7 +10,7 @@ export default async function QuotePage({ searchParams }: QuotePageProps) {
   const product = storeProducts.find((item) => item.slug === query.product);
 
   return (
-    <main className="min-h-screen bg-[#F6F7F7] px-5 py-10 text-[#10232A] sm:px-8 sm:py-16">
+    <main className="min-h-screen bg-white px-5 py-10 text-[#10232A] sm:px-8 sm:py-16">
       <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[0.75fr_1.25fr]">
         <section>
           <p className="text-xs font-medium text-[#006D66]">Drone Viet B2B</p>

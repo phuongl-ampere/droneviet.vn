@@ -16,7 +16,7 @@ export default function CheckoutPage() {
 
   if (lines.length === 0) {
     return (
-      <main className="min-h-screen bg-[#F6F7F7] px-5 py-20 text-[#10232A] sm:px-8">
+      <main className="min-h-screen bg-white px-5 py-20 text-[#10232A] sm:px-8">
         <div className="mx-auto max-w-3xl border-t border-black/15 pt-6">
           <h1 className="text-3xl font-semibold">Thanh toán</h1>
           <p className="mt-5 text-slate-600">
@@ -34,7 +34,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F6F7F7] px-5 py-10 text-[#10232A] sm:px-8 sm:py-16">
+    <main className="min-h-screen bg-white px-5 py-10 text-[#10232A] sm:px-8 sm:py-16">
       <form
         className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]"
         onSubmit={async (event) => {

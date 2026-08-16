@@ -5,7 +5,7 @@ import { storeCourses } from "@/lib/commerce/courses";
 
 export default function CourseCatalogPage() {
   return (
-    <main className="min-h-screen bg-[#F6F7F7] text-[#10232A]">
+    <main className="min-h-screen bg-white text-[#10232A]">
       <section className="border-b border-black/10 bg-white">
         <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
           <p className="text-xs font-medium text-[#006D66]">

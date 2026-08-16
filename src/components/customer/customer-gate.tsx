@@ -17,7 +17,7 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
 
   if (session) {
     return (
-      <main className="grid min-h-screen place-items-center bg-[#F6F7F7] px-5 text-[#10232A]">
+      <main className="grid min-h-screen place-items-center bg-white px-5 text-[#10232A]">
         <section className="w-full max-w-sm border border-black/10 bg-white p-6">
           <h1 className="text-2xl font-semibold">Đăng nhập thành công</h1>
           <p className="mt-4 text-sm text-slate-600">{session.user.email}</p>
@@ -27,7 +27,7 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
   }
 
   return (
-    <main className="grid min-h-screen bg-[#F6F7F7] lg:grid-cols-[0.88fr_1.12fr]">
+    <main className="grid min-h-screen bg-white lg:grid-cols-[0.88fr_1.12fr]">
       <aside className="hidden bg-[#10232A] px-10 py-12 text-white lg:flex lg:flex-col lg:justify-between">
         <Link href="/" className="text-sm font-bold">
           DRONE VIET
