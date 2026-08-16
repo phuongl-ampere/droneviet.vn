@@ -49,7 +49,7 @@ export class Order {
   @Column({ type: "bigint", unsigned: true, default: 0, transformer: bigintVndTransformer })
   discountVnd!: number;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   promotionCode!: string | null;
 
   @Column()
@@ -58,7 +58,7 @@ export class Order {
   @Column()
   contactPhone!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   contactEmail!: string | null;
 
   @Column({ type: "text", nullable: true })

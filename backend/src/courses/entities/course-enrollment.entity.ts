@@ -16,7 +16,7 @@ export class CourseEnrollment {
   @Column()
   sessionId!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   orderId!: string | null;
 
   @Column()
@@ -25,7 +25,7 @@ export class CourseEnrollment {
   @Column()
   contactPhone!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   contactEmail!: string | null;
 
   @Column({ type: "int", unsigned: true })

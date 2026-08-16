@@ -42,7 +42,7 @@ export class Product {
   @Column({ type: "enum", enum: ProductStatus, default: ProductStatus.DRAFT })
   status!: ProductStatus;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   coverImageUrl!: string | null;
 
   @OneToMany(() => ProductVariant, (variant) => variant.product, {

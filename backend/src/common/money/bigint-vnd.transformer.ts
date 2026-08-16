@@ -13,7 +13,11 @@ export const bigintVndTransformer: ValueTransformer = {
 
     return parsed;
   },
-  to(value: number | null): string | null {
+  to(value: number | null | undefined): string | null | undefined {
+    if (value === undefined) {
+      return undefined;
+    }
+
     if (value === null) {
       return null;
     }

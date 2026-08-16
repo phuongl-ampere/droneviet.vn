@@ -40,10 +40,10 @@ export class Article {
   @Column({ type: "json", nullable: true })
   tableOfContents!: Array<{ depth: number; id: string; text: string }> | null;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   coverImageUrl!: string | null;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   seoTitle!: string | null;
 
   @Column({ type: "text", nullable: true })

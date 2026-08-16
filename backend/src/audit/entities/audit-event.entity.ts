@@ -5,7 +5,7 @@ export class AuditEvent {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   actorId!: string | null;
 
   @Column()

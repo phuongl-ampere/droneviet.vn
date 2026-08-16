@@ -20,7 +20,7 @@ export class OrderLine {
   @Column()
   productVariantId!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   courseSessionId!: string | null;
 
   @Column()

@@ -29,7 +29,7 @@ export class User {
   @Column({ type: "json" })
   roles!: UserRole[];
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   displayName!: string | null;
 
   @CreateDateColumn()

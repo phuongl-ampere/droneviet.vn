@@ -44,13 +44,13 @@ export class PaymentAttempt {
   @Column({ type: "text", nullable: true })
   checkoutUrl!: string | null;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   providerReference!: string | null;
 
   @Column({ type: "timestamp", nullable: true })
   paidAt!: Date | null;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   refundReference!: string | null;
 
   @Column({ type: "timestamp", nullable: true })

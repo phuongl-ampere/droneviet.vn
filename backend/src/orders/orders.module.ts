@@ -8,6 +8,7 @@ import { AuditModule } from "../audit/audit.module";
 import { PromotionsModule } from "../promotions/promotions.module";
 import { CoursesModule } from "../courses/courses.module";
 import { PaymentsModule } from "../payments/payments.module";
+import { AuthModule } from "../auth/auth.module";
 import { AdminOrdersController } from "./admin-orders.controller";
 import { OrdersController } from "./orders.controller";
 import { OrdersService } from "./orders.service";
@@ -16,6 +17,7 @@ import { ReservationCleanupService } from "./reservation-cleanup.service";
 @Module({
   imports: [
     PaymentsModule,
+    AuthModule,
     AuditModule,
     PromotionsModule,
     InventoryModule,

@@ -29,7 +29,7 @@ export class QuoteRequest {
   @Column()
   phone!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: "varchar", nullable: true })
   email!: string | null;
 
   @Column({

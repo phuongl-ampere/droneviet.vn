@@ -8,4 +8,8 @@ describe("bigintVndTransformer", () => {
     expect(bigintVndTransformer.to(amount)).toBe("12000000000");
     expect(bigintVndTransformer.from("12000000000")).toBe(amount);
   });
+
+  it("leaves generated bigint values undefined before database insertion", () => {
+    expect(bigintVndTransformer.to(undefined)).toBeUndefined();
+  });
 });
