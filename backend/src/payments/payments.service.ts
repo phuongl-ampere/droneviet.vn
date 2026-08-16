@@ -188,6 +188,24 @@ export class PaymentsService {
 
     if (callback.status === "PAID") {
       if (payment.order.status !== OrderStatus.PENDING_PAYMENT) {
+        if (payment.order.status === OrderStatus.PAYMENT_FAILED) {
+          payment.status = PaymentStatus.PAID;
+          payment.providerReference =
+            callback.id ?? String(callback.orderCode);
+          payment.paidAt = new Date();
+          payment.order.status = OrderStatus.REFUND_REQUESTED;
+          await paymentRepository.save(payment);
+          await orderRepository.save(payment.order);
+          await this.audit.recordWithManager(manager, {
+            action: "order.payment_late_refund_required",
+            aggregateId: payment.order.id,
+            aggregateType: "order",
+            nextState: { status: payment.order.status },
+            previousState: { status: OrderStatus.PAYMENT_FAILED },
+          });
+          return true;
+        }
+
         return false;
       }
 

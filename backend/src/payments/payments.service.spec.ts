@@ -185,6 +185,56 @@ describe("PaymentsService", () => {
     expect(order.status).toBe(OrderStatus.PAID);
   });
 
+  it("flags a late paid callback for refund after reservation expiry", async () => {
+    const order = {
+      id: "order-1",
+      status: OrderStatus.PAYMENT_FAILED,
+    };
+    const payment = {
+      amountVnd: 9_500_000,
+      id: "payment-1",
+      order,
+      orderId: "order-1",
+      provider: PaymentProvider.PAYOS,
+      providerOrderCode: 123456,
+      status: PaymentStatus.PENDING,
+    };
+    const orderRepository = { save: vi.fn(async (value) => value) };
+    const paymentRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        andWhere: vi.fn().mockReturnThis(),
+        getOne: vi.fn().mockResolvedValue(payment),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(async (value) => value),
+    };
+    const manager = {
+      getRepository: vi.fn((entity) =>
+        entity.name === "PaymentAttempt" ? paymentRepository : orderRepository,
+      ),
+    };
+    const service = new PaymentsService(
+      { transaction: vi.fn((callback) => callback(manager)) } as never,
+      { verifyWebhookSignature: vi.fn().mockReturnValue(true) } as never,
+      { commitForOrder: vi.fn() } as never,
+      { confirmEnrollmentsForOrder: vi.fn() } as never,
+      { recordWithManager: vi.fn() } as never,
+    );
+
+    await expect(
+      service.completePayosAttempt(payment as never, {
+        amount: 9_500_000,
+        orderCode: 123456,
+        status: "PAID",
+      }),
+    ).resolves.toBe(true);
+
+    expect(payment.status).toBe(PaymentStatus.PAID);
+    expect(order.status).toBe(OrderStatus.REFUND_REQUESTED);
+  });
+
   it("rejects a webhook with an invalid signature before looking up payments", async () => {
     const dataSource = { transaction: vi.fn() };
     const payos = {
