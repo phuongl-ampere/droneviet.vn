@@ -516,10 +516,79 @@ describe("OrdersService", () => {
         nextStatus: OrderStatus.REFUNDED,
         orderId: "order-1",
       }),
-    ).rejects.toThrow("PayOS refunds must be completed through the payment workflow");
+    ).rejects.toThrow("PayOS refunds require a verified refund reference");
 
     expect(reservations.restockForOrder).not.toHaveBeenCalled();
     expect(orderRepository.save).not.toHaveBeenCalled();
+  });
+
+  it("records a verified manual PayOS refund reference before restocking", async () => {
+    const order = {
+      id: "order-1",
+      lines: [],
+      paymentMethod: OrderPaymentMethod.PAYOS,
+      status: OrderStatus.REFUND_REQUESTED,
+    };
+    const payment = {
+      orderId: "order-1",
+      refundReference: null,
+      status: "paid",
+    };
+    const orderRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        getOne: vi.fn().mockResolvedValue(order),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(async (value) => value),
+    };
+    const paymentRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        andWhere: vi.fn().mockReturnThis(),
+        getOne: vi.fn().mockResolvedValue(payment),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(async (value) => value),
+    };
+    const manager = {
+      getRepository: vi.fn((entity) =>
+        entity.name === "Order" ? orderRepository : paymentRepository,
+      ),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const reservations = { restockForOrder: vi.fn() };
+    const audit = { recordWithManager: vi.fn() };
+    const service = new OrdersService(
+      dataSource as never,
+      reservations as never,
+      { releaseEnrollmentsForOrder: vi.fn() } as never,
+      audit as never,
+      {} as never,
+    );
+
+    await service.transitionOrder({
+      nextStatus: OrderStatus.REFUNDED,
+      orderId: "order-1",
+      refundReference: "PAYOS-REFUND-001",
+    });
+
+    expect(paymentRepository.save).toHaveBeenCalledWith(
+      expect.objectContaining({ refundReference: "PAYOS-REFUND-001" }),
+    );
+    expect(reservations.restockForOrder).toHaveBeenCalledWith(manager, order);
+    expect(audit.recordWithManager).toHaveBeenCalledWith(
+      manager,
+      expect.objectContaining({
+        nextState: expect.objectContaining({
+          refundReference: "PAYOS-REFUND-001",
+          status: OrderStatus.REFUNDED,
+        }),
+      }),
+    );
   });
 
   it("rejects payment status changes from the operations workflow", async () => {

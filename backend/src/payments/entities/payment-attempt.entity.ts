@@ -50,6 +50,12 @@ export class PaymentAttempt {
   @Column({ type: "timestamp", nullable: true })
   paidAt!: Date | null;
 
+  @Column({ nullable: true })
+  refundReference!: string | null;
+
+  @Column({ type: "timestamp", nullable: true })
+  refundedAt!: Date | null;
+
   @ManyToOne(() => Order, (order) => order.payments, { onDelete: "CASCADE" })
   @JoinColumn({ name: "orderId" })
   order!: Order;

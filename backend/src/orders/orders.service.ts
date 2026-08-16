@@ -11,6 +11,11 @@ import { CoursesService } from "../courses/courses.service";
 import { AuditService } from "../audit/audit.service";
 import { PromotionsService } from "../promotions/promotions.service";
 import { InventoryReservationService } from "../inventory/inventory-reservation.service";
+import {
+  PaymentAttempt,
+  PaymentProvider,
+  PaymentStatus,
+} from "../payments/entities/payment-attempt.entity";
 import { Order, OrderPaymentMethod } from "./entities/order.entity";
 import { OrderLine } from "./entities/order-line.entity";
 import { canTransitionOrder, OrderStatus } from "./order-workflow";
@@ -33,6 +38,7 @@ export interface TransitionOrderInput {
   actorId?: string;
   nextStatus: OrderStatus;
   orderId: string;
+  refundReference?: string;
 }
 
 const paymentManagedStatuses = new Set<OrderStatus>([
@@ -267,15 +273,6 @@ export class OrdersService {
         );
       }
 
-      if (
-        input.nextStatus === OrderStatus.REFUNDED &&
-        order.paymentMethod === OrderPaymentMethod.PAYOS
-      ) {
-        throw new BadRequestException(
-          "PayOS refunds must be completed through the payment workflow",
-        );
-      }
-
       const previousStatus = order.status;
       if (!canTransitionOrder(previousStatus, input.nextStatus)) {
         throw new BadRequestException(
@@ -293,6 +290,35 @@ export class OrdersService {
       }
 
       if (input.nextStatus === OrderStatus.REFUNDED) {
+        let refundReference: string | undefined;
+        if (order.paymentMethod === OrderPaymentMethod.PAYOS) {
+          refundReference = input.refundReference?.trim();
+          if (!refundReference) {
+            throw new BadRequestException(
+              "PayOS refunds require a verified refund reference",
+            );
+          }
+          const payment = await manager
+            .getRepository(PaymentAttempt)
+            .createQueryBuilder("payment")
+            .where("payment.orderId = :orderId", { orderId: order.id })
+            .andWhere("payment.provider = :provider", {
+              provider: PaymentProvider.PAYOS,
+            })
+            .andWhere("payment.status = :status", {
+              status: PaymentStatus.PAID,
+            })
+            .setLock("pessimistic_write")
+            .getOne();
+          if (!payment) {
+            throw new BadRequestException(
+              "PayOS refund requires a settled payment attempt",
+            );
+          }
+          payment.refundReference = refundReference;
+          payment.refundedAt = new Date();
+          await manager.getRepository(PaymentAttempt).save(payment);
+        }
         await this.reservations.restockForOrder(manager, order);
         await this.courses.releaseEnrollmentsForOrder(manager, order.id);
       }
@@ -304,7 +330,12 @@ export class OrdersService {
         actorId: input.actorId,
         aggregateId: order.id,
         aggregateType: "order",
-        nextState: { status: order.status },
+        nextState: {
+          ...(input.nextStatus === OrderStatus.REFUNDED && input.refundReference
+            ? { refundReference: input.refundReference.trim() }
+            : {}),
+          status: order.status,
+        },
         previousState: { status: previousStatus },
       });
 

@@ -35,6 +35,7 @@ export class AdminOrdersController {
       actorId: request.user?.sub,
       nextStatus: input.nextStatus,
       orderId,
+      refundReference: input.refundReference,
     });
   }
 }
