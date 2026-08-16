@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { MarkdownDocument } from "@/components/content/markdown-document";
 import { SectionShell } from "@/components/section-shell";
 import { getArticleBySlug, getArticles } from "@/lib/content";
 
@@ -52,11 +53,7 @@ export default async function EnglishArticlePage({ params }: ArticlePageProps) {
         >
           {article.date}
         </time>
-        <div className="space-y-6 text-[1.05rem] leading-8 text-slate-700">
-          {article.content.split(/\n{2,}/).map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </div>
+        <MarkdownDocument content={article.content} />
       </article>
     </SectionShell>
   );
