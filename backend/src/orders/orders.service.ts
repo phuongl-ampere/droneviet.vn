@@ -125,7 +125,11 @@ export class OrdersService {
         0,
       );
       const promotion = input.promotionCode
-        ? await this.promotions.resolveDiscount(input.promotionCode, subtotalVnd)
+        ? await this.promotions.consumeDiscount(
+            manager,
+            input.promotionCode,
+            subtotalVnd,
+          )
         : null;
       const discountVnd = promotion?.discountVnd ?? 0;
       const totalVnd = subtotalVnd - discountVnd;

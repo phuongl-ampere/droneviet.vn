@@ -25,4 +25,38 @@ describe("PromotionsService", () => {
       discountVnd: 1_000_000,
     });
   });
+
+  it("locks and consumes a limited promotion inside an order transaction", async () => {
+    const promo = {
+      code: "ONCE",
+      endsAt: null,
+      isActive: true,
+      maxDiscountVnd: null,
+      minimumOrderVnd: null,
+      startsAt: null,
+      type: PromoType.FIXED,
+      usageCount: 0,
+      usageLimit: 1,
+      value: 500_000,
+    };
+    const repository = {
+      createQueryBuilder: vi.fn(() => ({
+        getOne: vi.fn().mockResolvedValue(promo),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(async (value) => value),
+    };
+    const service = new PromotionsService({} as never);
+
+    await expect(
+      service.consumeDiscount(
+        { getRepository: vi.fn(() => repository) } as never,
+        " once ",
+        2_000_000,
+      ),
+    ).resolves.toEqual({ code: "ONCE", discountVnd: 500_000 });
+    expect(promo.usageCount).toBe(1);
+    expect(repository.save).toHaveBeenCalledWith(promo);
+  });
 });
