@@ -41,4 +41,41 @@ describe("AuthService", () => {
       sub: "user-catalog",
     });
   });
+
+  it("registers a customer account with the customer role", async () => {
+    const userRepository = {
+      create: vi.fn((user) => user),
+      findOneBy: vi.fn().mockResolvedValue(null),
+      save: vi.fn(async (user) => ({ ...user, id: "customer-1" })),
+    };
+    const jwtService = {
+      signAsync: vi.fn().mockResolvedValue("customer-access-token"),
+    };
+    const service = new AuthService(
+      userRepository as never,
+      jwtService as never,
+    );
+
+    await expect(
+      service.register({
+        displayName: "Nguyen Van A",
+        email: "customer@example.vn",
+        password: "StrongPassword!23",
+      }),
+    ).resolves.toEqual({
+      accessToken: "customer-access-token",
+      user: {
+        email: "customer@example.vn",
+        id: "customer-1",
+        roles: [UserRole.CUSTOMER],
+      },
+    });
+    expect(userRepository.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        displayName: "Nguyen Van A",
+        email: "customer@example.vn",
+        roles: [UserRole.CUSTOMER],
+      }),
+    );
+  });
 });

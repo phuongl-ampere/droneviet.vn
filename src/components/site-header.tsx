@@ -1,4 +1,4 @@
-import { ArrowUpRight, Mail, MessageCircle, UserRound } from "lucide-react";
+import { ArrowUpRight, Mail, MessageCircle, ShieldCheck, UserRound } from "lucide-react";
 import Link from "next/link";
 import { dronePillars } from "@/lib/drone-pillars";
 
@@ -111,12 +111,20 @@ export function SiteHeader({
                 <Mail aria-hidden="true" size={17} />
               </Link>
               <Link
-                href="/admin"
+                href="/dang-nhap"
                 aria-label="Đăng nhập"
                 title="Đăng nhập"
                 className="grid size-10 place-items-center border border-white/12 text-slate-200 transition hover:border-[#00D1C1] hover:text-[#00D1C1]"
               >
                 <UserRound aria-hidden="true" size={17} />
+              </Link>
+              <Link
+                href="/admin"
+                aria-label="Quản trị"
+                title="Quản trị"
+                className="grid size-10 place-items-center border border-white/12 text-slate-200 transition hover:border-[#00D1C1] hover:text-[#00D1C1]"
+              >
+                <ShieldCheck aria-hidden="true" size={17} />
               </Link>
             </>
           ) : null}

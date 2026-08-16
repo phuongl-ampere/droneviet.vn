@@ -8,6 +8,7 @@ import {
 
 export enum UserRole {
   CATALOG_MANAGER = "catalog_manager",
+  CUSTOMER = "customer",
   INSTRUCTOR = "instructor",
   OPERATIONS = "operations",
   SALES = "sales",

@@ -36,6 +36,10 @@ describe("SiteHeader", () => {
     ).toBe(true);
     expect(screen.getByRole("link", { name: "Đăng nhập" })).toHaveAttribute(
       "href",
+      "/dang-nhap",
+    );
+    expect(screen.getByRole("link", { name: "Quản trị" })).toHaveAttribute(
+      "href",
       "/admin",
     );
     expect(screen.getByRole("link", { name: "Zalo" })).toHaveAttribute(
