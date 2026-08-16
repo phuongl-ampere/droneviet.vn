@@ -23,7 +23,7 @@ export function StoreHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/8 bg-[#071117]/94 text-white backdrop-blur-2xl">
       <div className="mx-auto flex min-h-16 max-w-[90rem] items-center gap-5 px-5 sm:px-8">
-        <Link href="/cua-hang" className="shrink-0 text-sm font-bold">
+        <Link href="/" className="shrink-0 text-sm font-bold">
           DRONE VIET
         </Link>
         <nav

@@ -24,6 +24,10 @@ describe("StoreHeader", () => {
       "href",
       "/cua-hang",
     );
+    expect(screen.getByRole("link", { name: "DRONE VIET" })).toHaveAttribute(
+      "href",
+      "/",
+    );
     expect(screen.getByRole("button", { name: "Tìm kiếm" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Giỏ hàng (1)" })).toHaveAttribute(
       "href",
