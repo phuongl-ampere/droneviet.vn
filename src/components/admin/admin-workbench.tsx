@@ -15,6 +15,8 @@ import {
   createAdminArticle,
   createAdminProduct,
   listAdminOrders,
+  publishAdminArticle,
+  publishAdminProduct,
   publishAdminProductContent,
   transitionAdminOrder,
   type AdminOrder,
@@ -207,7 +209,8 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                       description,
                     );
                   }
-                  setLastAction("Đã lưu bản nháp sản phẩm qua Commerce API.");
+                  await publishAdminProduct(accessToken, product.id);
+                  setLastAction("Đã xuất bản sản phẩm qua Commerce API.");
                 } catch {
                   setLastAction("Không thể lưu sản phẩm qua Commerce API.");
                 }
@@ -225,7 +228,7 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                   className="inline-flex min-h-10 items-center gap-2 bg-[#10232A] px-3 text-sm font-semibold text-white hover:bg-[#006D66]"
                 >
                   <Save aria-hidden="true" size={16} />
-                  Lưu bản nháp
+                  Xuất bản
                 </button>
               </div>
 
@@ -356,12 +359,16 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                     throw new Error("Missing admin session");
                   }
 
-                  await createAdminArticle(accessToken, {
+                  const article = await createAdminArticle(accessToken, {
                     bodyMarkdown: articleBody,
                     slug: String(formData.get("articleSlug") ?? ""),
                     title: String(formData.get("articleTitle") ?? ""),
                   });
-                  setLastAction("Đã lưu bản nháp bài viết qua Commerce API.");
+                  await publishAdminArticle(accessToken, article.id, {
+                    bodyMarkdown: articleBody,
+                    title: String(formData.get("articleTitle") ?? ""),
+                  });
+                  setLastAction("Đã xuất bản bài viết qua Commerce API.");
                 } catch {
                   setLastAction("Không thể lưu bài viết qua Commerce API.");
                 }
@@ -379,7 +386,7 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                   className="inline-flex min-h-10 items-center gap-2 bg-[#10232A] px-3 text-sm font-semibold text-white hover:bg-[#006D66]"
                 >
                   <Save aria-hidden="true" size={16} />
-                  Lưu bản nháp
+                  Xuất bản
                 </button>
               </div>
 

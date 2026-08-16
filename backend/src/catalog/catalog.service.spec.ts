@@ -167,4 +167,30 @@ describe("CatalogService", () => {
     });
     expect(dataSource.transaction).toHaveBeenCalledOnce();
   });
+
+  it("publishes a configured product for the public catalog", async () => {
+    const product = {
+      id: "product-code-fleet",
+      status: ProductStatus.DRAFT,
+    };
+    const productRepository = {
+      findOneByOrFail: vi.fn().mockResolvedValue(product),
+      save: vi.fn(async (value) => value),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) =>
+        callback({ getRepository: vi.fn(() => productRepository) }),
+      ),
+    };
+    const service = new CatalogService(dataSource as never);
+
+    await expect(
+      service.publishProduct("product-code-fleet"),
+    ).resolves.toEqual(
+      expect.objectContaining({ status: ProductStatus.PUBLISHED }),
+    );
+    expect(productRepository.save).toHaveBeenCalledWith(
+      expect.objectContaining({ status: ProductStatus.PUBLISHED }),
+    );
+  });
 });

@@ -120,4 +120,14 @@ export class CatalogService {
       return product;
     });
   }
+
+  async publishProduct(productId: string): Promise<Product> {
+    return this.dataSource.transaction(async (manager) => {
+      const repository = manager.getRepository(Product);
+      const product = await repository.findOneByOrFail({ id: productId });
+
+      product.status = ProductStatus.PUBLISHED;
+      return repository.save(product);
+    });
+  }
 }

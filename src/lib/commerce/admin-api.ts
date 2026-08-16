@@ -117,6 +117,12 @@ export function publishAdminProductContent(
   }, accessToken);
 }
 
+export function publishAdminProduct(accessToken: string, productId: string) {
+  return request(`/admin/catalog/products/${productId}/publish`, {
+    method: "POST",
+  }, accessToken);
+}
+
 export function createAdminArticle(
   accessToken: string,
   payload: {
@@ -125,7 +131,21 @@ export function createAdminArticle(
     title: string;
   },
 ) {
-  return request("/admin/content/articles", {
+  return request<{ id: string }>("/admin/content/articles", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  }, accessToken);
+}
+
+export function publishAdminArticle(
+  accessToken: string,
+  articleId: string,
+  payload: {
+    bodyMarkdown: string;
+    title: string;
+  },
+) {
+  return request(`/admin/content/articles/${articleId}/publish`, {
     method: "POST",
     body: JSON.stringify(payload),
   }, accessToken);
