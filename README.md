@@ -43,6 +43,13 @@ npm run build
 The commerce API lives in `backend/` and uses MySQL migrations plus Redis-ready
 reservation workflows.
 
+Copy `.env.example` to `.env.local` so checkout, quote, guest tracking, and
+admin can reach the API:
+
+```bash
+cp .env.example .env.local
+```
+
 ```bash
 cd backend
 npm install
