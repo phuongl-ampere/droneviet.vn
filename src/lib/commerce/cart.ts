@@ -3,6 +3,7 @@ export interface CartLine {
   quantity: number;
   slug: string;
   title: string;
+  variantId?: string;
 }
 
 export function addCartLine(

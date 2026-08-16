@@ -6,6 +6,7 @@ import { UserRole } from "../auth/entities/user.entity";
 import { ContentService } from "./content.service";
 import { CreateArticleDto } from "./dto/create-article.dto";
 import { PublishArticleDto } from "./dto/publish-article.dto";
+import { PublishProductContentDto } from "./dto/publish-product-content.dto";
 
 @Controller("admin/content")
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -25,5 +26,13 @@ export class AdminContentController {
   @Post("articles/:id/publish")
   publishArticle(@Param("id") id: string, @Body() input: PublishArticleDto) {
     return this.contentService.publishArticle(id, input);
+  }
+
+  @Post("products/:id/publish")
+  publishProductContent(
+    @Param("id") id: string,
+    @Body() input: PublishProductContentDto,
+  ) {
+    return this.contentService.publishProductContent(id, input);
   }
 }

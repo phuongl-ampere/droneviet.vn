@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Order } from "./order.entity";
+import { bigintVndTransformer } from "../../common/money/bigint-vnd.transformer";
 
 @Entity("order_lines")
 export class OrderLine {
@@ -25,13 +26,13 @@ export class OrderLine {
   @Column()
   title!: string;
 
-  @Column({ type: "int", unsigned: true })
+  @Column({ type: "bigint", unsigned: true, transformer: bigintVndTransformer })
   unitPriceVnd!: number;
 
   @Column({ type: "int", unsigned: true })
   quantity!: number;
 
-  @Column({ type: "int", unsigned: true })
+  @Column({ type: "bigint", unsigned: true, transformer: bigintVndTransformer })
   subtotalVnd!: number;
 
   @ManyToOne(() => Order, (order) => order.lines, { onDelete: "CASCADE" })

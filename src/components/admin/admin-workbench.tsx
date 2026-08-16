@@ -10,10 +10,19 @@ import {
   Settings2,
 } from "lucide-react";
 import { MarkdownDocument } from "@/components/content/markdown-document";
+import {
+  createAdminArticle,
+  createAdminProduct,
+  publishAdminProductContent,
+} from "@/lib/commerce/admin-api";
 
 type AdminTab = "articles" | "products";
 
-export function AdminWorkbench() {
+interface AdminWorkbenchProps {
+  accessToken?: string;
+}
+
+export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
   const [activeTab, setActiveTab] = useState<AdminTab>("products");
   const [articleBody, setArticleBody] = useState(
     "# Drone trong lớp học STEM\n\nNội dung sẽ được render từ Markdown sau khi publish.",
@@ -69,9 +78,38 @@ export function AdminWorkbench() {
           <section className="mt-6 grid gap-5 lg:grid-cols-[minmax(0,1fr)_19rem]">
             <form
               className="border border-black/10 bg-white p-5 sm:p-7"
-              onSubmit={(event) => {
+              onSubmit={async (event) => {
                 event.preventDefault();
-                setLastAction("Đã lưu bản nháp sản phẩm.");
+                const formData = new FormData(event.currentTarget);
+
+                try {
+                  if (!accessToken) {
+                    throw new Error("Missing admin session");
+                  }
+
+                  const product = await createAdminProduct(accessToken, {
+                    name: String(formData.get("productName") ?? ""),
+                    priceVnd: Number(formData.get("priceVnd") ?? 0),
+                    purchaseMode: String(
+                      formData.get("purchaseMode") ?? "checkout",
+                    ) as "checkout" | "preorder" | "quote_only",
+                    slug: String(formData.get("slug") ?? ""),
+                    title: String(formData.get("variantTitle") ?? ""),
+                  });
+                  const description = String(
+                    formData.get("productDescription") ?? "",
+                  ).trim();
+                  if (description) {
+                    await publishAdminProductContent(
+                      accessToken,
+                      product.id,
+                      description,
+                    );
+                  }
+                  setLastAction("Đã lưu bản nháp sản phẩm qua Commerce API.");
+                } catch {
+                  setLastAction("Không thể lưu sản phẩm qua Commerce API.");
+                }
               }}
             >
               <div className="flex items-center justify-between border-b border-black/10 pb-4">
@@ -94,14 +132,16 @@ export function AdminWorkbench() {
                 <label className="grid gap-2 text-sm font-medium">
                   Tên sản phẩm
                   <input
-                    defaultValue="DV Primary Lab"
+                  defaultValue="DV Primary Lab"
+                  name="productName"
                     className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
                   />
                 </label>
                 <label className="grid gap-2 text-sm font-medium">
                   Slug
                   <input
-                    defaultValue="dv-primary-lab"
+                  defaultValue="dv-primary-lab"
+                  name="slug"
                     className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
                   />
                 </label>
@@ -123,11 +163,21 @@ export function AdminWorkbench() {
                 </button>
               </div>
 
+              <label className="mt-6 grid gap-2 text-sm font-medium">
+                Mô tả sản phẩm Markdown
+                <textarea
+                  name="productDescription"
+                  defaultValue="# DV Primary Lab\n\nDrone STEM cho lớp học tiểu học."
+                  className="min-h-40 resize-y border border-black/15 p-3 font-mono text-sm font-normal leading-6 outline-none focus:border-[#006D66]"
+                />
+              </label>
+
               <div className="mt-4 grid gap-4 border border-black/10 p-4 sm:grid-cols-[minmax(0,1fr)_10rem_12rem]">
                 <label className="grid gap-2 text-sm font-medium">
                   Variant
                   <input
                     defaultValue="Standard kit"
+                    name="variantTitle"
                     className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
                   />
                 </label>
@@ -136,6 +186,7 @@ export function AdminWorkbench() {
                   <input
                     aria-label="Giá VND"
                     defaultValue={9_500_000}
+                    name="priceVnd"
                     inputMode="numeric"
                     type="number"
                     className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
@@ -145,6 +196,7 @@ export function AdminWorkbench() {
                   Purchase mode
                   <select
                     defaultValue="checkout"
+                    name="purchaseMode"
                     className="min-h-11 border border-black/15 bg-white px-3 font-normal outline-none focus:border-[#006D66]"
                   >
                     <option value="checkout">Checkout</option>
@@ -182,9 +234,24 @@ export function AdminWorkbench() {
           <section className="mt-6 grid gap-5 lg:grid-cols-2">
             <form
               className="border border-black/10 bg-white p-5 sm:p-7"
-              onSubmit={(event) => {
+              onSubmit={async (event) => {
                 event.preventDefault();
-                setLastAction("Đã lưu bản nháp bài viết.");
+                const formData = new FormData(event.currentTarget);
+
+                try {
+                  if (!accessToken) {
+                    throw new Error("Missing admin session");
+                  }
+
+                  await createAdminArticle(accessToken, {
+                    bodyMarkdown: articleBody,
+                    slug: String(formData.get("articleSlug") ?? ""),
+                    title: String(formData.get("articleTitle") ?? ""),
+                  });
+                  setLastAction("Đã lưu bản nháp bài viết qua Commerce API.");
+                } catch {
+                  setLastAction("Không thể lưu bài viết qua Commerce API.");
+                }
               }}
             >
               <div className="flex items-center justify-between border-b border-black/10 pb-4">
@@ -207,13 +274,16 @@ export function AdminWorkbench() {
                 Tiêu đề
                 <input
                   defaultValue="Drone trong lớp học STEM"
+                  name="articleTitle"
                   className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
                 />
               </label>
+              <input type="hidden" name="articleSlug" value="drone-trong-lop-hoc-stem" />
               <label className="mt-5 grid gap-2 text-sm font-medium">
                 Nội dung Markdown
                 <textarea
                   aria-label="Nội dung Markdown"
+                  name="articleBody"
                   value={articleBody}
                   onChange={(event) => setArticleBody(event.target.value)}
                   className="min-h-72 resize-y border border-black/15 p-3 font-mono text-sm font-normal leading-6 outline-none focus:border-[#006D66]"

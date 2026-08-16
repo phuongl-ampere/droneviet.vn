@@ -188,6 +188,7 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
                   priceVnd={commerceProduct.priceVnd}
                   slug={commerceProduct.slug}
                   title={commerceProduct.name}
+                  variantId={commerceProduct.variantId}
                 />
               </div>
             ) : (

@@ -8,10 +8,19 @@ describe("OrdersController", () => {
     const ordersService = {
       createOrder: vi.fn().mockResolvedValue({
         orderNumber: "DV-12345678",
+        paymentMethod: OrderPaymentMethod.PAYOS,
         status: OrderStatus.PENDING_PAYMENT,
       }),
     };
-    const controller = new OrdersController(ordersService as never);
+    const paymentsService = {
+      createPayosCheckout: vi.fn().mockResolvedValue({
+        checkoutUrl: "https://pay.example/checkout",
+      }),
+    };
+    const controller = new OrdersController(
+      ordersService as never,
+      paymentsService as never,
+    );
 
     await expect(
       controller.createOrder({
@@ -21,8 +30,12 @@ describe("OrdersController", () => {
         paymentMethod: OrderPaymentMethod.PAYOS,
       }),
     ).resolves.toEqual({
-      orderNumber: "DV-12345678",
-      status: OrderStatus.PENDING_PAYMENT,
+      checkoutUrl: "https://pay.example/checkout",
+      order: {
+        orderNumber: "DV-12345678",
+        paymentMethod: OrderPaymentMethod.PAYOS,
+        status: OrderStatus.PENDING_PAYMENT,
+      },
     });
   });
 });

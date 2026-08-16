@@ -7,6 +7,9 @@ import { User } from "../auth/entities/user.entity";
 import { OrderLine } from "../orders/entities/order-line.entity";
 import { Order } from "../orders/entities/order.entity";
 import { QuoteRequest } from "../quotes/entities/quote-request.entity";
+import { InventoryItem } from "../inventory/entities/inventory-item.entity";
+import { PaymentAttempt } from "../payments/entities/payment-attempt.entity";
+import { ProductContent } from "../content/entities/product-content.entity";
 import { createDatabaseOptions } from "./data-source";
 
 describe("createDatabaseOptions", () => {
@@ -37,8 +40,11 @@ describe("createDatabaseOptions", () => {
         Order,
         OrderLine,
         QuoteRequest,
+        InventoryItem,
+        PaymentAttempt,
+        ProductContent,
       ]),
     );
-    expect(options.migrations).toHaveLength(5);
+    expect(options.migrations).toHaveLength(8);
   });
 });

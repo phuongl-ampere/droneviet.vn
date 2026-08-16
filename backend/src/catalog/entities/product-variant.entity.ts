@@ -4,10 +4,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Product } from "./product.entity";
+import { InventoryItem } from "../../inventory/entities/inventory-item.entity";
+import { bigintVndTransformer } from "../../common/money/bigint-vnd.transformer";
 
 export enum PurchaseMode {
   CHECKOUT = "checkout",
@@ -29,10 +32,15 @@ export class ProductVariant {
   @Column()
   title!: string;
 
-  @Column({ type: "int", unsigned: true })
+  @Column({ type: "bigint", unsigned: true, transformer: bigintVndTransformer })
   priceVnd!: number;
 
-  @Column({ type: "int", unsigned: true, nullable: true })
+  @Column({
+    type: "bigint",
+    unsigned: true,
+    nullable: true,
+    transformer: bigintVndTransformer,
+  })
   compareAtVnd!: number | null;
 
   @Column({ type: "enum", enum: PurchaseMode })
@@ -46,6 +54,9 @@ export class ProductVariant {
   })
   @JoinColumn({ name: "productId" })
   product!: Product;
+
+  @OneToOne(() => InventoryItem, (inventory) => inventory.productVariant)
+  inventory!: InventoryItem | null;
 
   @CreateDateColumn()
   createdAt!: Date;

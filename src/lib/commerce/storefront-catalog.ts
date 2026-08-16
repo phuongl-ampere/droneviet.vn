@@ -16,6 +16,7 @@ export interface StoreProduct {
   availability: StoreAvailability;
   purchaseMode: StorePurchaseMode;
   priceVnd: number;
+  variantId: string;
   compareAtVnd?: number;
   badge?: string;
   specs: Array<{ label: string; value: string }>;
@@ -26,6 +27,7 @@ export interface StoreProductFilter {
   availability?: StoreAvailability;
   collection?: StoreCollection;
   purchaseMode?: StorePurchaseMode;
+  query?: string;
 }
 
 export const storeProducts: StoreProduct[] = [
@@ -37,6 +39,7 @@ export const storeProducts: StoreProduct[] = [
     availability: "in_stock",
     purchaseMode: "checkout",
     priceVnd: 9_500_000,
+    variantId: "11111111-1111-4111-8111-111111111111",
     badge: "Bán chạy",
     accent: "ice",
     specs: [
@@ -52,6 +55,7 @@ export const storeProducts: StoreProduct[] = [
     availability: "in_stock",
     purchaseMode: "checkout",
     priceVnd: 24_900_000,
+    variantId: "22222222-2222-4222-8222-222222222222",
     compareAtVnd: 27_500_000,
     accent: "aqua",
     specs: [
@@ -67,6 +71,7 @@ export const storeProducts: StoreProduct[] = [
     availability: "preorder",
     purchaseMode: "preorder",
     priceVnd: 35_900_000,
+    variantId: "33333333-3333-4333-8333-333333333333",
     badge: "Đặt trước",
     accent: "graphite",
     specs: [
@@ -82,6 +87,7 @@ export const storeProducts: StoreProduct[] = [
     availability: "quote_only",
     purchaseMode: "quote_only",
     priceVnd: 59_000_000,
+    variantId: "44444444-4444-4444-8444-444444444444",
     badge: "Báo giá lab",
     accent: "sand",
     specs: [
@@ -97,6 +103,7 @@ export const storeProducts: StoreProduct[] = [
     availability: "in_stock",
     purchaseMode: "checkout",
     priceVnd: 12_800_000,
+    variantId: "55555555-5555-4555-8555-555555555555",
     accent: "ice",
     specs: [
       { label: "Đào tạo", value: "1-2 ngày" },
@@ -119,6 +126,18 @@ export function filterStoreProducts(
     }
 
     if (filter.purchaseMode && product.purchaseMode !== filter.purchaseMode) {
+      return false;
+    }
+
+    const query = filter.query?.trim().toLocaleLowerCase();
+    if (
+      query &&
+      ![
+        product.name,
+        product.summary,
+        ...product.specs.flatMap((spec) => [spec.label, spec.value]),
+      ].some((value) => value.toLocaleLowerCase().includes(query))
+    ) {
       return false;
     }
 

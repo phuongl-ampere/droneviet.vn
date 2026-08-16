@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/components/store/cart-provider";
+import { submitCheckout } from "@/lib/commerce/checkout";
 import { formatVnd } from "@/lib/commerce/storefront-catalog";
 
 type PaymentMethod = "bank_transfer" | "cod" | "payos";
@@ -11,6 +12,7 @@ export default function CheckoutPage() {
   const { lines, totalVnd } = useCart();
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("payos");
   const [statusMessage, setStatusMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (lines.length === 0) {
     return (
@@ -35,11 +37,40 @@ export default function CheckoutPage() {
     <main className="min-h-screen bg-[#F6F7F7] px-5 py-10 text-[#10232A] sm:px-8 sm:py-16">
       <form
         className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]"
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
-          setStatusMessage(
-            "Yêu cầu checkout đã sẵn sàng. PayOS redirect sẽ được tạo bởi Commerce API.",
-          );
+          setIsSubmitting(true);
+          setStatusMessage("");
+
+          try {
+            const formData = new FormData(event.currentTarget);
+            const result = (await submitCheckout({
+              contactEmail: String(formData.get("contactEmail") ?? "") || undefined,
+              contactName: String(formData.get("contactName") ?? ""),
+              contactPhone: String(formData.get("contactPhone") ?? ""),
+              lines,
+              paymentMethod,
+              shippingAddress:
+                String(formData.get("shippingAddress") ?? "") || undefined,
+            })) as { checkoutUrl?: string; order?: { orderNumber?: string } };
+
+            if (result.checkoutUrl) {
+              window.location.assign(result.checkoutUrl);
+              return;
+            }
+
+            setStatusMessage(
+              `Đơn hàng ${result.order?.orderNumber ?? ""} đã được tạo.`,
+            );
+          } catch (error) {
+            setStatusMessage(
+              error instanceof Error
+                ? error.message
+                : "Checkout could not be created",
+            );
+          } finally {
+            setIsSubmitting(false);
+          }
         }}
       >
         <section className="space-y-8">
@@ -57,6 +88,7 @@ export default function CheckoutPage() {
                 Họ và tên
                 <input
                   required
+                  name="contactName"
                   className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
                 />
               </label>
@@ -64,6 +96,7 @@ export default function CheckoutPage() {
                 Số điện thoại
                 <input
                   required
+                  name="contactPhone"
                   inputMode="tel"
                   className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
                 />
@@ -72,6 +105,7 @@ export default function CheckoutPage() {
                 Email
                 <input
                   type="email"
+                  name="contactEmail"
                   className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
                 />
               </label>
@@ -84,6 +118,7 @@ export default function CheckoutPage() {
               Địa chỉ nhận hàng
               <input
                 required
+                name="shippingAddress"
                 className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
               />
             </label>
@@ -159,9 +194,10 @@ export default function CheckoutPage() {
           </div>
           <button
             type="submit"
+            disabled={isSubmitting}
             className="mt-6 flex min-h-11 w-full items-center justify-center bg-[#10232A] px-4 text-sm font-semibold text-white hover:bg-[#006D66]"
           >
-            Đặt đơn hàng
+            {isSubmitting ? "Đang tạo đơn..." : "Đặt đơn hàng"}
           </button>
           {statusMessage ? (
             <p className="mt-4 border-l-2 border-[#00A99B] pl-3 text-xs leading-5 text-slate-600">

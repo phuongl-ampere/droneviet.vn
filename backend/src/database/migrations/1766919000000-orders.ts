@@ -21,6 +21,14 @@ export class OrdersMigration1766919000000 implements MigrationInterface {
             isUnique: true,
           },
           {
+            name: "paymentOrderCode",
+            type: "bigint",
+            unsigned: true,
+            isGenerated: true,
+            generationStrategy: "increment",
+            isUnique: true,
+          },
+          {
             name: "status",
             type: "enum",
             enum: [
@@ -40,7 +48,7 @@ export class OrdersMigration1766919000000 implements MigrationInterface {
             type: "enum",
             enum: ["payos", "cod", "bank_transfer"],
           },
-          { name: "totalVnd", type: "int", unsigned: true },
+          { name: "totalVnd", type: "bigint", unsigned: true },
           { name: "contactName", type: "varchar", length: "255" },
           { name: "contactPhone", type: "varchar", length: "64" },
           {
@@ -74,9 +82,9 @@ export class OrdersMigration1766919000000 implements MigrationInterface {
           { name: "productVariantId", type: "varchar", length: "36" },
           { name: "sku", type: "varchar", length: "255" },
           { name: "title", type: "varchar", length: "512" },
-          { name: "unitPriceVnd", type: "int", unsigned: true },
+          { name: "unitPriceVnd", type: "bigint", unsigned: true },
           { name: "quantity", type: "int", unsigned: true },
-          { name: "subtotalVnd", type: "int", unsigned: true },
+          { name: "subtotalVnd", type: "bigint", unsigned: true },
           {
             name: "createdAt",
             type: "timestamp",

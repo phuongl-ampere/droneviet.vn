@@ -12,6 +12,7 @@ interface StorePageProps {
   searchParams?: Promise<{
     availability?: StoreAvailability;
     collection?: StoreCollection;
+    q?: string;
   }>;
 }
 
@@ -29,7 +30,11 @@ const availability: Array<{ label: string; value: StoreAvailability }> = [
 ];
 
 function filterHref(
-  next: Partial<{ availability: StoreAvailability; collection: StoreCollection }>,
+  next: Partial<{
+    availability: StoreAvailability;
+    collection: StoreCollection;
+    q: string;
+  }>,
 ) {
   const params = new URLSearchParams();
 
@@ -41,13 +46,20 @@ function filterHref(
     params.set("availability", next.availability);
   }
 
+  if (next.q) {
+    params.set("q", next.q);
+  }
+
   const query = params.toString();
   return query ? `/cua-hang?${query}` : "/cua-hang";
 }
 
 export default async function StorePage({ searchParams }: StorePageProps) {
   const filters = (await searchParams) ?? {};
-  const products = filterStoreProducts(storeProducts, filters);
+  const products = filterStoreProducts(storeProducts, {
+    ...filters,
+    query: filters.q,
+  });
 
   return (
     <main className="min-h-screen bg-[#F6F7F7] text-[#10232A]">
@@ -70,7 +82,10 @@ export default async function StorePage({ searchParams }: StorePageProps) {
             <p className="text-sm font-semibold">Danh mục</p>
             <nav className="mt-3 space-y-1" aria-label="Danh mục cửa hàng">
               <Link
-                href={filterHref({ availability: filters.availability })}
+                href={filterHref({
+                  availability: filters.availability,
+                  q: filters.q,
+                })}
                 className="block py-2 text-sm text-slate-600 hover:text-[#006D66]"
               >
                 Tất cả thiết bị
@@ -81,6 +96,7 @@ export default async function StorePage({ searchParams }: StorePageProps) {
                   href={filterHref({
                     availability: filters.availability,
                     collection: collection.value,
+                    q: filters.q,
                   })}
                   className={`block py-2 text-sm ${
                     filters.collection === collection.value
@@ -102,6 +118,7 @@ export default async function StorePage({ searchParams }: StorePageProps) {
                   href={filterHref({
                     collection: filters.collection,
                     availability: item.value,
+                    q: filters.q,
                   })}
                   className={`block py-2 text-sm ${
                     filters.availability === item.value
@@ -121,13 +138,50 @@ export default async function StorePage({ searchParams }: StorePageProps) {
             <p className="text-sm text-slate-600">
               {products.length} thiết bị
             </p>
-            <button
-              type="button"
-              className="inline-flex min-h-10 items-center gap-2 border border-black/15 px-3 text-sm font-semibold lg:hidden"
-            >
-              <SlidersHorizontal aria-hidden="true" size={16} />
-              Bộ lọc
-            </button>
+            <details className="relative lg:hidden">
+              <summary className="inline-flex min-h-10 cursor-pointer list-none items-center gap-2 border border-black/15 px-3 text-sm font-semibold">
+                <SlidersHorizontal aria-hidden="true" size={16} />
+                Bộ lọc
+              </summary>
+              <div className="absolute right-0 top-12 z-10 w-64 border border-black/15 bg-white p-4 shadow-xl">
+                <p className="text-xs font-semibold uppercase text-slate-500">
+                  Danh mục
+                </p>
+                <div className="mt-2 grid gap-1">
+                  {collections.map((collection) => (
+                    <Link
+                      key={collection.value}
+                      href={filterHref({
+                        availability: filters.availability,
+                        collection: collection.value,
+                        q: filters.q,
+                      })}
+                      className="py-2 text-sm text-slate-700"
+                    >
+                      {collection.label}
+                    </Link>
+                  ))}
+                </div>
+                <p className="mt-4 border-t border-black/10 pt-4 text-xs font-semibold uppercase text-slate-500">
+                  Tình trạng
+                </p>
+                <div className="mt-2 grid gap-1">
+                  {availability.map((item) => (
+                    <Link
+                      key={item.value}
+                      href={filterHref({
+                        availability: item.value,
+                        collection: filters.collection,
+                        q: filters.q,
+                      })}
+                      className="py-2 text-sm text-slate-700"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </details>
           </div>
           <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {products.map((product) => (

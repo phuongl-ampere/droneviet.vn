@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { bigintVndTransformer } from "../../common/money/bigint-vnd.transformer";
 
 export enum QuoteStatus {
   CONVERTED = "converted",
@@ -31,7 +32,12 @@ export class QuoteRequest {
   @Column({ nullable: true })
   email!: string | null;
 
-  @Column({ type: "int", unsigned: true, nullable: true })
+  @Column({
+    type: "bigint",
+    unsigned: true,
+    nullable: true,
+    transformer: bigintVndTransformer,
+  })
   budgetVnd!: number | null;
 
   @Column({ type: "int", unsigned: true })

@@ -69,10 +69,10 @@ export class InitialCatalogMigration1766918700000
             isUnique: true,
           },
           { name: "title", type: "varchar", length: "255" },
-          { name: "priceVnd", type: "int", unsigned: true },
+          { name: "priceVnd", type: "bigint", unsigned: true },
           {
             name: "compareAtVnd",
-            type: "int",
+            type: "bigint",
             unsigned: true,
             isNullable: true,
           },

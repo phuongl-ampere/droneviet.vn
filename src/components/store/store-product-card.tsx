@@ -81,6 +81,7 @@ export function StoreProductCard({ product }: StoreProductCardProps) {
               priceVnd={product.priceVnd}
               slug={product.slug}
               title={product.name}
+              variantId={product.variantId}
             />
           ) : (
             <Link

@@ -18,4 +18,12 @@ describe("filterStoreProducts", () => {
       }).every((product) => product.purchaseMode === "checkout"),
     ).toBe(true);
   });
+
+  it("matches a product name or summary from a storefront search query", () => {
+    expect(
+      filterStoreProducts(storeProducts, { query: "telemetry" }).map(
+        (product) => product.slug,
+      ),
+    ).toEqual(["dv-ai-vision", "dv-research-platform"]);
+  });
 });

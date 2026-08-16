@@ -28,6 +28,14 @@ export class ContentRevision {
   @Column({ type: "json" })
   tableOfContents!: Array<{ depth: number; id: string; text: string }>;
 
+  @Column({ type: "json" })
+  metadata!: {
+    seoDescription: string | null;
+    seoTitle: string | null;
+    summary: string | null;
+    title: string;
+  };
+
   @ManyToOne(() => Article, (article) => article.revisions, {
     onDelete: "CASCADE",
   })

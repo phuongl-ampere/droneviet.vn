@@ -1,5 +1,5 @@
-import { AdminWorkbench } from "@/components/admin/admin-workbench";
+import { AdminGate } from "@/components/admin/admin-gate";
 
 export default function AdminPage() {
-  return <AdminWorkbench />;
+  return <AdminGate />;
 }

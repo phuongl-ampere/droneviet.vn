@@ -8,6 +8,7 @@ import { ContentModule } from "./content/content.module";
 import { DatabaseModule } from "./database/database.module";
 import { OrdersModule } from "./orders/orders.module";
 import { QuotesModule } from "./quotes/quotes.module";
+import { PaymentsModule } from "./payments/payments.module";
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { QuotesModule } from "./quotes/quotes.module";
     ContentModule,
     OrdersModule,
     QuotesModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

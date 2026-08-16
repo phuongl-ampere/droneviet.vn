@@ -7,12 +7,14 @@ interface AddToCartButtonProps {
   priceVnd: number;
   slug: string;
   title: string;
+  variantId?: string;
 }
 
 export function AddToCartButton({
   priceVnd,
   slug,
   title,
+  variantId,
 }: AddToCartButtonProps) {
   const { addLine } = useCart();
 
@@ -25,6 +27,7 @@ export function AddToCartButton({
           quantity: 1,
           slug,
           title,
+          variantId,
         })
       }
       className="inline-flex min-h-10 items-center gap-2 bg-[#10232A] px-3.5 text-sm font-semibold text-white transition hover:bg-[#006D66]"

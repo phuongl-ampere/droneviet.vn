@@ -8,6 +8,8 @@ import {
 } from "typeorm";
 import { OrderLine } from "./order-line.entity";
 import { OrderStatus } from "../order-workflow";
+import { bigintVndTransformer } from "../../common/money/bigint-vnd.transformer";
+import { PaymentAttempt } from "../../payments/entities/payment-attempt.entity";
 
 export enum OrderPaymentMethod {
   BANK_TRANSFER = "bank_transfer",
@@ -23,13 +25,22 @@ export class Order {
   @Column({ unique: true })
   orderNumber!: string;
 
+  @Column({
+    type: "bigint",
+    unsigned: true,
+    unique: true,
+    generated: "increment",
+    transformer: bigintVndTransformer,
+  })
+  paymentOrderCode!: number;
+
   @Column({ type: "enum", enum: OrderStatus })
   status!: OrderStatus;
 
   @Column({ type: "enum", enum: OrderPaymentMethod })
   paymentMethod!: OrderPaymentMethod;
 
-  @Column({ type: "int", unsigned: true })
+  @Column({ type: "bigint", unsigned: true, transformer: bigintVndTransformer })
   totalVnd!: number;
 
   @Column()
@@ -46,6 +57,9 @@ export class Order {
 
   @OneToMany(() => OrderLine, (line) => line.order)
   lines!: OrderLine[];
+
+  @OneToMany(() => PaymentAttempt, (payment) => payment.order)
+  payments!: PaymentAttempt[];
 
   @CreateDateColumn()
   createdAt!: Date;

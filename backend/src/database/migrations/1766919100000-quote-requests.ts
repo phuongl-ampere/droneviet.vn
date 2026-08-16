@@ -20,7 +20,12 @@ export class QuoteRequestsMigration1766919100000
             length: "255",
             isNullable: true,
           },
-          { name: "budgetVnd", type: "int", unsigned: true, isNullable: true },
+          {
+            name: "budgetVnd",
+            type: "bigint",
+            unsigned: true,
+            isNullable: true,
+          },
           { name: "quantity", type: "int", unsigned: true },
           { name: "requirements", type: "text", isNullable: true },
           {

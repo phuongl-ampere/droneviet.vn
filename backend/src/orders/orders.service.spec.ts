@@ -1,22 +1,32 @@
 import { describe, expect, it, vi } from "vitest";
 import { PurchaseMode } from "../catalog/entities/product-variant.entity";
+import { OrderPaymentMethod } from "./entities/order.entity";
 import { OrderStatus } from "./order-workflow";
 import { OrdersService } from "./orders.service";
 
 describe("OrdersService", () => {
   it("recalculates direct-purchase SKU prices and snapshots order lines", async () => {
     const variantRepository = {
-      find: vi.fn().mockResolvedValue([
-        {
-          id: "variant-primary-lab",
-          isActive: true,
-          priceVnd: 9_500_000,
-          product: { name: "DV Primary Lab" },
-          purchaseMode: PurchaseMode.CHECKOUT,
-          sku: "DV-PL-STD",
-          title: "Standard kit",
-        },
-      ]),
+      createQueryBuilder: vi.fn(() => ({
+        getMany: vi.fn().mockResolvedValue([
+          {
+            id: "variant-primary-lab",
+            inventory: { id: "inventory-primary", onHand: 3, reserved: 0 },
+            isActive: true,
+            priceVnd: 9_500_000,
+            product: { name: "DV Primary Lab", status: "published" },
+            purchaseMode: PurchaseMode.CHECKOUT,
+            sku: "DV-PL-STD",
+            title: "Standard kit",
+          },
+        ]),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+    };
+    const inventoryRepository = {
+      save: vi.fn(),
     };
     const orderRepository = {
       create: vi.fn((order) => order),
@@ -26,10 +36,19 @@ describe("OrdersService", () => {
       create: vi.fn((line) => line),
       save: vi.fn(async (lines) => lines),
     };
+    const manager = {
+      getRepository: vi.fn((entity) => {
+        if (entity.name === "ProductVariant") return variantRepository;
+        if (entity.name === "InventoryItem") return inventoryRepository;
+        if (entity.name === "Order") return orderRepository;
+        return orderLineRepository;
+      }),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
     const service = new OrdersService(
-      variantRepository as never,
-      orderRepository as never,
-      orderLineRepository as never,
+      dataSource as never,
     );
 
     await expect(
@@ -37,7 +56,7 @@ describe("OrdersService", () => {
         contactName: "Nguyen Van A",
         contactPhone: "0900000000",
         lines: [{ quantity: 2, variantId: "variant-primary-lab" }],
-        paymentMethod: "payos",
+        paymentMethod: OrderPaymentMethod.PAYOS,
       }),
     ).resolves.toEqual(
       expect.objectContaining({
@@ -53,5 +72,50 @@ describe("OrdersService", () => {
         unitPriceVnd: 9_500_000,
       }),
     );
+    expect(dataSource.transaction).toHaveBeenCalledOnce();
+    expect(inventoryRepository.save).toHaveBeenCalledWith(
+      expect.objectContaining({ reserved: 2 }),
+    );
+  });
+
+  it("rejects an active variant whose parent product is still a draft", async () => {
+    const variantRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        getMany: vi.fn().mockResolvedValue([
+          {
+            id: "variant-draft",
+            inventory: { id: "inventory-draft", onHand: 1, reserved: 0 },
+            isActive: true,
+            priceVnd: 9_500_000,
+            product: { name: "Draft kit", status: "draft" },
+            purchaseMode: PurchaseMode.CHECKOUT,
+            sku: "DV-DRAFT",
+            title: "Draft",
+          },
+        ]),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+    };
+    const manager = {
+      getRepository: vi.fn((entity) => {
+        if (entity.name === "ProductVariant") return variantRepository;
+        return { create: vi.fn(), save: vi.fn() };
+      }),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const service = new OrdersService(dataSource as never);
+
+    await expect(
+      service.createOrder({
+        contactName: "Nguyen Van A",
+        contactPhone: "0900000000",
+        lines: [{ quantity: 1, variantId: "variant-draft" }],
+        paymentMethod: OrderPaymentMethod.PAYOS,
+      }),
+    ).rejects.toThrow("Variant variant-draft is unavailable");
   });
 });
