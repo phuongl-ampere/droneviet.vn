@@ -60,49 +60,8 @@ export class CommerceHardeningMigration1766919400000
   }
 
   async down(queryRunner: QueryRunner): Promise<void> {
-    if (
-      await this.indexExists(
-        queryRunner,
-        "content_revisions",
-        "UQ_content_revisions_article_revision",
-      )
-    ) {
-      await queryRunner.query(
-        "ALTER TABLE `content_revisions` DROP INDEX `UQ_content_revisions_article_revision`",
-      );
-    }
-    if (
-      await this.columnExists(queryRunner, "content_revisions", "metadata")
-    ) {
-      await queryRunner.query(
-        "ALTER TABLE `content_revisions` DROP COLUMN `metadata`",
-      );
-    }
-    await queryRunner.query(
-      "ALTER TABLE `quote_requests` MODIFY `budgetVnd` INT UNSIGNED NULL",
-    );
-    await queryRunner.query(
-      "ALTER TABLE `order_lines` MODIFY `unitPriceVnd` INT UNSIGNED NOT NULL, MODIFY `subtotalVnd` INT UNSIGNED NOT NULL",
-    );
-    if (await this.columnExists(queryRunner, "orders", "paymentOrderCode")) {
-      await queryRunner.query(
-        "ALTER TABLE `orders` DROP COLUMN `paymentOrderCode`",
-      );
-    }
-    if (await this.columnExists(queryRunner, "orders", "reservationExpiresAt")) {
-      await queryRunner.query(
-        "ALTER TABLE `orders` DROP COLUMN `reservationExpiresAt`",
-      );
-    }
-    await queryRunner.query(
-      "ALTER TABLE `orders` MODIFY `totalVnd` INT UNSIGNED NOT NULL",
-    );
-    await queryRunner.query(
-      "ALTER TABLE `product_variants` MODIFY `priceVnd` INT UNSIGNED NOT NULL, MODIFY `compareAtVnd` INT UNSIGNED NULL",
-    );
-    await queryRunner.query("DELETE FROM `products` WHERE `kind` = 'course'");
-    await queryRunner.query(
-      "ALTER TABLE `products` MODIFY `kind` ENUM('accessory', 'bundle', 'drone', 'education_kit') NOT NULL",
+    throw new Error(
+      "CommerceHardeningMigration1766919400000 is forward-only because it safely upgrades both historical and intermediate development schemas. Restore from backup to roll back after this migration.",
     );
   }
 

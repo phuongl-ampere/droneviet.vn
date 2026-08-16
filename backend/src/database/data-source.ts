@@ -11,6 +11,9 @@ import { QuoteRequest } from "../quotes/entities/quote-request.entity";
 import { InventoryItem } from "../inventory/entities/inventory-item.entity";
 import { PaymentAttempt } from "../payments/entities/payment-attempt.entity";
 import { ProductContent } from "../content/entities/product-content.entity";
+import { Course } from "../courses/entities/course.entity";
+import { CourseSession } from "../courses/entities/course-session.entity";
+import { CourseEnrollment } from "../courses/entities/course-enrollment.entity";
 import { InitialCatalogMigration1766918700000 } from "./migrations/1766918700000-initial-catalog";
 import { ContentMigration1766918800000 } from "./migrations/1766918800000-content";
 import { UsersMigration1766918900000 } from "./migrations/1766918900000-users";
@@ -20,6 +23,7 @@ import { InventoryMigration1766919050000 } from "./migrations/1766919050000-inve
 import { PaymentsMigration1766919200000 } from "./migrations/1766919200000-payments";
 import { ProductContentMigration1766919300000 } from "./migrations/1766919300000-product-content";
 import { CommerceHardeningMigration1766919400000 } from "./migrations/1766919400000-commerce-hardening";
+import { CoursesMigration1766919500000 } from "./migrations/1766919500000-courses";
 
 export function createDatabaseOptions(
   environment: NodeJS.ProcessEnv,
@@ -44,6 +48,9 @@ export function createDatabaseOptions(
       InventoryItem,
       PaymentAttempt,
       ProductContent,
+      Course,
+      CourseSession,
+      CourseEnrollment,
     ],
     migrations: [
       InitialCatalogMigration1766918700000,
@@ -55,6 +62,7 @@ export function createDatabaseOptions(
       PaymentsMigration1766919200000,
       ProductContentMigration1766919300000,
       CommerceHardeningMigration1766919400000,
+      CoursesMigration1766919500000,
     ],
     synchronize: false,
   };
