@@ -163,11 +163,12 @@ export function transitionAdminOrder(
   accessToken: string,
   orderId: string,
   nextStatus: AdminOrderStatus,
+  refundReference?: string,
 ) {
   return request<AdminOrder>(
     `/admin/orders/${orderId}/transition`,
     {
-      body: JSON.stringify({ nextStatus }),
+      body: JSON.stringify({ nextStatus, refundReference }),
       method: "POST",
     },
     accessToken,

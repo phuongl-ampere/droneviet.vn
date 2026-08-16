@@ -52,7 +52,7 @@ const orderTransitions: Record<AdminOrderStatus, AdminOrderStatus[]> = {
 function availableOrderTransitions(order: AdminOrder): AdminOrderStatus[] {
   if (
     order.paymentMethod === "payos" &&
-    (order.status === "pending_payment" || order.status === "refund_requested")
+    order.status === "pending_payment"
   ) {
     return [];
   }
@@ -85,6 +85,9 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
   const [selectedTransitions, setSelectedTransitions] = useState<
     Record<string, AdminOrderStatus>
   >({});
+  const [refundReferences, setRefundReferences] = useState<Record<string, string>>(
+    {},
+  );
   const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -563,6 +566,24 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                                     </option>
                                   ))}
                                 </select>
+                                {nextStatus === "refunded" &&
+                                order.paymentMethod === "payos" ? (
+                                  <label className="grid gap-1 text-xs font-medium text-slate-600">
+                                    Mã hoàn tiền
+                                    <input
+                                      required
+                                      aria-label={`Mã hoàn tiền ${order.orderNumber}`}
+                                      value={refundReferences[order.id] ?? ""}
+                                      onChange={(event) =>
+                                        setRefundReferences((current) => ({
+                                          ...current,
+                                          [order.id]: event.target.value,
+                                        }))
+                                      }
+                                      className="min-h-10 border border-black/15 px-2 text-sm outline-none focus:border-[#006D66]"
+                                    />
+                                  </label>
+                                ) : null}
                                 <button
                                   type="button"
                                   disabled={
@@ -570,6 +591,18 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                                   }
                                   onClick={async () => {
                                     if (!accessToken || !nextStatus) {
+                                      return;
+                                    }
+                                    const refundReference =
+                                      refundReferences[order.id]?.trim();
+                                    if (
+                                      nextStatus === "refunded" &&
+                                      order.paymentMethod === "payos" &&
+                                      !refundReference
+                                    ) {
+                                      setOrdersError(
+                                        `Nhập mã hoàn tiền cho ${order.orderNumber}.`,
+                                      );
                                       return;
                                     }
 
@@ -580,6 +613,7 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                                         accessToken,
                                         order.id,
                                         nextStatus,
+                                        refundReference,
                                       );
                                       setOrders((current) =>
                                         current.map((currentOrder) =>
