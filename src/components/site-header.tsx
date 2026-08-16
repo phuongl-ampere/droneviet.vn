@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { dronePillars } from "@/lib/drone-pillars";
 
 type LinkItem = {
   label: string;
@@ -49,17 +50,42 @@ export function SiteHeader({
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label={navigationLabel}>
-          {navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="group relative py-3 text-[13px] font-medium text-slate-300 transition hover:text-white"
-            >
-              {item.label}
-              <span className="absolute inset-x-0 bottom-1 h-px origin-left scale-x-0 bg-[#00D1C1] transition-transform duration-300 group-hover:scale-x-100" />
-            </Link>
-          ))}
+        <nav className="hidden items-center gap-5 lg:flex" aria-label={navigationLabel}>
+          {locale === "vi"
+            ? dronePillars.map((pillar) => (
+                <div key={pillar.slug} className="group relative">
+                  <Link
+                    href={pillar.href}
+                    className="relative block py-3 text-[13px] font-medium text-slate-300 transition hover:text-white focus:text-white"
+                  >
+                    {pillar.title}
+                    <span className="absolute inset-x-0 bottom-1 h-px origin-left scale-x-0 bg-[#00D1C1] transition-transform duration-300 group-hover:scale-x-100 group-focus-within:scale-x-100" />
+                  </Link>
+                  <div className="invisible absolute left-0 top-full z-50 w-80 border border-white/12 bg-[#10232A] p-4 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <div className="grid">
+                      {pillar.items.map((item) => (
+                        <Link
+                          key={item.slug}
+                          href={item.href}
+                          className="py-2 text-sm text-slate-200 transition hover:text-[#7DE0D7]"
+                        >
+                          {item.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))
+            : navigation.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group relative py-3 text-[13px] font-medium text-slate-300 transition hover:text-white"
+                >
+                  {item.label}
+                  <span className="absolute inset-x-0 bottom-1 h-px origin-left scale-x-0 bg-[#00D1C1] transition-transform duration-300 group-hover:scale-x-100" />
+                </Link>
+              ))}
         </nav>
 
         <div className="flex items-center gap-2">
@@ -90,15 +116,25 @@ export function SiteHeader({
         className="mx-auto flex w-full max-w-7xl gap-6 overflow-x-auto border-t border-white/8 px-5 py-2.5 lg:hidden"
         aria-label={mobileNavigationLabel}
       >
-        {navigation.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="shrink-0 border-b border-transparent py-1.5 text-xs font-medium text-slate-300 transition hover:border-[#00D1C1] hover:text-white"
-          >
-            {item.label}
-          </Link>
-        ))}
+          {locale === "vi"
+            ? dronePillars.map((pillar) => (
+                <Link
+                  key={pillar.slug}
+                  href={pillar.href}
+                  className="shrink-0 border-b border-transparent py-1.5 text-xs font-medium text-slate-300 transition hover:border-[#00D1C1] hover:text-white"
+                >
+                  {pillar.title}
+                </Link>
+              ))
+            : navigation.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="shrink-0 border-b border-transparent py-1.5 text-xs font-medium text-slate-300 transition hover:border-[#00D1C1] hover:text-white"
+                >
+                  {item.label}
+                </Link>
+              ))}
       </nav>
     </header>
   );

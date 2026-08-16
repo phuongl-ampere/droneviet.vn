@@ -2,6 +2,7 @@ import { ArrowUpRight, Check, MoveUpRight } from "lucide-react";
 import Link from "next/link";
 import { DroneLabShowroom } from "@/components/drone-lab-showroom";
 import { SectionShell } from "@/components/section-shell";
+import { dronePillars } from "@/lib/drone-pillars";
 import {
   getDroneModels,
   getServices,
@@ -159,6 +160,32 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
         secondaryCta={site.hero.secondaryCta}
         drones={getDroneModels(locale)}
       />
+
+      <SectionShell
+        eyebrow="Drone Việt"
+        title="Chọn đúng hành trình drone"
+      >
+        <div className="grid gap-x-8 md:grid-cols-2 lg:grid-cols-3">
+          {dronePillars.map((pillar) => (
+            <Link
+              key={pillar.slug}
+              href={pillar.href}
+              className="group border-t border-[#172226]/16 py-7"
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#007F75]">
+                {pillar.eyebrow}
+              </p>
+              <h2 className="mt-4 text-2xl font-semibold text-[#10232A] group-hover:text-[#006D66]">
+                {pillar.title}
+              </h2>
+              <span className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#006D66]">
+                Khám phá
+                <ArrowUpRight aria-hidden="true" size={15} />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </SectionShell>
 
       <SectionShell
         eyebrow={copy.solutionEyebrow}
