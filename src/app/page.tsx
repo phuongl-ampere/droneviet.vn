@@ -170,7 +170,7 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
               <h2 className="mt-4 text-2xl font-semibold text-[#10232A]">
                 {pillar.title}
               </h2>
-              <div className="mt-4 grid gap-2 text-sm">
+              <div className="mt-4 grid gap-2 text-sm md:hidden md:group-hover:grid">
                 {pillar.items.map((item) => (
                   <Link
                     key={item.slug}
