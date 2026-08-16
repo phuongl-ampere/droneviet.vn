@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio" version="26.0.0">
+  <diagram name="Drone Viet Commerce Platform">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="client" value="Experience Layer" style="swimlane;startSize=30;horizontal=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="1220" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="storefront" value="Storefront&#xa;Next.js 16" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="client">
+          <mxGeometry x="70" y="60" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" value="Admin Console&#xa;Next.js /admin" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="client">
+          <mxGeometry x="460" y="60" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bff" value="BFF / API Proxy&#xa;Same-origin session boundary" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;" vertex="1" parent="client">
+          <mxGeometry x="850" y="60" width="250" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="services" value="Commerce Services" style="swimlane;startSize=30;horizontal=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="270" width="1220" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="Commerce API&#xa;NestJS 10 REST + Swagger" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="services">
+          <mxGeometry x="70" y="60" width="250" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="modules" value="Catalog · Cart · Orders · Courses&#xa;Quotes · Inventory · RBAC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d79b00;" vertex="1" parent="services">
+          <mxGeometry x="470" y="60" width="280" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="worker" value="Async Worker&#xa;BullMQ jobs and retries" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="services">
+          <mxGeometry x="900" y="60" width="230" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="data" value="Data &amp; Media" style="swimlane;startSize=30;horizontal=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="520" width="1220" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="mysql" value="MySQL 8&#xa;TypeORM migrations" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="data">
+          <mxGeometry x="110" y="60" width="190" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="redis" value="Redis&#xa;Cart, locks, queue" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="data">
+          <mxGeometry x="490" y="60" width="190" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="storage" value="Object Storage&#xa;R2 / S3 product media" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;" vertex="1" parent="data">
+          <mxGeometry x="870" y="60" width="210" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="external" value="External Integrations" style="swimlane;startSize=30;horizontal=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="760" width="1220" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="payment" value="PayOS + VNPay&#xa;Signed callbacks" style="rounded=1;dashed=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="external">
+          <mxGeometry x="60" y="60" width="210" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="shipping" value="Viettel Post / GHN&#xa;Quote and fulfillment" style="rounded=1;dashed=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="external">
+          <mxGeometry x="350" y="60" width="220" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="notify" value="Email + Zalo OA&#xa;Order and course notices" style="rounded=1;dashed=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="external">
+          <mxGeometry x="660" y="60" width="230" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="observability" value="Analytics + Error Tracking&#xa;Funnel, audit, alerts" style="rounded=1;dashed=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;" vertex="1" parent="external">
+          <mxGeometry x="960" y="60" width="220" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="storefront" target="bff"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" edge="1" parent="1" source="admin" target="api"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" value="REST" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="bff" target="api"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" value="domain calls" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="api" target="modules"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" value="transactions" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="api" target="mysql"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" value="cache / jobs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="modules" target="redis"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" value="media metadata" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="worker" target="storage"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" value="create / verify" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.3;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="modules" target="payment"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" value="rates / labels" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="modules" target="shipping"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e10" value="events" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.7;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="worker" target="notify"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e11" value="telemetry" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.9;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="worker" target="observability"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
