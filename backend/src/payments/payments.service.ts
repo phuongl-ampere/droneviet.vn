@@ -3,8 +3,9 @@ import {
   Injectable,
   ServiceUnavailableException,
 } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { InjectDataSource } from "@nestjs/typeorm";
+import { DataSource, EntityManager } from "typeorm";
+import { InventoryReservationService } from "../inventory/inventory-reservation.service";
 import { Order, OrderPaymentMethod } from "../orders/entities/order.entity";
 import { OrderStatus } from "../orders/order-workflow";
 import { PayosService } from "./payos.service";
@@ -24,11 +25,10 @@ interface PayosWebhookData {
 @Injectable()
 export class PaymentsService {
   constructor(
-    @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>,
-    @InjectRepository(PaymentAttempt)
-    private readonly paymentRepository: Repository<PaymentAttempt>,
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
     private readonly payos: PayosService,
+    private readonly reservations: InventoryReservationService,
   ) {}
 
   async createPayosCheckout(
@@ -60,18 +60,22 @@ export class PaymentsService {
       description: `DH ${order.orderNumber}`,
       orderCode: order.paymentOrderCode,
     });
-    const attempt = await this.paymentRepository.save(
-      this.paymentRepository.create({
-        amountVnd: order.totalVnd,
-        checkoutUrl,
-        orderId: order.id,
-        paidAt: null,
-        provider: PaymentProvider.PAYOS,
-        providerOrderCode: order.paymentOrderCode,
-        providerReference: null,
-        status: PaymentStatus.PENDING,
-      }),
-    );
+    const attempt = await this.dataSource.transaction(async (manager) => {
+      const paymentRepository = manager.getRepository(PaymentAttempt);
+
+      return paymentRepository.save(
+        paymentRepository.create({
+          amountVnd: order.totalVnd,
+          checkoutUrl,
+          orderId: order.id,
+          paidAt: null,
+          provider: PaymentProvider.PAYOS,
+          providerOrderCode: order.paymentOrderCode,
+          providerReference: null,
+          status: PaymentStatus.PENDING,
+        }),
+      );
+    });
 
     return { checkoutUrl, paymentAttemptId: attempt.id };
   }
@@ -80,28 +84,9 @@ export class PaymentsService {
     payment: PaymentAttempt,
     callback: PayosWebhookData,
   ): Promise<boolean> {
-    if (payment.status === PaymentStatus.PAID) {
-      return true;
-    }
-
-    if (
-      payment.provider !== PaymentProvider.PAYOS ||
-      payment.providerOrderCode !== callback.orderCode ||
-      payment.amountVnd !== Math.round(callback.amount) ||
-      callback.status !== "PAID" ||
-      payment.order.status !== OrderStatus.PENDING_PAYMENT
-    ) {
-      return false;
-    }
-
-    payment.status = PaymentStatus.PAID;
-    payment.providerReference = callback.id ?? String(callback.orderCode);
-    payment.paidAt = new Date();
-    payment.order.status = OrderStatus.PAID;
-    await this.paymentRepository.save(payment);
-    await this.orderRepository.save(payment.order);
-
-    return true;
+    return this.dataSource.transaction((manager) =>
+      this.settlePayosPayment(manager, payment.id, callback),
+    );
   }
 
   async handlePayosWebhook(
@@ -117,18 +102,102 @@ export class PaymentsService {
       return false;
     }
 
-    const payment = await this.paymentRepository.findOne({
-      where: {
-        provider: PaymentProvider.PAYOS,
-        providerOrderCode: data.orderCode,
-      },
-      relations: { order: true },
+    return this.dataSource.transaction(async (manager) => {
+      const payment = await this.findPayosPaymentForUpdate(manager, {
+        orderCode: data.orderCode,
+      });
+
+      if (!payment) {
+        throw new ServiceUnavailableException("Payment attempt was not found");
+      }
+
+      return this.settlePayosPayment(manager, payment.id, data);
+    });
+  }
+
+  private async findPayosPaymentForUpdate(
+    manager: EntityManager,
+    filter: { id?: string; orderCode?: number },
+  ): Promise<PaymentAttempt | null> {
+    const builder = manager
+      .getRepository(PaymentAttempt)
+      .createQueryBuilder("payment")
+      .leftJoinAndSelect("payment.order", "order")
+      .leftJoinAndSelect("order.lines", "line")
+      .where("payment.provider = :provider", { provider: PaymentProvider.PAYOS })
+      .setLock("pessimistic_write");
+
+    if (filter.id) {
+      builder.andWhere("payment.id = :id", { id: filter.id });
+    }
+
+    if (filter.orderCode) {
+      builder.andWhere("payment.providerOrderCode = :orderCode", {
+        orderCode: filter.orderCode,
+      });
+    }
+
+    return builder.getOne();
+  }
+
+  private async settlePayosPayment(
+    manager: EntityManager,
+    paymentId: string,
+    callback: PayosWebhookData,
+  ): Promise<boolean> {
+    const payment = await this.findPayosPaymentForUpdate(manager, {
+      id: paymentId,
     });
 
     if (!payment) {
-      throw new ServiceUnavailableException("Payment attempt was not found");
+      return false;
     }
 
-    return this.completePayosAttempt(payment, data);
+    if (
+      payment.providerOrderCode !== callback.orderCode ||
+      payment.amountVnd !== Math.round(callback.amount)
+    ) {
+      return false;
+    }
+
+    const paymentRepository = manager.getRepository(PaymentAttempt);
+    const orderRepository = manager.getRepository(Order);
+
+    if (payment.status === PaymentStatus.PAID) {
+      if (payment.order.status !== OrderStatus.PAID) {
+        payment.order.status = OrderStatus.PAID;
+        payment.order.reservationExpiresAt = null;
+        await orderRepository.save(payment.order);
+      }
+
+      return true;
+    }
+
+    if (callback.status === "PAID") {
+      if (payment.order.status !== OrderStatus.PENDING_PAYMENT) {
+        return false;
+      }
+
+      payment.status = PaymentStatus.PAID;
+      payment.providerReference = callback.id ?? String(callback.orderCode);
+      payment.paidAt = new Date();
+      payment.order.status = OrderStatus.PAID;
+      payment.order.reservationExpiresAt = null;
+      await paymentRepository.save(payment);
+      await orderRepository.save(payment.order);
+      return true;
+    }
+
+    if (callback.status === "CANCELLED" || callback.status === "EXPIRED") {
+      payment.status = PaymentStatus.FAILED;
+      await this.reservations.releaseForOrder(manager, payment.order);
+      payment.order.status = OrderStatus.PAYMENT_FAILED;
+      payment.order.reservationExpiresAt = null;
+      await paymentRepository.save(payment);
+      await orderRepository.save(payment.order);
+      return true;
+    }
+
+    return false;
   }
 }

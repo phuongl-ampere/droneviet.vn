@@ -166,7 +166,6 @@ export async function seedCatalogProducts(manager: EntityManager): Promise<void>
     commerceSeedProducts.map((product) => ({
       onHand: product.quantity,
       productVariantId: product.productVariantId,
-      reserved: 0,
     })),
     ["productVariantId"],
   );

@@ -55,6 +55,9 @@ export class Order {
   @Column({ type: "text", nullable: true })
   shippingAddress!: string | null;
 
+  @Column({ type: "timestamp", nullable: true })
+  reservationExpiresAt!: Date | null;
+
   @OneToMany(() => OrderLine, (line) => line.order)
   lines!: OrderLine[];
 

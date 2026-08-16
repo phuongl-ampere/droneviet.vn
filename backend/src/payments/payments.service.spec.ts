@@ -6,20 +6,23 @@ import { PaymentsService } from "./payments.service";
 
 describe("PaymentsService", () => {
   it("creates one PayOS attempt for an eligible pending-payment order", async () => {
-    const orderRepository = {
-      save: vi.fn(async (order) => order),
-    };
     const paymentRepository = {
       create: vi.fn((attempt) => attempt),
       save: vi.fn(async (attempt) => ({ ...attempt, id: "payment-1" })),
+    };
+    const manager = {
+      getRepository: vi.fn(() => paymentRepository),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
     };
     const payos = {
       createPaymentLink: vi.fn().mockResolvedValue("https://pay.example/1"),
     };
     const service = new PaymentsService(
-      orderRepository as never,
-      paymentRepository as never,
+      dataSource as never,
       payos as never,
+      {} as never,
     );
 
     await expect(
@@ -64,14 +67,31 @@ describe("PaymentsService", () => {
       status: PaymentStatus.PENDING,
     };
     const orderRepository = { save: vi.fn(async (value) => value) };
-    const paymentRepository = { save: vi.fn(async (value) => value) };
+    const paymentRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        andWhere: vi.fn().mockReturnThis(),
+        getOne: vi.fn().mockResolvedValue(payment),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(async (value) => value),
+    };
+    const manager = {
+      getRepository: vi.fn((entity) =>
+        entity.name === "PaymentAttempt" ? paymentRepository : orderRepository,
+      ),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
     const payos = {
       verifyWebhookSignature: vi.fn().mockReturnValue(true),
     };
     const service = new PaymentsService(
-      orderRepository as never,
-      paymentRepository as never,
+      dataSource as never,
       payos as never,
+      { releaseForOrder: vi.fn() } as never,
     );
 
     await expect(
@@ -87,16 +107,14 @@ describe("PaymentsService", () => {
   });
 
   it("rejects a webhook with an invalid signature before looking up payments", async () => {
-    const paymentRepository = {
-      findOne: vi.fn(),
-    };
+    const dataSource = { transaction: vi.fn() };
     const payos = {
       verifyWebhookSignature: vi.fn().mockReturnValue(false),
     };
     const service = new PaymentsService(
-      {} as never,
-      paymentRepository as never,
+      dataSource as never,
       payos as never,
+      {} as never,
     );
 
     await expect(
@@ -109,6 +127,61 @@ describe("PaymentsService", () => {
         "invalid-signature",
       ),
     ).resolves.toBe(false);
-    expect(paymentRepository.findOne).not.toHaveBeenCalled();
+    expect(dataSource.transaction).not.toHaveBeenCalled();
+  });
+
+  it("releases stock when PayOS cancels an unpaid payment attempt", async () => {
+    const order = {
+      id: "order-1",
+      lines: [{ productVariantId: "variant-primary", quantity: 1 }],
+      reservationExpiresAt: new Date(),
+      status: OrderStatus.PENDING_PAYMENT,
+    };
+    const payment = {
+      amountVnd: 9_500_000,
+      id: "payment-1",
+      order,
+      orderId: "order-1",
+      provider: PaymentProvider.PAYOS,
+      providerOrderCode: 123456,
+      status: PaymentStatus.PENDING,
+    };
+    const paymentRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        andWhere: vi.fn().mockReturnThis(),
+        getOne: vi.fn().mockResolvedValue(payment),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(),
+    };
+    const orderRepository = { save: vi.fn() };
+    const manager = {
+      getRepository: vi.fn((entity) =>
+        entity.name === "PaymentAttempt" ? paymentRepository : orderRepository,
+      ),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const reservations = { releaseForOrder: vi.fn() };
+    const service = new PaymentsService(
+      dataSource as never,
+      { verifyWebhookSignature: vi.fn() } as never,
+      reservations as never,
+    );
+
+    await expect(
+      service.completePayosAttempt(payment as never, {
+        amount: 9_500_000,
+        orderCode: 123456,
+        status: "CANCELLED",
+      }),
+    ).resolves.toBe(true);
+
+    expect(reservations.releaseForOrder).toHaveBeenCalledWith(manager, order);
+    expect(payment.status).toBe(PaymentStatus.FAILED);
+    expect(order.status).toBe(OrderStatus.PAYMENT_FAILED);
   });
 });

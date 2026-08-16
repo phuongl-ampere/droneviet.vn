@@ -25,9 +25,6 @@ describe("OrdersService", () => {
         where: vi.fn().mockReturnThis(),
       })),
     };
-    const inventoryRepository = {
-      save: vi.fn(),
-    };
     const orderRepository = {
       create: vi.fn((order) => order),
       save: vi.fn(async (order) => ({ ...order, id: "order-1" })),
@@ -39,7 +36,6 @@ describe("OrdersService", () => {
     const manager = {
       getRepository: vi.fn((entity) => {
         if (entity.name === "ProductVariant") return variantRepository;
-        if (entity.name === "InventoryItem") return inventoryRepository;
         if (entity.name === "Order") return orderRepository;
         return orderLineRepository;
       }),
@@ -47,9 +43,8 @@ describe("OrdersService", () => {
     const dataSource = {
       transaction: vi.fn((callback) => callback(manager)),
     };
-    const service = new OrdersService(
-      dataSource as never,
-    );
+    const reservationService = { reserve: vi.fn() };
+    const service = new OrdersService(dataSource as never, reservationService as never);
 
     await expect(
       service.createOrder({
@@ -73,8 +68,14 @@ describe("OrdersService", () => {
       }),
     );
     expect(dataSource.transaction).toHaveBeenCalledOnce();
-    expect(inventoryRepository.save).toHaveBeenCalledWith(
-      expect.objectContaining({ reserved: 2 }),
+    expect(reservationService.reserve).toHaveBeenCalledWith(
+      manager,
+      expect.arrayContaining([
+        expect.objectContaining({
+          productVariantId: "variant-primary-lab",
+          quantity: 2,
+        }),
+      ]),
     );
   });
 
@@ -107,7 +108,10 @@ describe("OrdersService", () => {
     const dataSource = {
       transaction: vi.fn((callback) => callback(manager)),
     };
-    const service = new OrdersService(dataSource as never);
+    const service = new OrdersService(
+      dataSource as never,
+      { reserve: vi.fn() } as never,
+    );
 
     await expect(
       service.createOrder({
@@ -117,5 +121,49 @@ describe("OrdersService", () => {
         paymentMethod: OrderPaymentMethod.PAYOS,
       }),
     ).rejects.toThrow("Variant variant-draft is unavailable");
+  });
+
+  it("releases expired pending-payment reservations", async () => {
+    const expiredOrder = {
+      id: "order-expired",
+      lines: [{ productVariantId: "variant-primary", quantity: 1 }],
+      reservationExpiresAt: new Date("2026-08-16T00:00:00.000Z"),
+      status: OrderStatus.PENDING_PAYMENT,
+    };
+    const orderRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        andWhere: vi.fn().mockReturnThis(),
+        getMany: vi.fn().mockResolvedValue([expiredOrder]),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(),
+    };
+    const manager = {
+      getRepository: vi.fn(() => orderRepository),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const reservationService = { releaseForOrder: vi.fn() };
+    const service = new OrdersService(
+      dataSource as never,
+      reservationService as never,
+    );
+
+    await expect(
+      service.releaseExpiredReservations(new Date("2026-08-16T00:30:00.000Z")),
+    ).resolves.toBe(1);
+    expect(reservationService.releaseForOrder).toHaveBeenCalledWith(
+      manager,
+      expiredOrder,
+    );
+    expect(orderRepository.save).toHaveBeenCalledWith(
+      expect.objectContaining({
+        reservationExpiresAt: null,
+        status: OrderStatus.PAYMENT_FAILED,
+      }),
+    );
   });
 });

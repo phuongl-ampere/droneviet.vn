@@ -7,7 +7,7 @@ import {
   PurchaseMode,
 } from "../catalog/entities/product-variant.entity";
 import { ProductStatus } from "../catalog/entities/product.entity";
-import { InventoryItem } from "../inventory/entities/inventory-item.entity";
+import { InventoryReservationService } from "../inventory/inventory-reservation.service";
 import { Order, OrderPaymentMethod } from "./entities/order.entity";
 import { OrderLine } from "./entities/order-line.entity";
 import { OrderStatus } from "./order-workflow";
@@ -26,6 +26,7 @@ export class OrdersService {
   constructor(
     @InjectDataSource()
     private readonly dataSource: DataSource,
+    private readonly reservations: InventoryReservationService,
   ) {}
 
   async createOrder(input: CreateOrderInput): Promise<Order> {
@@ -46,17 +47,10 @@ export class OrdersService {
       const variantsById = new Map(
         variants.map((variant) => [variant.id, variant]),
       );
-      const quantitiesByVariant = new Map<string, number>();
-
       for (const line of input.lines) {
         if (!Number.isInteger(line.quantity) || line.quantity < 1) {
           throw new BadRequestException("Quantity must be a positive integer");
         }
-
-        quantitiesByVariant.set(
-          line.variantId,
-          (quantitiesByVariant.get(line.variantId) ?? 0) + line.quantity,
-        );
       }
 
       const calculatedLines = input.lines.map((line) => {
@@ -89,28 +83,14 @@ export class OrdersService {
         };
       });
 
-      const inventoryRepository = manager.getRepository(InventoryItem);
-      for (const [variantId, requestedQuantity] of quantitiesByVariant) {
-        const variant = variantsById.get(variantId);
-
-        if (!variant) {
-          throw new NotFoundException(`Variant ${variantId} is unavailable`);
-        }
-
-        if (variant.purchaseMode === PurchaseMode.PREORDER) {
-          continue;
-        }
-
-        const inventory = variant.inventory;
-        if (!inventory || inventory.onHand - inventory.reserved < requestedQuantity) {
-          throw new BadRequestException(
-            `Variant ${variantId} no longer has enough inventory`,
-          );
-        }
-
-        inventory.reserved += requestedQuantity;
-        await inventoryRepository.save(inventory);
-      }
+      await this.reservations.reserve(
+        manager,
+        calculatedLines.map((line) => ({
+          productVariantId: line.productVariantId,
+          purchaseMode: variantsById.get(line.productVariantId)!.purchaseMode,
+          quantity: line.quantity,
+        })),
+      );
 
       const totalVnd = calculatedLines.reduce(
         (total, line) => total + line.subtotalVnd,
@@ -124,6 +104,7 @@ export class OrdersService {
           contactPhone: input.contactPhone,
           orderNumber: `DV-${randomUUID().slice(0, 8).toUpperCase()}`,
           paymentMethod: input.paymentMethod,
+          reservationExpiresAt: new Date(Date.now() + 30 * 60 * 1000),
           shippingAddress: input.shippingAddress ?? null,
           status: OrderStatus.PENDING_PAYMENT,
           totalVnd,
@@ -141,6 +122,30 @@ export class OrdersService {
       );
 
       return order;
+    });
+  }
+
+  async releaseExpiredReservations(now = new Date()): Promise<number> {
+    return this.dataSource.transaction(async (manager) => {
+      const orderRepository = manager.getRepository(Order);
+      const expiredOrders = await orderRepository
+        .createQueryBuilder("order")
+        .leftJoinAndSelect("order.lines", "line")
+        .where("order.status = :status", {
+          status: OrderStatus.PENDING_PAYMENT,
+        })
+        .andWhere("order.reservationExpiresAt <= :now", { now })
+        .setLock("pessimistic_write")
+        .getMany();
+
+      for (const order of expiredOrders) {
+        await this.reservations.releaseForOrder(manager, order);
+        order.reservationExpiresAt = null;
+        order.status = OrderStatus.PAYMENT_FAILED;
+        await orderRepository.save(order);
+      }
+
+      return expiredOrders.length;
     });
   }
 }

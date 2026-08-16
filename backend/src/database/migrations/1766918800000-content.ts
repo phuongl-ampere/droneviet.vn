@@ -3,7 +3,6 @@ import {
   QueryRunner,
   Table,
   TableForeignKey,
-  TableUnique,
 } from "typeorm";
 
 export class ContentMigration1766918800000 implements MigrationInterface {
@@ -73,7 +72,6 @@ export class ContentMigration1766918800000 implements MigrationInterface {
           { name: "bodyMarkdown", type: "longtext" },
           { name: "renderedHtml", type: "longtext" },
           { name: "tableOfContents", type: "json" },
-          { name: "metadata", type: "json" },
           {
             name: "createdAt",
             type: "timestamp",
@@ -90,13 +88,6 @@ export class ContentMigration1766918800000 implements MigrationInterface {
         referencedColumnNames: ["id"],
         referencedTableName: "articles",
         onDelete: "CASCADE",
-      }),
-    );
-    await queryRunner.createUniqueConstraint(
-      "content_revisions",
-      new TableUnique({
-        name: "UQ_content_revisions_article_revision",
-        columnNames: ["articleId", "revisionNumber"],
       }),
     );
   }

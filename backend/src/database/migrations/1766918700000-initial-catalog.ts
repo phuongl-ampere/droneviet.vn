@@ -27,7 +27,7 @@ export class InitialCatalogMigration1766918700000
           {
             name: "kind",
             type: "enum",
-            enum: ["accessory", "bundle", "course", "drone", "education_kit"],
+            enum: ["accessory", "bundle", "drone", "education_kit"],
           },
           {
             name: "status",
@@ -69,10 +69,10 @@ export class InitialCatalogMigration1766918700000
             isUnique: true,
           },
           { name: "title", type: "varchar", length: "255" },
-          { name: "priceVnd", type: "bigint", unsigned: true },
+          { name: "priceVnd", type: "int", unsigned: true },
           {
             name: "compareAtVnd",
-            type: "bigint",
+            type: "int",
             unsigned: true,
             isNullable: true,
           },

@@ -19,6 +19,7 @@ import { QuoteRequestsMigration1766919100000 } from "./migrations/1766919100000-
 import { InventoryMigration1766919050000 } from "./migrations/1766919050000-inventory";
 import { PaymentsMigration1766919200000 } from "./migrations/1766919200000-payments";
 import { ProductContentMigration1766919300000 } from "./migrations/1766919300000-product-content";
+import { CommerceHardeningMigration1766919400000 } from "./migrations/1766919400000-commerce-hardening";
 
 export function createDatabaseOptions(
   environment: NodeJS.ProcessEnv,
@@ -53,6 +54,7 @@ export function createDatabaseOptions(
       QuoteRequestsMigration1766919100000,
       PaymentsMigration1766919200000,
       ProductContentMigration1766919300000,
+      CommerceHardeningMigration1766919400000,
     ],
     synchronize: false,
   };

@@ -45,6 +45,6 @@ describe("createDatabaseOptions", () => {
         ProductContent,
       ]),
     );
-    expect(options.migrations).toHaveLength(8);
+    expect(options.migrations).toHaveLength(9);
   });
 });

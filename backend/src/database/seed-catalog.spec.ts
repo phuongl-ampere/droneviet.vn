@@ -42,6 +42,9 @@ describe("seedCatalogProducts", () => {
       ]),
       ["productVariantId"],
     );
+    expect(
+      inventoryRepository.upsert.mock.calls[0]?.[0]?.[0],
+    ).not.toHaveProperty("reserved");
     expect(commerceSeedProducts).toHaveLength(8);
   });
 });
