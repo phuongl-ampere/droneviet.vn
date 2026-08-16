@@ -30,20 +30,15 @@ export function DroneHeroCarousel({
   secondaryCta: LinkItem;
 }) {
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const primaryExternal = primaryCta.href.startsWith("http");
 
   useEffect(() => {
-    if (paused) {
-      return;
-    }
-
     const timer = window.setInterval(() => {
       setIndex((current) => (current + 1) % slides.length);
-    }, 6_000);
+    }, 4_000);
 
     return () => window.clearInterval(timer);
-  }, [paused]);
+  }, []);
 
   const slide = slides[index];
 
@@ -53,8 +48,6 @@ export function DroneHeroCarousel({
       aria-roledescription="carousel"
       aria-label="Drone Việt"
       className="relative min-h-[min(780px,calc(100svh-80px))] overflow-hidden bg-[#006D66] text-white"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
     >
       <Image
         key={slide.image}

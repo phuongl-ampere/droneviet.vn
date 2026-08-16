@@ -160,24 +160,28 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
           {dronePillars.map((pillar) => (
             <article
               key={pillar.slug}
-              className="group border-t border-[#172226]/16 py-7"
+              className="group relative border-t border-[#172226]/16 py-7"
             >
+              {pillar.slug === "cua-hang" ? (
+                <Link
+                  href="/cua-hang"
+                  aria-label="Cửa hàng"
+                  className="absolute inset-0 z-0"
+                />
+              ) : null}
               <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                 {pillar.eyebrow}
               </p>
               {pillar.slug === "cua-hang" ? (
-                <Link
-                  href="/cua-hang"
-                  className="mt-4 block text-2xl font-semibold text-[#10232A] hover:text-[#006D66]"
-                >
+                <h2 className="relative z-10 mt-4 text-2xl font-semibold text-[#10232A] group-hover:text-[#006D66]">
                   {pillar.title}
-                </Link>
+                </h2>
               ) : (
                 <h2 className="mt-4 text-2xl font-semibold text-[#10232A]">
                   {pillar.title}
                 </h2>
               )}
-              <div className="mt-4 grid gap-2 text-sm md:hidden md:group-hover:grid">
+              <div className="relative z-10 mt-4 grid gap-2 text-sm md:hidden md:group-hover:grid">
                 {pillar.items.map((item) => (
                   <Link
                     key={item.slug}
