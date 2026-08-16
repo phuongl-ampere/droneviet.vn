@@ -16,6 +16,10 @@ export class CreateProductVariantDto {
   @Min(0)
   priceVnd!: number;
 
+  @IsInt()
+  @Min(0)
+  stockOnHand!: number;
+
   @IsEnum(PurchaseMode)
   purchaseMode!: PurchaseMode;
 

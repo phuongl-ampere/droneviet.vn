@@ -82,6 +82,7 @@ export function createAdminProduct(
     priceVnd: number;
     purchaseMode: "checkout" | "preorder" | "quote_only";
     slug: string;
+    stockOnHand: number;
     title: string;
   },
 ) {
@@ -97,6 +98,7 @@ export function createAdminProduct(
           priceVnd: payload.priceVnd,
           purchaseMode: payload.purchaseMode,
           sku: `${payload.slug}-standard`,
+          stockOnHand: payload.stockOnHand,
           title: payload.title,
         },
       ],

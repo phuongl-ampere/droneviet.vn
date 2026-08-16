@@ -52,7 +52,9 @@ describe("CatalogService", () => {
       ]),
     };
 
-    const service = new CatalogService(productRepository as never);
+    const service = new CatalogService({
+      getRepository: vi.fn(() => productRepository),
+    } as never);
 
     await expect(service.listPublic()).resolves.toEqual([
       {
@@ -73,9 +75,21 @@ describe("CatalogService", () => {
       save: vi.fn(async (product) => ({
         ...product,
         id: "product-code-fleet",
+        variants: [{ ...product.variants[0], id: "variant-code-fleet" }],
       })),
     };
-    const service = new CatalogService(productRepository as never);
+    const inventoryRepository = {
+      create: vi.fn((inventory) => inventory),
+      save: vi.fn(async (inventory) => inventory),
+    };
+    const manager = {
+      getRepository: vi.fn((entity) =>
+        entity.name === "Product" ? productRepository : inventoryRepository,
+      ),
+    };
+    const service = new CatalogService({
+      transaction: vi.fn((callback) => callback(manager)),
+    } as never);
 
     await expect(
       service.createProduct({
@@ -88,6 +102,7 @@ describe("CatalogService", () => {
             priceVnd: 24_900_000,
             purchaseMode: PurchaseMode.CHECKOUT,
             sku: "DV-CF-STD",
+            stockOnHand: 0,
             title: "Standard fleet",
           },
         ],
@@ -104,5 +119,52 @@ describe("CatalogService", () => {
         ],
       }),
     );
+  });
+
+  it("creates inventory configuration for a checkout variant in the same transaction", async () => {
+    const productRepository = {
+      create: vi.fn((product) => product),
+      save: vi.fn(async (product) => ({
+        ...product,
+        id: "product-code-fleet",
+        variants: [{ ...product.variants[0], id: "variant-code-fleet" }],
+      })),
+    };
+    const inventoryRepository = {
+      create: vi.fn((inventory) => inventory),
+      save: vi.fn(async (inventory) => inventory),
+    };
+    const manager = {
+      getRepository: vi.fn((entity) =>
+        entity.name === "Product" ? productRepository : inventoryRepository,
+      ),
+    };
+    const dataSource = {
+      transaction: vi.fn((callback) => callback(manager)),
+    };
+    const service = new CatalogService(dataSource as never);
+
+    await service.createProduct({
+      kind: ProductKind.DRONE,
+      name: "DV Code Fleet",
+      slug: "dv-code-fleet",
+      summary: "Fleet drone cho lớp lập trình.",
+      variants: [
+        {
+          priceVnd: 24_900_000,
+          purchaseMode: PurchaseMode.CHECKOUT,
+          sku: "DV-CF-STD",
+          stockOnHand: 6,
+          title: "Standard fleet",
+        },
+      ],
+    } as never);
+
+    expect(inventoryRepository.create).toHaveBeenCalledWith({
+      onHand: 6,
+      productVariantId: "variant-code-fleet",
+      reserved: 0,
+    });
+    expect(dataSource.transaction).toHaveBeenCalledOnce();
   });
 });

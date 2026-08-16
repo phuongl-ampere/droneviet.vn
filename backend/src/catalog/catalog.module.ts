@@ -7,12 +7,13 @@ import { CatalogController } from "./catalog.controller";
 import { CatalogService } from "./catalog.service";
 import { ProductVariant } from "./entities/product-variant.entity";
 import { Product } from "./entities/product.entity";
+import { InventoryItem } from "../inventory/entities/inventory-item.entity";
 
 @Module({
   imports: [
     AuditModule,
     AuthModule,
-    TypeOrmModule.forFeature([Product, ProductVariant]),
+    TypeOrmModule.forFeature([InventoryItem, Product, ProductVariant]),
   ],
   controllers: [CatalogController, AdminCatalogController],
   providers: [CatalogService],

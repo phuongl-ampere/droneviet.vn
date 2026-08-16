@@ -194,6 +194,7 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                       formData.get("purchaseMode") ?? "checkout",
                     ) as "checkout" | "preorder" | "quote_only",
                     slug: String(formData.get("slug") ?? ""),
+                    stockOnHand: Number(formData.get("stockOnHand") ?? 0),
                     title: String(formData.get("variantTitle") ?? ""),
                   });
                   const description = String(
@@ -272,7 +273,7 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                 />
               </label>
 
-              <div className="mt-4 grid gap-4 border border-black/10 p-4 sm:grid-cols-[minmax(0,1fr)_10rem_12rem]">
+              <div className="mt-4 grid gap-4 border border-black/10 p-4 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_10rem_10rem_12rem]">
                 <label className="grid gap-2 text-sm font-medium">
                   Variant
                   <input
@@ -287,6 +288,18 @@ export function AdminWorkbench({ accessToken }: AdminWorkbenchProps) {
                     aria-label="Giá VND"
                     defaultValue={9_500_000}
                     name="priceVnd"
+                    inputMode="numeric"
+                    type="number"
+                    className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-medium">
+                  Tồn kho
+                  <input
+                    aria-label="Tồn kho"
+                    defaultValue={0}
+                    min={0}
+                    name="stockOnHand"
                     inputMode="numeric"
                     type="number"
                     className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"

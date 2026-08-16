@@ -1,9 +1,10 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { InjectDataSource } from "@nestjs/typeorm";
+import { DataSource } from "typeorm";
 import { PurchaseMode, ProductVariant } from "./entities/product-variant.entity";
-import { Product, ProductStatus } from "./entities/product.entity";
+import { Product, ProductKind, ProductStatus } from "./entities/product.entity";
 import { CreateProductDto } from "./dto/create-product.dto";
+import { InventoryItem } from "../inventory/entities/inventory-item.entity";
 
 export interface PublicProductCard {
   slug: string;
@@ -40,12 +41,12 @@ function isLowerPrice(
 @Injectable()
 export class CatalogService {
   constructor(
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    @InjectDataSource()
+    private readonly dataSource: DataSource,
   ) {}
 
   async listPublic(): Promise<PublicProductCard[]> {
-    const products = await this.productRepository.find({
+    const products = await this.dataSource.getRepository(Product).find({
       where: { status: ProductStatus.PUBLISHED },
       relations: { variants: true },
       order: { createdAt: "DESC" },
@@ -81,8 +82,10 @@ export class CatalogService {
       throw new BadRequestException("Variant prices must be integer VND amounts");
     }
 
-    return this.productRepository.save(
-      this.productRepository.create({
+    return this.dataSource.transaction(async (manager) => {
+      const productRepository = manager.getRepository(Product);
+      const product = await productRepository.save(
+        productRepository.create({
         coverImageUrl: input.coverImageUrl ?? null,
         kind: input.kind,
         name: input.name,
@@ -96,7 +99,25 @@ export class CatalogService {
           sku: variant.sku,
           title: variant.title,
         })),
-      }),
-    );
+        }),
+      );
+
+      if (input.kind === ProductKind.COURSE) {
+        return product;
+      }
+
+      const inventoryRepository = manager.getRepository(InventoryItem);
+      await inventoryRepository.save(
+        product.variants.map((variant, index) =>
+          inventoryRepository.create({
+            onHand: input.variants[index].stockOnHand,
+            productVariantId: variant.id,
+            reserved: 0,
+          }),
+        ),
+      );
+
+      return product;
+    });
   }
 }
