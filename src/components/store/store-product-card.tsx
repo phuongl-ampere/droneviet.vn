@@ -49,11 +49,11 @@ export function StoreProductCard({ product }: StoreProductCardProps) {
 
       <div className="flex flex-1 flex-col px-5 py-6">
         <p className="text-xs font-medium text-slate-500">
-          {product.collection === "stem"
-            ? "Drone giáo dục"
+          {product.collection === "accessories"
+            ? "Phụ kiện & Linh kiện"
             : product.collection === "research"
-              ? "Drone nghiên cứu"
-              : "Thiết bị đào tạo"}
+              ? "Drone"
+              : "Drone giáo dục & Combo classroom/lab"}
         </p>
         <Link
           href={`/san-pham/${product.slug}`}

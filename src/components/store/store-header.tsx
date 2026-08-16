@@ -7,10 +7,12 @@ import { useCart } from "./cart-provider";
 
 const navigation = [
   { href: "/cua-hang", label: "Cửa hàng" },
-  { href: "/cua-hang?collection=stem", label: "Drone giáo dục" },
-  { href: "/cua-hang?collection=research", label: "Nghiên cứu" },
-  { href: "/giao-trinh", label: "Khóa học" },
-  { href: "/giai-phap", label: "Giải pháp lab" },
+  { href: "/cua-hang?category=drone", label: "Drone" },
+  { href: "/cua-hang?category=parts", label: "Phụ kiện & Linh kiện" },
+  {
+    href: "/cua-hang?category=education",
+    label: "Drone giáo dục & Combo lab",
+  },
 ];
 
 export function StoreHeader() {
