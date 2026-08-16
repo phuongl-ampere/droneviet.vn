@@ -1,8 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { PurchaseMode, ProductVariant } from "./entities/product-variant.entity";
 import { Product, ProductStatus } from "./entities/product.entity";
+import { CreateProductDto } from "./dto/create-product.dto";
 
 export interface PublicProductCard {
   slug: string;
@@ -73,5 +74,29 @@ export class CatalogService {
         },
       ];
     });
+  }
+
+  async createProduct(input: CreateProductDto): Promise<Product> {
+    if (input.variants.some((variant) => !Number.isInteger(variant.priceVnd))) {
+      throw new BadRequestException("Variant prices must be integer VND amounts");
+    }
+
+    return this.productRepository.save(
+      this.productRepository.create({
+        coverImageUrl: input.coverImageUrl ?? null,
+        kind: input.kind,
+        name: input.name,
+        slug: input.slug,
+        status: ProductStatus.DRAFT,
+        summary: input.summary,
+        variants: input.variants.map((variant) => ({
+          isActive: true,
+          priceVnd: variant.priceVnd,
+          purchaseMode: variant.purchaseMode,
+          sku: variant.sku,
+          title: variant.title,
+        })),
+      }),
+    );
   }
 }

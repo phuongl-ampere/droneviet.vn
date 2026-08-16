@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Newsreader } from "next/font/google";
 import { LocalizedChrome } from "@/components/localized-chrome";
+import { CartProvider } from "@/components/store/cart-provider";
 import { sourceContentEn, sourceContentVi } from "@/content/data/site";
 import { siteUrl } from "@/lib/seo";
 import "./globals.css";
@@ -43,7 +44,9 @@ export default function RootLayout({
       className={`${manrope.variable} ${newsreader.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <LocalizedChrome content={content}>{children}</LocalizedChrome>
+        <CartProvider>
+          <LocalizedChrome content={content}>{children}</LocalizedChrome>
+        </CartProvider>
       </body>
     </html>
   );

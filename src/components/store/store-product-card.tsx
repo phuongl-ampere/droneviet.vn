@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ProductDroneVisual } from "@/components/product-detail";
+import { AddToCartButton } from "./add-to-cart-button";
 import {
   formatVnd,
   type StoreProduct,
@@ -75,13 +76,21 @@ export function StoreProductCard({ product }: StoreProductCardProps) {
               {formatVnd(product.priceVnd)}
             </p>
           </div>
-          <Link
-            href={`/san-pham/${product.slug}`}
-            className="inline-flex min-h-10 items-center gap-2 bg-[#10232A] px-3.5 text-sm font-semibold text-white transition hover:bg-[#006D66]"
-          >
-            {purchaseLabels[product.purchaseMode]}
-            <ArrowUpRight aria-hidden="true" size={15} />
-          </Link>
+          {product.purchaseMode === "checkout" ? (
+            <AddToCartButton
+              priceVnd={product.priceVnd}
+              slug={product.slug}
+              title={product.name}
+            />
+          ) : (
+            <Link
+              href={`/san-pham/${product.slug}`}
+              className="inline-flex min-h-10 items-center gap-2 bg-[#10232A] px-3.5 text-sm font-semibold text-white transition hover:bg-[#006D66]"
+            >
+              {purchaseLabels[product.purchaseMode]}
+              <ArrowUpRight aria-hidden="true" size={15} />
+            </Link>
+          )}
         </div>
       </div>
     </article>

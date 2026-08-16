@@ -44,7 +44,9 @@ export class Product {
   @Column({ nullable: true })
   coverImageUrl!: string | null;
 
-  @OneToMany(() => ProductVariant, (variant) => variant.product)
+  @OneToMany(() => ProductVariant, (variant) => variant.product, {
+    cascade: true,
+  })
   variants!: ProductVariant[];
 
   @CreateDateColumn()

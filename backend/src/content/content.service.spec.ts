@@ -4,6 +4,33 @@ import { ContentService } from "./content.service";
 import { MarkdownRendererService } from "./markdown-renderer.service";
 
 describe("ContentService", () => {
+  it("creates an article as a non-public draft", async () => {
+    const articleRepository = {
+      create: vi.fn((article) => article),
+      save: vi.fn(async (article) => ({ ...article, id: "article-stem" })),
+    };
+    const service = new ContentService(
+      articleRepository as never,
+      {} as never,
+      {} as MarkdownRendererService,
+    );
+
+    await expect(
+      service.createArticle({
+        bodyMarkdown: "# Drone STEM",
+        locale: "vi",
+        slug: "drone-stem",
+        title: "Drone STEM",
+      }),
+    ).resolves.toEqual(
+      expect.objectContaining({
+        id: "article-stem",
+        slug: "drone-stem",
+        status: ContentStatus.DRAFT,
+      }),
+    );
+  });
+
   it("publishes an article with a new immutable Markdown revision", async () => {
     const articleRepository = {
       findOneByOrFail: vi.fn().mockResolvedValue({

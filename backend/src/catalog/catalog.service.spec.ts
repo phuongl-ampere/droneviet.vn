@@ -66,4 +66,43 @@ describe("CatalogService", () => {
       },
     ]);
   });
+
+  it("creates a product with server-owned variant pricing", async () => {
+    const productRepository = {
+      create: vi.fn((product) => product),
+      save: vi.fn(async (product) => ({
+        ...product,
+        id: "product-code-fleet",
+      })),
+    };
+    const service = new CatalogService(productRepository as never);
+
+    await expect(
+      service.createProduct({
+        kind: ProductKind.DRONE,
+        name: "DV Code Fleet",
+        slug: "dv-code-fleet",
+        summary: "Fleet drone cho lớp lập trình.",
+        variants: [
+          {
+            priceVnd: 24_900_000,
+            purchaseMode: PurchaseMode.CHECKOUT,
+            sku: "DV-CF-STD",
+            title: "Standard fleet",
+          },
+        ],
+      }),
+    ).resolves.toEqual(
+      expect.objectContaining({
+        id: "product-code-fleet",
+        slug: "dv-code-fleet",
+        variants: [
+          expect.objectContaining({
+            priceVnd: 24_900_000,
+            sku: "DV-CF-STD",
+          }),
+        ],
+      }),
+    );
+  });
 });

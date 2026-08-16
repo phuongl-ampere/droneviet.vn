@@ -13,6 +13,12 @@ export interface PublishArticleInput {
   title: string;
 }
 
+export interface CreateArticleInput extends PublishArticleInput {
+  coverImageUrl?: string;
+  locale?: string;
+  slug: string;
+}
+
 @Injectable()
 export class ContentService {
   constructor(
@@ -22,6 +28,25 @@ export class ContentService {
     private readonly revisionRepository: Repository<ContentRevision>,
     private readonly markdownRenderer: MarkdownRendererService,
   ) {}
+
+  async createArticle(input: CreateArticleInput): Promise<Article> {
+    return this.articleRepository.save(
+      this.articleRepository.create({
+        bodyMarkdown: input.bodyMarkdown,
+        coverImageUrl: input.coverImageUrl ?? null,
+        locale: input.locale ?? "vi",
+        renderedHtml: null,
+        revisionNumber: 0,
+        seoDescription: input.seoDescription ?? null,
+        seoTitle: input.seoTitle ?? null,
+        slug: input.slug,
+        status: ContentStatus.DRAFT,
+        summary: input.summary ?? null,
+        tableOfContents: null,
+        title: input.title,
+      }),
+    );
+  }
 
   async publishArticle(
     articleId: string,
