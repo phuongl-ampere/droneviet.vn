@@ -30,15 +30,9 @@ describe("shared site components", () => {
       "/",
     );
     expect(
-      screen
-        .getAllByRole("link", { name: "Giải pháp" })
-        .some((link) => link.getAttribute("href") === "/giai-phap"),
-    ).toBe(true);
-    expect(
-      screen
-        .getAllByRole("link", { name: "Sản phẩm" })
-        .some((link) => link.getAttribute("href") === "/san-pham"),
-    ).toBe(true);
+      screen.getByRole("button", { name: "Đào tạo & Chứng chỉ" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Cửa hàng" })).toBeInTheDocument();
     expect(
       screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
     ).toHaveAttribute("href", "https://zalo.me/0384070636");

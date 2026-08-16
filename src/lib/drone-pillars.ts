@@ -13,7 +13,7 @@ export type DronePillar = {
   title: string;
 };
 
-const shopHref = (slug: string) => `/cua-hang/danh-muc/${slug}`;
+const shopHref = (category: string) => `/cua-hang?category=${category}`;
 
 export const dronePillars: DronePillar[] = [
   {
@@ -58,10 +58,8 @@ export const dronePillars: DronePillar[] = [
       "Drone, phụ kiện, linh kiện và các gói classroom/lab để triển khai ngay.",
     items: [
       { slug: "drone", title: "Drone", href: shopHref("drone"), description: "Drone theo nhu cầu học tập, vận hành và nghiên cứu." },
-      { slug: "phu-kien", title: "Phụ kiện drone", href: shopHref("phu-kien"), description: "Pin, bảo vệ, sạc, phụ kiện bay và bảo quản." },
-      { slug: "linh-kien", title: "Linh kiện/thành phần drone", href: shopHref("linh-kien"), description: "Khung, motor, cảm biến và thành phần thay thế." },
-      { slug: "bo-drone-giao-duc", title: "Bộ drone giáo dục", href: shopHref("bo-drone-giao-duc"), description: "Thiết bị drone phù hợp chương trình học." },
-      { slug: "combo-classroom-lab", title: "Combo classroom/lab", href: shopHref("combo-classroom-lab"), description: "Combo drone, học liệu và phụ kiện theo quy mô lớp." },
+      { slug: "phu-kien-linh-kien", title: "Phụ kiện & Linh kiện", href: shopHref("parts"), description: "Pin, bảo vệ, sạc, cảm biến và thành phần thay thế." },
+      { slug: "drone-giao-duc-combo-lab", title: "Drone giáo dục & Combo classroom/lab", href: shopHref("education"), description: "Thiết bị drone, học liệu và combo theo quy mô lớp." },
     ],
   },
   {
@@ -91,6 +89,7 @@ export const dronePillars: DronePillar[] = [
       { slug: "workshop-truong-hoc", title: "Workshop trường học", href: "/dich-vu-su-kien/workshop-truong-hoc", description: "Workshop theo khối lớp, mục tiêu STEM và không gian thực tế." },
       { slug: "demo-lab", title: "Demo lab", href: "/dich-vu-su-kien/demo-lab", description: "Trình diễn thiết bị, bài học và workflow quản trị lab." },
       { slug: "tu-van-trien-khai", title: "Tư vấn triển khai", href: "/dich-vu-su-kien/tu-van-trien-khai", description: "Thiết kế gói thiết bị, học liệu và đào tạo vận hành." },
+      { slug: "tin-tuc-drone", title: "Tin tức drone", href: "/tin-tuc", description: "Tin tức, xu hướng và hoạt động drone đáng chú ý." },
     ],
   },
   {
@@ -102,9 +101,7 @@ export const dronePillars: DronePillar[] = [
     description:
       "Tin tức, nghiên cứu, case study và quy chuẩn kỹ thuật cho cộng đồng drone.",
     items: [
-      { slug: "tin-tuc-drone", title: "Tin tức drone", href: "/kien-thuc-rd/tin-tuc-drone", description: "Tin tức, xu hướng và hoạt động drone đáng chú ý." },
       { slug: "nghien-cuu-phat-trien", title: "Nghiên cứu và phát triển drone", href: "/kien-thuc-rd/nghien-cuu-phat-trien", description: "Bài toán R&D về bay, dữ liệu, AI và cảm biến." },
-      { slug: "case-study", title: "Case study", href: "/kien-thuc-rd/case-study", description: "Bài học từ triển khai lớp học, lab và event." },
       { slug: "bao-cao-quy-chuan", title: "Báo cáo/quy chuẩn kỹ thuật", href: "/kien-thuc-rd/bao-cao-quy-chuan", description: "Tài liệu tham khảo để thiết kế và vận hành có kiểm soát." },
     ],
   },

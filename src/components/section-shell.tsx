@@ -22,7 +22,7 @@ export function SectionShell({
       className={
         isDark
           ? "relative overflow-hidden bg-[#10232A] py-24 text-white sm:py-32"
-          : "bg-[#F5F7F4] py-24 text-[#172226] sm:py-32"
+          : "bg-white py-24 text-[#172226] sm:py-32"
       }
     >
       {isDark ? (
@@ -35,7 +35,7 @@ export function SectionShell({
               className={
                 isDark
                   ? "text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7DE0D7]"
-                  : "text-[11px] font-semibold uppercase tracking-[0.2em] text-[#007F75]"
+                  : "text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500"
               }
             >
               {eyebrow}

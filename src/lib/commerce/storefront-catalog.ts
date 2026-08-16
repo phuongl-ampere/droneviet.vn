@@ -6,6 +6,8 @@ export type StoreCollection =
 
 export type StoreAvailability = "in_stock" | "preorder" | "quote_only";
 
+export type StoreShopCategory = "drone" | "education" | "parts";
+
 export type StorePurchaseMode = "checkout" | "preorder" | "quote_only";
 
 export interface StoreProduct {
@@ -27,6 +29,7 @@ export interface StoreProduct {
 export interface StoreProductFilter {
   availability?: StoreAvailability;
   collection?: StoreCollection;
+  shopCategory?: StoreShopCategory;
   purchaseMode?: StorePurchaseMode;
   query?: string;
 }
@@ -123,6 +126,13 @@ export function filterStoreProducts(
   filter: StoreProductFilter,
 ): StoreProduct[] {
   return products.filter((product) => {
+    if (
+      filter.shopCategory &&
+      !matchesShopCategory(product, filter.shopCategory)
+    ) {
+      return false;
+    }
+
     if (filter.collection && product.collection !== filter.collection) {
       return false;
     }
@@ -149,6 +159,21 @@ export function filterStoreProducts(
 
     return true;
   });
+}
+
+export function matchesShopCategory(
+  product: StoreProduct,
+  category: StoreShopCategory,
+): boolean {
+  if (category === "education") {
+    return product.collection === "stem" || product.collection === "training";
+  }
+
+  if (category === "parts") {
+    return product.collection === "accessories";
+  }
+
+  return product.collection === "research";
 }
 
 export function formatVnd(value: number): string {

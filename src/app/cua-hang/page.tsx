@@ -6,21 +6,22 @@ import {
   storeProducts,
   type StoreAvailability,
   type StoreCollection,
+  type StoreShopCategory,
 } from "@/lib/commerce/storefront-catalog";
 
 interface StorePageProps {
   searchParams?: Promise<{
     availability?: StoreAvailability;
     collection?: StoreCollection;
+    category?: StoreShopCategory;
     q?: string;
   }>;
 }
 
-const collections: Array<{ label: string; value: StoreCollection }> = [
-  { label: "Drone giáo dục", value: "stem" },
-  { label: "Drone nghiên cứu", value: "research" },
-  { label: "Đào tạo giảng viên", value: "training" },
-  { label: "Phụ kiện", value: "accessories" },
+const shopCategories: Array<{ label: string; value: StoreShopCategory }> = [
+  { label: "Drone", value: "drone" },
+  { label: "Phụ kiện & Linh kiện", value: "parts" },
+  { label: "Drone giáo dục & Combo classroom/lab", value: "education" },
 ];
 
 const availability: Array<{ label: string; value: StoreAvailability }> = [
@@ -33,13 +34,14 @@ function filterHref(
   next: Partial<{
     availability: StoreAvailability;
     collection: StoreCollection;
+    category: StoreShopCategory;
     q: string;
   }>,
 ) {
   const params = new URLSearchParams();
 
-  if (next.collection) {
-    params.set("collection", next.collection);
+  if (next.category) {
+    params.set("category", next.category);
   }
 
   if (next.availability) {
@@ -90,21 +92,21 @@ export default async function StorePage({ searchParams }: StorePageProps) {
               >
                 Tất cả thiết bị
               </Link>
-              {collections.map((collection) => (
+              {shopCategories.map((category) => (
                 <Link
-                  key={collection.value}
+                  key={category.value}
                   href={filterHref({
                     availability: filters.availability,
-                    collection: collection.value,
+                    category: category.value,
                     q: filters.q,
                   })}
                   className={`block py-2 text-sm ${
-                    filters.collection === collection.value
+                    filters.category === category.value
                       ? "font-semibold text-[#10232A]"
                       : "text-slate-600 hover:text-[#006D66]"
                   }`}
                 >
-                  {collection.label}
+                  {category.label}
                 </Link>
               ))}
             </nav>
@@ -116,7 +118,7 @@ export default async function StorePage({ searchParams }: StorePageProps) {
                 <Link
                   key={item.value}
                   href={filterHref({
-                    collection: filters.collection,
+                    category: filters.category,
                     availability: item.value,
                     q: filters.q,
                   })}
@@ -148,17 +150,17 @@ export default async function StorePage({ searchParams }: StorePageProps) {
                   Danh mục
                 </p>
                 <div className="mt-2 grid gap-1">
-                  {collections.map((collection) => (
+                  {shopCategories.map((category) => (
                     <Link
-                      key={collection.value}
+                      key={category.value}
                       href={filterHref({
                         availability: filters.availability,
-                        collection: collection.value,
+                        category: category.value,
                         q: filters.q,
                       })}
                       className="py-2 text-sm text-slate-700"
                     >
-                      {collection.label}
+                      {category.label}
                     </Link>
                   ))}
                 </div>
@@ -171,7 +173,7 @@ export default async function StorePage({ searchParams }: StorePageProps) {
                       key={item.value}
                       href={filterHref({
                         availability: item.value,
-                        collection: filters.collection,
+                        category: filters.category,
                         q: filters.q,
                       })}
                       className="py-2 text-sm text-slate-700"

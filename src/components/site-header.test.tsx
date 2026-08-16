@@ -13,13 +13,38 @@ describe("SiteHeader", () => {
     );
 
     expect(
-      screen.getAllByRole("link", { name: "Đào tạo & Chứng chỉ" }).length,
-    ).toBeGreaterThan(0);
+      screen.getByRole("button", { name: "Đào tạo & Chứng chỉ" }),
+    ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: "Đăng ký khóa học" }),
-    ).toHaveAttribute("href", "/dao-tao-chung-chi/dang-ky-khoa-hoc");
+      screen
+        .getAllByRole("link", { name: "Đăng ký khóa học" })
+        .some(
+          (link) =>
+            link.getAttribute("href") ===
+            "/dao-tao-chung-chi/dang-ky-khoa-hoc",
+        ),
+    ).toBe(true);
     expect(
-      screen.getByRole("link", { name: "Bản đồ khu vực cấm/hạn chế bay" }),
-    ).toHaveAttribute("href", "/bay-hop-phap/ban-do-cam-bay");
+      screen
+        .getAllByRole("link", {
+          name: "Bản đồ khu vực cấm/hạn chế bay",
+        })
+        .some(
+          (link) =>
+            link.getAttribute("href") === "/bay-hop-phap/ban-do-cam-bay",
+        ),
+    ).toBe(true);
+    expect(screen.getByRole("link", { name: "Đăng nhập" })).toHaveAttribute(
+      "href",
+      "/admin",
+    );
+    expect(screen.getByRole("link", { name: "Zalo" })).toHaveAttribute(
+      "href",
+      "https://zalo.me/0384070636",
+    );
+    expect(screen.getByRole("link", { name: "Gmail" })).toHaveAttribute(
+      "href",
+      "mailto:admin@droneviet.vn",
+    );
   });
 });

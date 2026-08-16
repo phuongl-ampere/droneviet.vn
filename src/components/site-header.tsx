@@ -1,4 +1,4 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Mail, MessageCircle, UserRound } from "lucide-react";
 import Link from "next/link";
 import { dronePillars } from "@/lib/drone-pillars";
 
@@ -54,13 +54,14 @@ export function SiteHeader({
           {locale === "vi"
             ? dronePillars.map((pillar) => (
                 <div key={pillar.slug} className="group relative">
-                  <Link
-                    href={pillar.href}
+                  <button
+                    type="button"
+                    aria-haspopup="true"
                     className="relative block py-3 text-[13px] font-medium text-slate-300 transition hover:text-white focus:text-white"
                   >
                     {pillar.title}
                     <span className="absolute inset-x-0 bottom-1 h-px origin-left scale-x-0 bg-[#00D1C1] transition-transform duration-300 group-hover:scale-x-100 group-focus-within:scale-x-100" />
-                  </Link>
+                  </button>
                   <div className="invisible absolute left-0 top-full z-50 w-80 border border-white/12 bg-[#10232A] p-4 opacity-0 shadow-2xl transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                     <div className="grid">
                       {pillar.items.map((item) => (
@@ -89,6 +90,36 @@ export function SiteHeader({
         </nav>
 
         <div className="flex items-center gap-2">
+          {locale === "vi" ? (
+            <>
+              <Link
+                href="https://zalo.me/0384070636"
+                aria-label="Zalo"
+                title="Zalo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="grid size-10 place-items-center border border-white/12 text-slate-200 transition hover:border-[#00D1C1] hover:text-[#00D1C1]"
+              >
+                <MessageCircle aria-hidden="true" size={17} />
+              </Link>
+              <Link
+                href="mailto:admin@droneviet.vn"
+                aria-label="Gmail"
+                title="Gmail"
+                className="grid size-10 place-items-center border border-white/12 text-slate-200 transition hover:border-[#00D1C1] hover:text-[#00D1C1]"
+              >
+                <Mail aria-hidden="true" size={17} />
+              </Link>
+              <Link
+                href="/admin"
+                aria-label="Đăng nhập"
+                title="Đăng nhập"
+                className="grid size-10 place-items-center border border-white/12 text-slate-200 transition hover:border-[#00D1C1] hover:text-[#00D1C1]"
+              >
+                <UserRound aria-hidden="true" size={17} />
+              </Link>
+            </>
+          ) : null}
           {languageSwitch ? (
             <Link
               href={languageSwitch.href}
@@ -113,18 +144,28 @@ export function SiteHeader({
         </div>
       </div>
       <nav
-        className="mx-auto flex w-full max-w-7xl gap-6 overflow-x-auto border-t border-white/8 px-5 py-2.5 lg:hidden"
+        className="mx-auto grid w-full max-w-7xl gap-3 border-t border-white/8 px-5 py-3 lg:hidden"
         aria-label={mobileNavigationLabel}
       >
           {locale === "vi"
             ? dronePillars.map((pillar) => (
-                <Link
+                <details
                   key={pillar.slug}
-                  href={pillar.href}
-                  className="shrink-0 border-b border-transparent py-1.5 text-xs font-medium text-slate-300 transition hover:border-[#00D1C1] hover:text-white"
+                  className="border-b border-white/8 pb-2 text-xs text-slate-300"
                 >
-                  {pillar.title}
-                </Link>
+                  <summary className="cursor-pointer py-1.5 font-medium">{pillar.title}</summary>
+                  <div className="grid gap-2 py-2 pl-3">
+                    {pillar.items.map((item) => (
+                      <Link
+                        key={item.slug}
+                        href={item.href}
+                        className="text-slate-400 hover:text-[#7DE0D7]"
+                      >
+                        {item.title}
+                      </Link>
+                    ))}
+                  </div>
+                </details>
               ))
             : navigation.map((item) => (
                 <Link

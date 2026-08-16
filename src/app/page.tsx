@@ -79,13 +79,10 @@ function FeaturedSolution({
     <article
       className={
         isLead
-          ? "group relative overflow-hidden rounded-[2rem] bg-[#10232A] p-7 text-white md:col-span-2 md:grid md:min-h-[34rem] md:grid-cols-[0.9fr_1.1fr] md:items-end md:p-10 lg:row-span-2 lg:col-span-1"
+          ? "group relative overflow-hidden border-t border-[#172226]/16 bg-white p-7 md:col-span-2 md:grid md:min-h-[34rem] md:grid-cols-[0.9fr_1.1fr] md:items-end md:p-10 lg:row-span-2 lg:col-span-1"
           : "group flex min-h-[16rem] flex-col border-t border-[#172226]/16 py-7 sm:px-5"
       }
     >
-      {isLead ? (
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_32%,rgba(0,169,155,0.22),transparent_34%)]" />
-      ) : null}
       <div
         className={
           isLead
@@ -96,27 +93,27 @@ function FeaturedSolution({
         <p
           className={
             isLead
-              ? "text-[10px] font-semibold uppercase tracking-[0.18em] text-[#7DE0D7]"
-              : "text-[10px] font-semibold uppercase tracking-[0.18em] text-[#007F75]"
+              ? "text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500"
+              : "text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500"
           }
         >
           {isLead ? copy.featured : drone.level}
         </p>
         <h3
           className={`display-type mt-4 font-medium leading-none tracking-[-0.035em] ${
-            isLead ? "text-5xl sm:text-6xl" : "text-3xl text-[#10232A]"
+            isLead ? "text-5xl text-[#10232A] sm:text-6xl" : "text-3xl text-[#10232A]"
           }`}
         >
           {drone.name}
         </h3>
-        <p className={`mt-5 text-sm leading-7 ${isLead ? "text-slate-300" : "text-slate-600"}`}>
+        <p className="mt-5 text-sm leading-7 text-slate-600">
           {drone.summary}
         </p>
         <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2">
           {drone.useCases.slice(0, 2).map((useCase) => (
             <span
               key={useCase}
-              className={`text-xs ${isLead ? "text-slate-400" : "text-slate-500"}`}
+              className="text-xs text-slate-500"
             >
               {useCase}
             </span>
@@ -124,18 +121,14 @@ function FeaturedSolution({
         </div>
         <Link
           href={`${hrefBase}/${drone.slug}`}
-          className={`mt-8 inline-flex w-fit items-center gap-2 border-b pb-1 text-sm font-semibold transition ${
-            isLead
-              ? "border-[#7DE0D7]/60 text-white hover:border-white"
-              : "border-[#00A99B]/50 text-[#006D66] hover:border-[#10232A] hover:text-[#10232A]"
-          }`}
+          className="mt-8 inline-flex w-fit items-center gap-2 border-b border-[#00A99B]/50 pb-1 text-sm font-semibold text-[#006D66] transition hover:border-[#10232A] hover:text-[#10232A]"
         >
           {copy.viewProduct}
           <ArrowUpRight aria-hidden="true" size={15} />
         </Link>
       </div>
       {isLead ? (
-        <div className="relative order-1 grid place-items-center text-[#D9F6F2] md:order-2 md:self-center">
+        <div className="relative order-1 grid place-items-center text-[#10232A] md:order-2 md:self-center">
           <DroneMark />
         </div>
       ) : null}
@@ -167,22 +160,29 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
       >
         <div className="grid gap-x-8 md:grid-cols-2 lg:grid-cols-3">
           {dronePillars.map((pillar) => (
-            <Link
+            <article
               key={pillar.slug}
-              href={pillar.href}
               className="group border-t border-[#172226]/16 py-7"
             >
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#007F75]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                 {pillar.eyebrow}
               </p>
-              <h2 className="mt-4 text-2xl font-semibold text-[#10232A] group-hover:text-[#006D66]">
+              <h2 className="mt-4 text-2xl font-semibold text-[#10232A]">
                 {pillar.title}
               </h2>
-              <span className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#006D66]">
-                Khám phá
-                <ArrowUpRight aria-hidden="true" size={15} />
-              </span>
-            </Link>
+              <div className="mt-4 grid gap-2 text-sm">
+                {pillar.items.map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={item.href}
+                    className="inline-flex items-center gap-2 text-slate-600 hover:text-[#006D66]"
+                  >
+                    <ArrowUpRight aria-hidden="true" size={14} />
+                    {item.title}
+                  </Link>
+                ))}
+              </div>
+            </article>
           ))}
         </div>
       </SectionShell>
@@ -203,22 +203,21 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
         eyebrow={copy.servicesEyebrow}
         title={copy.servicesTitle}
         description={copy.servicesDescription}
-        tone="dark"
       >
         <div className="grid gap-x-10 md:grid-cols-3">
           {services.map((service) => (
-            <article key={service.slug} className="border-t border-white/20 py-7">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#7DE0D7]">
+            <article key={service.slug} className="border-t border-[#172226]/16 py-7">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                 {service.audience.slice(0, 2).join(" · ")}
               </p>
-              <h3 className="display-type mt-5 text-3xl font-medium leading-tight">
+              <h3 className="display-type mt-5 text-3xl font-medium leading-tight text-[#10232A]">
                 {service.title}
               </h3>
-              <p className="mt-4 text-sm leading-7 text-slate-300">{service.summary}</p>
+              <p className="mt-4 text-sm leading-7 text-slate-600">{service.summary}</p>
               <div className="mt-6 space-y-3">
                 {service.deliverables.slice(0, 2).map((deliverable) => (
-                  <p key={deliverable} className="flex gap-2 text-sm text-slate-400">
-                    <Check aria-hidden="true" className="mt-0.5 text-[#7DE0D7]" size={15} />
+                  <p key={deliverable} className="flex gap-2 text-sm text-slate-600">
+                    <Check aria-hidden="true" className="mt-0.5 text-[#10232A]" size={15} />
                     {deliverable}
                   </p>
                 ))}
@@ -238,7 +237,7 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
             aria-hidden="true"
             viewBox="0 0 1000 120"
             preserveAspectRatio="none"
-            className="pointer-events-none absolute left-0 top-8 hidden h-24 w-full text-[#00A99B]/20 md:block"
+            className="pointer-events-none absolute left-0 top-8 hidden h-24 w-full text-[#172226]/15 md:block"
           >
             <path d="M20 70C220 5 315 115 500 55S790 10 980 65" fill="none" stroke="currentColor" strokeWidth="2" />
           </svg>
@@ -248,7 +247,7 @@ export function HomePageContent({ locale = "vi" }: { locale?: Locale }) {
               className="relative border-t border-[#172226]/18 py-8 md:min-h-72 md:px-7"
             >
               <div className="flex items-center justify-between">
-                <span className="display-type text-4xl italic text-[#00A99B]">
+                <span className="display-type text-4xl italic text-[#10232A]/45">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <MoveUpRight aria-hidden="true" className="text-[#D69C54]" size={20} />

@@ -1,17 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { DronePillarDetail, DronePillarHub } from "./drone-pillar-pages";
+import { DronePillarDetail } from "./drone-pillar-pages";
 
 describe("DronePillar pages", () => {
-  it("renders the certification training hub and its child links", () => {
-    render(<DronePillarHub slug="dao-tao-chung-chi" />);
-
+  it("renders the certification training topic page", () => {
+    render(
+      <DronePillarDetail
+        pillarSlug="dao-tao-chung-chi"
+        topicSlug="chung-chi-lai-drone"
+      />,
+    );
     expect(
-      screen.getByRole("heading", { name: "Đào tạo & Chứng chỉ" }),
+      screen.getByRole("heading", { name: "Chứng chỉ lái drone" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /Chứng chỉ lái drone/ }),
-    ).toHaveAttribute("href", "/dao-tao-chung-chi/chung-chi-lai-drone");
+      screen.getByRole("link", { name: "Trang chủ" }),
+    ).toHaveAttribute("href", "/");
   });
 
   it("renders a legal-flight topic page", () => {
