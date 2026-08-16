@@ -221,6 +221,9 @@ export class OrdersService {
       for (const order of expiredOrders) {
         await this.reservations.releaseForOrder(manager, order);
         await this.courses.releaseEnrollmentsForOrder(manager, order.id);
+        if (order.promotionCode && order.discountVnd > 0) {
+          await this.promotions.releaseDiscount(manager, order.promotionCode);
+        }
         order.reservationExpiresAt = null;
         order.status = OrderStatus.PAYMENT_FAILED;
         await orderRepository.save(order);
@@ -283,6 +286,9 @@ export class OrdersService {
       if (input.nextStatus === OrderStatus.CANCELLED) {
         if (previousStatus === OrderStatus.PENDING_PAYMENT) {
           await this.reservations.releaseForOrder(manager, order);
+          if (order.promotionCode && order.discountVnd > 0) {
+            await this.promotions.releaseDiscount(manager, order.promotionCode);
+          }
         } else {
           await this.reservations.restockForOrder(manager, order);
         }

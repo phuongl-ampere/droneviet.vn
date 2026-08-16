@@ -59,4 +59,25 @@ describe("PromotionsService", () => {
     expect(promo.usageCount).toBe(1);
     expect(repository.save).toHaveBeenCalledWith(promo);
   });
+
+  it("releases a consumed promotion without going below zero", async () => {
+    const promo = { code: "STEM20", usageCount: 1 };
+    const repository = {
+      createQueryBuilder: vi.fn(() => ({
+        getOne: vi.fn().mockResolvedValue(promo),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+      save: vi.fn(),
+    };
+    const service = new PromotionsService({} as never);
+
+    await service.releaseDiscount(
+      { getRepository: vi.fn(() => repository) } as never,
+      " stem20 ",
+    );
+
+    expect(promo.usageCount).toBe(0);
+    expect(repository.save).toHaveBeenCalledWith(promo);
+  });
 });

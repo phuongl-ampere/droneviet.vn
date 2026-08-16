@@ -87,4 +87,20 @@ export class PromotionsService {
       discountVnd,
     };
   }
+
+  async releaseDiscount(manager: EntityManager, code: string): Promise<void> {
+    const repository = manager.getRepository(PromoCode);
+    const promo = await repository
+      .createQueryBuilder("promo")
+      .where("promo.code = :code", { code: code.trim().toUpperCase() })
+      .setLock("pessimistic_write")
+      .getOne();
+
+    if (!promo || promo.usageCount === 0) {
+      return;
+    }
+
+    promo.usageCount -= 1;
+    await repository.save(promo);
+  }
 }
