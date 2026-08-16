@@ -38,6 +38,31 @@ npm run test
 npm run build
 ```
 
+## Commerce API
+
+The commerce API lives in `backend/` and uses MySQL migrations plus Redis-ready
+reservation workflows.
+
+```bash
+cd backend
+npm install
+npm run migration:run
+npm run seed:catalog
+npm run start:dev
+```
+
+Run its verification separately:
+
+```bash
+cd backend
+npm test
+npm run build
+```
+
+`1766919400000-commerce-hardening` is intentionally forward-only. It reconciles
+both historical and intermediate development schemas; restore a database backup
+instead of attempting to revert it.
+
 ## Vercel Deploy
 
 Use the default Vercel Next.js preset.
