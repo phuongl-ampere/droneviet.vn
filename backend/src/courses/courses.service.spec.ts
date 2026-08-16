@@ -8,10 +8,12 @@ describe("CoursesService", () => {
       createQueryBuilder: vi.fn(() => ({
         getOne: vi.fn().mockResolvedValue({
           capacity: 12,
+          course: { productVariantId: "variant-course-g1" },
           id: "session-g1",
           reservedSeats: 7,
           status: CourseSessionStatus.OPEN,
         }),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
         setLock: vi.fn().mockReturnThis(),
         where: vi.fn().mockReturnThis(),
       })),
@@ -36,6 +38,7 @@ describe("CoursesService", () => {
         contactEmail: "parent@example.vn",
         contactName: "Nguyen Van A",
         contactPhone: "0900000000",
+        productVariantId: "variant-course-g1",
         quantity: 2,
         sessionId: "session-g1",
       }),

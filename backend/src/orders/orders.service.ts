@@ -189,6 +189,7 @@ export class OrdersService {
           contactName: input.contactName,
           contactPhone: input.contactPhone,
           orderId: order.id,
+          productVariantId: line.productVariantId,
           quantity: line.quantity,
           sessionId: line.courseSessionId,
         });

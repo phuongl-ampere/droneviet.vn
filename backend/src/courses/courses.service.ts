@@ -12,6 +12,7 @@ export interface ReserveEnrollmentInput {
   contactName: string;
   contactPhone: string;
   orderId?: string;
+  productVariantId: string;
   quantity: number;
   sessionId: string;
 }
@@ -42,11 +43,16 @@ export class CoursesService {
     const sessionRepository = manager.getRepository(CourseSession);
     const session = await sessionRepository
       .createQueryBuilder("session")
+      .leftJoinAndSelect("session.course", "course")
       .where("session.id = :id", { id: input.sessionId })
       .setLock("pessimistic_write")
       .getOne();
 
     if (!session || session.status !== CourseSessionStatus.OPEN) {
+      throw new NotFoundException("Course session is unavailable");
+    }
+
+    if (session.course.productVariantId !== input.productVariantId) {
       throw new NotFoundException("Course session is unavailable");
     }
 

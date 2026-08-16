@@ -21,6 +21,9 @@ export class Course {
   @Column({ unique: true })
   slug!: string;
 
+  @Column({ unique: true })
+  productVariantId!: string;
+
   @Column({ length: 16 })
   locale!: string;
 
