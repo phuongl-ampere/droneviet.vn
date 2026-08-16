@@ -5,6 +5,7 @@ import { Order } from "./entities/order.entity";
 import { InventoryItem } from "../inventory/entities/inventory-item.entity";
 import { InventoryModule } from "../inventory/inventory.module";
 import { AuditModule } from "../audit/audit.module";
+import { PromotionsModule } from "../promotions/promotions.module";
 import { CoursesModule } from "../courses/courses.module";
 import { PaymentsModule } from "../payments/payments.module";
 import { OrdersController } from "./orders.controller";
@@ -15,6 +16,7 @@ import { ReservationCleanupService } from "./reservation-cleanup.service";
   imports: [
     PaymentsModule,
     AuditModule,
+    PromotionsModule,
     InventoryModule,
     CoursesModule,
     TypeOrmModule.forFeature([InventoryItem, Order, OrderLine]),

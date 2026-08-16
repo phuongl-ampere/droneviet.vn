@@ -50,6 +50,8 @@ export default function CheckoutPage() {
               contactPhone: String(formData.get("contactPhone") ?? ""),
               lines,
               paymentMethod,
+              promotionCode:
+                String(formData.get("promotionCode") ?? "") || undefined,
               shippingAddress:
                 String(formData.get("shippingAddress") ?? "") || undefined,
             })) as { checkoutUrl?: string; order?: { orderNumber?: string } };
@@ -110,6 +112,20 @@ export default function CheckoutPage() {
                 />
               </label>
             </div>
+          </section>
+
+          <section className="border border-black/10 bg-white p-5 sm:p-7">
+            <h2 className="text-lg font-semibold">Khuyến mãi</h2>
+            <label className="mt-5 grid gap-2 text-sm font-medium">
+              Mã ưu đãi
+              <input
+                name="promotionCode"
+                className="min-h-11 border border-black/15 px-3 font-normal uppercase outline-none focus:border-[#006D66]"
+              />
+            </label>
+            <p className="mt-3 text-xs leading-5 text-slate-500">
+              Ưu đãi được xác thực và tính lại bởi Commerce API.
+            </p>
           </section>
 
           <section className="border border-black/10 bg-white p-5 sm:p-7">

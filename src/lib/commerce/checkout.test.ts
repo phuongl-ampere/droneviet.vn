@@ -29,6 +29,7 @@ describe("submitCheckout", () => {
           },
         ],
         paymentMethod: "payos",
+        promotionCode: undefined,
         shippingAddress: "Ho Chi Minh City",
       }),
     ).resolves.toEqual({ order: { orderNumber: "DV-123" } });

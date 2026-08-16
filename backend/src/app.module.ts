@@ -12,6 +12,7 @@ import { PaymentsModule } from "./payments/payments.module";
 import { ShippingModule } from "./shipping/shipping.module";
 import { CoursesModule } from "./courses/courses.module";
 import { AuditModule } from "./audit/audit.module";
+import { PromotionsModule } from "./promotions/promotions.module";
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuditModule } from "./audit/audit.module";
     ShippingModule,
     CoursesModule,
     AuditModule,
+    PromotionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -15,6 +15,7 @@ import { Course } from "../courses/entities/course.entity";
 import { CourseSession } from "../courses/entities/course-session.entity";
 import { CourseEnrollment } from "../courses/entities/course-enrollment.entity";
 import { AuditEvent } from "../audit/entities/audit-event.entity";
+import { PromoCode } from "../promotions/entities/promo-code.entity";
 import { InitialCatalogMigration1766918700000 } from "./migrations/1766918700000-initial-catalog";
 import { ContentMigration1766918800000 } from "./migrations/1766918800000-content";
 import { UsersMigration1766918900000 } from "./migrations/1766918900000-users";
@@ -27,6 +28,7 @@ import { CommerceHardeningMigration1766919400000 } from "./migrations/1766919400
 import { CoursesMigration1766919500000 } from "./migrations/1766919500000-courses";
 import { CourseOrderReservationsMigration1766919600000 } from "./migrations/1766919600000-course-order-reservations";
 import { AuditEventsMigration1766919700000 } from "./migrations/1766919700000-audit-events";
+import { PromotionsMigration1766919800000 } from "./migrations/1766919800000-promotions";
 
 export function createDatabaseOptions(
   environment: NodeJS.ProcessEnv,
@@ -55,6 +57,7 @@ export function createDatabaseOptions(
       CourseSession,
       CourseEnrollment,
       AuditEvent,
+      PromoCode,
     ],
     migrations: [
       InitialCatalogMigration1766918700000,
@@ -69,6 +72,7 @@ export function createDatabaseOptions(
       CoursesMigration1766919500000,
       CourseOrderReservationsMigration1766919600000,
       AuditEventsMigration1766919700000,
+      PromotionsMigration1766919800000,
     ],
     synchronize: false,
   };

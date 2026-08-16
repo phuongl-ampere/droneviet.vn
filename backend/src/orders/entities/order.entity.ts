@@ -43,6 +43,15 @@ export class Order {
   @Column({ type: "bigint", unsigned: true, transformer: bigintVndTransformer })
   totalVnd!: number;
 
+  @Column({ type: "bigint", unsigned: true, transformer: bigintVndTransformer })
+  subtotalVnd!: number;
+
+  @Column({ type: "bigint", unsigned: true, default: 0, transformer: bigintVndTransformer })
+  discountVnd!: number;
+
+  @Column({ nullable: true })
+  promotionCode!: string | null;
+
   @Column()
   contactName!: string;
 

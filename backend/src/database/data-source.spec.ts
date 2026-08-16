@@ -14,6 +14,7 @@ import { Course } from "../courses/entities/course.entity";
 import { CourseSession } from "../courses/entities/course-session.entity";
 import { CourseEnrollment } from "../courses/entities/course-enrollment.entity";
 import { AuditEvent } from "../audit/entities/audit-event.entity";
+import { PromoCode } from "../promotions/entities/promo-code.entity";
 import { createDatabaseOptions } from "./data-source";
 
 describe("createDatabaseOptions", () => {
@@ -51,8 +52,9 @@ describe("createDatabaseOptions", () => {
         CourseSession,
         CourseEnrollment,
         AuditEvent,
+        PromoCode,
       ]),
     );
-    expect(options.migrations).toHaveLength(12);
+    expect(options.migrations).toHaveLength(13);
   });
 });

@@ -50,6 +50,7 @@ describe("OrdersService", () => {
       reservationService as never,
       { reserveEnrollmentWithManager: vi.fn() } as never,
       audit as never,
+      { resolveDiscount: vi.fn() } as never,
     );
 
     await expect(
@@ -126,6 +127,7 @@ describe("OrdersService", () => {
       { reserve: vi.fn() } as never,
       { reserveEnrollmentWithManager: vi.fn() } as never,
       { recordWithManager: vi.fn() } as never,
+      { resolveDiscount: vi.fn() } as never,
     );
 
     await expect(
@@ -185,6 +187,7 @@ describe("OrdersService", () => {
       { reserve: vi.fn() } as never,
       courses as never,
       { recordWithManager: vi.fn() } as never,
+      { resolveDiscount: vi.fn() } as never,
     );
 
     await service.createOrder({
@@ -241,6 +244,7 @@ describe("OrdersService", () => {
         reserveEnrollmentWithManager: vi.fn(),
       } as never,
       { recordWithManager: vi.fn() } as never,
+      { resolveDiscount: vi.fn() } as never,
     );
 
     await expect(
@@ -274,6 +278,7 @@ describe("OrdersService", () => {
       {} as never,
       {} as never,
       { recordWithManager: vi.fn() } as never,
+      { resolveDiscount: vi.fn() } as never,
     );
 
     await expect(

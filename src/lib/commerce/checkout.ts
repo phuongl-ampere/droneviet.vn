@@ -8,6 +8,7 @@ export interface SubmitCheckoutInput {
   contactPhone: string;
   lines: CartLine[];
   paymentMethod: CheckoutPaymentMethod;
+  promotionCode?: string;
   shippingAddress?: string;
 }
 
@@ -38,6 +39,7 @@ export async function submitCheckout(input: SubmitCheckoutInput) {
       contactPhone: input.contactPhone,
       lines,
       paymentMethod: input.paymentMethod,
+      promotionCode: input.promotionCode,
       shippingAddress: input.shippingAddress,
     }),
   });

@@ -9,6 +9,7 @@ import {
 import { ProductKind, ProductStatus } from "../catalog/entities/product.entity";
 import { CoursesService } from "../courses/courses.service";
 import { AuditService } from "../audit/audit.service";
+import { PromotionsService } from "../promotions/promotions.service";
 import { InventoryReservationService } from "../inventory/inventory-reservation.service";
 import { Order, OrderPaymentMethod } from "./entities/order.entity";
 import { OrderLine } from "./entities/order-line.entity";
@@ -24,6 +25,7 @@ export interface CreateOrderInput {
     variantId: string;
   }>;
   paymentMethod: OrderPaymentMethod;
+  promotionCode?: string;
   shippingAddress?: string;
 }
 
@@ -35,6 +37,7 @@ export class OrdersService {
     private readonly reservations: InventoryReservationService,
     private readonly courses: CoursesService,
     private readonly audit: AuditService,
+    private readonly promotions: PromotionsService,
   ) {}
 
   async createOrder(input: CreateOrderInput): Promise<Order> {
@@ -104,10 +107,15 @@ export class OrdersService {
         })),
       );
 
-      const totalVnd = calculatedLines.reduce(
+      const subtotalVnd = calculatedLines.reduce(
         (total, line) => total + line.subtotalVnd,
         0,
       );
+      const promotion = input.promotionCode
+        ? await this.promotions.resolveDiscount(input.promotionCode, subtotalVnd)
+        : null;
+      const discountVnd = promotion?.discountVnd ?? 0;
+      const totalVnd = subtotalVnd - discountVnd;
       const orderRepository = manager.getRepository(Order);
       const order = await orderRepository.save(
         orderRepository.create({
@@ -119,7 +127,10 @@ export class OrdersService {
           reservationExpiresAt: new Date(Date.now() + 30 * 60 * 1000),
           shippingAddress: input.shippingAddress ?? null,
           status: OrderStatus.PENDING_PAYMENT,
+          subtotalVnd,
+          discountVnd,
           totalVnd,
+          promotionCode: promotion?.code ?? null,
         }),
       );
       const orderLineRepository = manager.getRepository(OrderLine);
@@ -137,7 +148,11 @@ export class OrdersService {
         action: "order.created",
         aggregateId: order.id,
         aggregateType: "order",
-        nextState: { status: order.status, totalVnd: order.totalVnd },
+        nextState: {
+          discountVnd: order.discountVnd,
+          status: order.status,
+          totalVnd: order.totalVnd,
+        },
       });
 
       for (const line of calculatedLines) {
