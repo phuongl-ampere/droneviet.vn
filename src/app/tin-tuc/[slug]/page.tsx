@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { MarkdownDocument } from "@/components/content/markdown-document";
 import { SectionShell } from "@/components/section-shell";
 import { getArticleBySlug, getArticles } from "@/lib/content";
-import { getTranslations } from "@/lib/i18n";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -23,7 +22,7 @@ export async function generateMetadata({
 
   if (!article) {
     return {
-      title: getTranslations("vi").seo.articleNotFound,
+      title: "Không tìm thấy bài viết",
     };
   }
 

@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope, Newsreader } from "next/font/google";
 import { LocalizedChrome } from "@/components/localized-chrome";
-import { CustomerSessionProvider } from "@/components/customer/customer-session-provider";
 import { CartProvider } from "@/components/store/cart-provider";
-import { getSiteContent } from "@/lib/content";
-import { getTranslations } from "@/lib/i18n";
+import { sourceContentEn, sourceContentVi } from "@/content/data/site";
 import { siteUrl } from "@/lib/seo";
 import "./globals.css";
 
@@ -20,15 +18,14 @@ const newsreader = Newsreader({
   display: "swap",
 });
 
-const copy = getTranslations("vi");
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: copy.seo.defaultTitle,
-    template: copy.seo.titleTemplate,
+    default: "Drone Việt | Drone nghiên cứu & giáo dục",
+    template: "%s | Drone Việt",
   },
-  description: copy.seo.defaultDescription,
+  description:
+    "Drone Việt cung cấp giải pháp drone cho nghiên cứu và giáo dục từ cấp 1 đến đại học: thiết bị, giáo trình, nền tảng thử nghiệm và dịch vụ triển khai.",
 };
 
 export default function RootLayout({
@@ -37,8 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const content = {
-    vi: getSiteContent("vi"),
-    en: getSiteContent("en"),
+    vi: sourceContentVi.site,
+    en: sourceContentEn.site,
   };
 
   return (
@@ -48,9 +45,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <CartProvider>
-          <CustomerSessionProvider>
-            <LocalizedChrome content={content}>{children}</LocalizedChrome>
-          </CustomerSessionProvider>
+          <LocalizedChrome content={content}>{children}</LocalizedChrome>
         </CartProvider>
       </body>
     </html>

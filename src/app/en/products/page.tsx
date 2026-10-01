@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import { DroneCard } from "@/components/drone-card";
 import { SectionShell } from "@/components/section-shell";
 import { getDroneModels } from "@/lib/content";
-import { getTranslations } from "@/lib/i18n";
 
-const copy = getTranslations("en");
 export const metadata: Metadata = {
-  title: copy.seo.productsTitle,
-  description: copy.seo.productsDescription,
+  title: "Drone products",
+  description:
+    "Drone product catalog for grade school, high school, university, instructors, and research labs.",
 };
 
 export default async function EnglishProductsPage() {
@@ -15,14 +14,14 @@ export default async function EnglishProductsPage() {
 
   return (
     <SectionShell
-      eyebrow={copy.pages.productsEyebrow}
-      title={copy.pages.productsTitle}
-      description={copy.pages.productsDescription}
+      eyebrow="Product catalog"
+      title="Drone products"
+      description="Drone kits and hardware packages for classrooms, STEM centers, universities, and research labs."
     >
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {drones.map((drone) => (
           <div key={drone.slug} id={drone.slug}>
-            <DroneCard drone={drone} detailBasePath="/en/products" locale="en" />
+            <DroneCard drone={drone} detailBasePath="/en/products" ctaLabel="View details" />
           </div>
         ))}
       </div>

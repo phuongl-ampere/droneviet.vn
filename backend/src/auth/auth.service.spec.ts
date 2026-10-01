@@ -9,10 +9,8 @@ describe("AuthService", () => {
     const userRepository = {
       findOneBy: vi.fn().mockResolvedValue({
         email: "catalog@droneviet.vn",
-        displayName: "Catalog Manager",
         id: "user-catalog",
         passwordHash,
-        phone: null,
         roles: [UserRole.CATALOG_MANAGER],
       }),
     };
@@ -32,10 +30,8 @@ describe("AuthService", () => {
     ).resolves.toEqual({
       accessToken: "signed-access-token",
       user: {
-        displayName: "Catalog Manager",
         email: "catalog@droneviet.vn",
         id: "user-catalog",
-        phone: null,
         roles: [UserRole.CATALOG_MANAGER],
       },
     });
@@ -69,10 +65,8 @@ describe("AuthService", () => {
     ).resolves.toEqual({
       accessToken: "customer-access-token",
       user: {
-        displayName: "Nguyen Van A",
         email: "customer@example.vn",
         id: "customer-1",
-        phone: null,
         roles: [UserRole.CUSTOMER],
       },
     });
@@ -83,35 +77,5 @@ describe("AuthService", () => {
         roles: [UserRole.CUSTOMER],
       }),
     );
-  });
-
-  it("returns a safe profile and persists editable contact information", async () => {
-    const user = {
-      displayName: "Customer",
-      email: "customer@example.vn",
-      id: "customer-1",
-      phone: null,
-      roles: [UserRole.CUSTOMER],
-    };
-    const userRepository = {
-      findOneBy: vi.fn().mockResolvedValue(user),
-      save: vi.fn(async (nextUser) => nextUser),
-    };
-    const service = new AuthService(
-      userRepository as never,
-      { signAsync: vi.fn() } as never,
-    );
-
-    await expect(service.profile("customer-1")).resolves.toEqual(user);
-    await expect(
-      service.updateProfile("customer-1", {
-        displayName: "Nguyen Van A",
-        phone: "0901234567",
-      }),
-    ).resolves.toEqual({
-      ...user,
-      displayName: "Nguyen Van A",
-      phone: "0901234567",
-    });
   });
 });

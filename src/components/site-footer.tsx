@@ -1,6 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { getTranslation } from "@/lib/i18n";
 
 type LinkItem = {
   label: string;
@@ -20,9 +19,10 @@ export function SiteFooter({
   navigation,
   locale = "vi",
 }: SiteFooterProps) {
-  const descriptor = getTranslation(locale, "footer.descriptor");
-  const navigationLabel = getTranslation(locale, "footer.navigation");
-  const contactLabel = getTranslation(locale, "footer.contactProject");
+  const descriptor =
+    locale === "vi" ? "Hệ thống nghiên cứu & giáo dục" : "Research & education systems";
+  const navigationLabel = locale === "vi" ? "Liên kết cuối trang" : "Footer navigation";
+  const contactLabel = locale === "vi" ? "Trao đổi dự án" : "Discuss a project";
 
   return (
     <footer className="border-t border-white/8 bg-[#071117] text-white">

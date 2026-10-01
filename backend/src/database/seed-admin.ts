@@ -16,26 +16,16 @@ export async function seedAdmin(
     );
   }
 
-  const repository = manager.getRepository(User);
-  const existing = await repository.findOneBy({ email });
+  const passwordHash = await bcrypt.hash(password, 12);
 
-  if (existing) {
-    if (environment.FORCE_RESET_ADMIN_PASSWORD !== "true") {
-      return;
-    }
-
-    existing.passwordHash = await bcrypt.hash(password, 12);
-    await repository.save(existing);
-    return;
-  }
-
-  await repository.save(
-    repository.create({
+  await manager.getRepository(User).upsert(
+    {
       displayName: "Drone Viet Administrator",
       email,
-      passwordHash: await bcrypt.hash(password, 12),
+      passwordHash,
       roles: [UserRole.SUPER_ADMIN],
-    }),
+    },
+    ["email"],
   );
 }
 

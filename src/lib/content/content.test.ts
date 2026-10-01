@@ -14,22 +14,18 @@ describe("content loaders", () => {
     const site = getSiteContent();
 
     expect(site.brand.name).toBe("Drone Việt");
-    expect(site.hero.primaryCta.label).toBe("Tư vấn ngay");
+    expect(site.hero.primaryCta.label).toBe("Liên hệ tư vấn ngay");
     expect(site.hero.primaryCta.href).toBe("https://zalo.me/0384070636");
     expect(site.hero.title).toBe(
-      "Giải pháp drone cho giáo dục và nghiên cứu",
+      "Drone cho nghiên cứu và giáo dục từ cấp 1 đến đại học",
     );
     expect(site.navigation.map((item) => item.label)).toEqual([
-      "Tất cả giải pháp",
+      "Giải pháp",
       "Sản phẩm",
       "Giáo trình",
+      "Dịch vụ",
       "Tin tức",
     ]);
-    expect(site.navigation).toContainEqual({
-      label: "Tất cả giải pháp",
-      href: "/dich-vu",
-    });
-    expect(site.navigation.map((item) => item.href)).not.toContain("/giai-phap");
     expect(site.audiencePaths.map((path) => path.name)).toEqual([
       "Trường phổ thông",
       "Đại học và lab nghiên cứu",
@@ -92,11 +88,6 @@ describe("content loaders", () => {
 
     expect(site.brand.name).toBe("Drone Viet");
     expect(site.navigation.map((item) => item.href)).toContain("/en/products");
-    expect(site.navigation).toContainEqual({
-      label: "All solutions",
-      href: "/en/services",
-    });
-    expect(site.navigation.map((item) => item.href)).not.toContain("/en/solutions");
     expect(site.hero.primaryCta.label).toBe("Contact us now");
     expect(getDroneModels("en")[0].level).toBe("Grade 1");
     expect(getServices("en")[0].title).toBe("Drone lab consulting");

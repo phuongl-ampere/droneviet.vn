@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { HomePageContent } from "@/components/home-page-content";
-import { getTranslations } from "@/lib/i18n";
+import { HomePageContent } from "@/app/page";
 
-const copy = getTranslations("en");
 export const metadata: Metadata = {
-  title: copy.seo.homeTitle,
-  description: copy.seo.homeDescription,
+  title: "Drone research & education",
+  description:
+    "Drone solutions for research and education from grade school to university.",
 };
 
 export default function EnglishHomePage() {
   return <HomePageContent locale="en" />;
 }
+

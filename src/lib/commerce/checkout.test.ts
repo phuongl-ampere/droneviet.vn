@@ -19,7 +19,6 @@ describe("submitCheckout", () => {
       submitCheckout({
         contactName: "Nguyen Van A",
         contactPhone: "0900000000",
-        fulfillmentMethod: "delivery",
         lines: [
           {
             priceVnd: 9_500_000,
@@ -32,31 +31,27 @@ describe("submitCheckout", () => {
         paymentMethod: "payos",
         promotionCode: undefined,
         shippingAddress: "Ho Chi Minh City",
-        shippingNote: "Call on arrival",
       }),
     ).resolves.toEqual({ order: { orderNumber: "DV-123" } });
 
     expect(fetchMock).toHaveBeenCalledWith(
       "https://api.example.test/orders",
       expect.objectContaining({
-        credentials: "include",
+        body: JSON.stringify({
+          contactName: "Nguyen Van A",
+          contactPhone: "0900000000",
+          lines: [
+            {
+              courseSessionId: undefined,
+              quantity: 1,
+              variantId: "11111111-1111-4111-8111-111111111111",
+            },
+          ],
+          paymentMethod: "payos",
+          shippingAddress: "Ho Chi Minh City",
+        }),
         method: "POST",
       }),
     );
-    expect(JSON.parse(fetchMock.mock.calls[0]?.[1].body)).toEqual({
-      contactName: "Nguyen Van A",
-      contactPhone: "0900000000",
-      fulfillmentMethod: "delivery",
-      lines: [
-        {
-          courseSessionId: undefined,
-          quantity: 1,
-          variantId: "11111111-1111-4111-8111-111111111111",
-        },
-      ],
-      paymentMethod: "payos",
-      shippingAddress: "Ho Chi Minh City",
-      shippingNote: "Call on arrival",
-    });
   });
 });

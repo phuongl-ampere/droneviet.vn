@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
-import { getDroneModels } from "@/lib/content";
+import { sourceContentVi } from "@/content/data/site";
 import { buildAbsoluteUrl } from "@/lib/seo";
 
 const staticRoutePairs = [
   ["/", "/en", 1],
   ["/san-pham", "/en/products", 0.9],
+  ["/giai-phap", "/en/solutions", 0.9],
   ["/giao-trinh", "/en/curriculum", 0.85],
-  ["/dich-vu", "/en/services", 0.9],
+  ["/dich-vu", "/en/services", 0.85],
   ["/tin-tuc", "/en/news", 0.7],
 ] as const;
 
@@ -50,7 +51,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticEntries = staticRoutePairs.flatMap(([viPath, enPath, priority]) =>
     localizedEntry(viPath, enPath, priority),
   );
-  const productEntries = getDroneModels("vi").flatMap((drone) =>
+  const productEntries = sourceContentVi.drones.flatMap((drone) =>
     localizedEntry(`/san-pham/${drone.slug}`, `/en/products/${drone.slug}`, 0.82),
   );
   const articleEntries = articleRoutePairs.flatMap(([viPath, enPath, priority]) =>

@@ -2,7 +2,6 @@
 
 import { ShoppingBag } from "lucide-react";
 import { useState } from "react";
-import { useI18n } from "@/components/i18n-provider";
 import { useCart } from "./cart-provider";
 
 interface AddToCartButtonProps {
@@ -21,7 +20,6 @@ export function AddToCartButton({
   variantId,
 }: AddToCartButtonProps) {
   const { addLine } = useCart();
-  const { t } = useI18n();
   const [wasAdded, setWasAdded] = useState(false);
 
   return (
@@ -41,7 +39,7 @@ export function AddToCartButton({
       className="inline-flex min-h-10 items-center gap-2 bg-[#10232A] px-3.5 text-sm font-semibold text-white transition hover:bg-[#006D66]"
     >
       <ShoppingBag aria-hidden="true" size={15} />
-      {wasAdded ? t("store.addedToCart") : t("store.addToCart")}
+      {wasAdded ? "Đã thêm vào giỏ" : "Thêm vào giỏ"}
     </button>
   );
 }

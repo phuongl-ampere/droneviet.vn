@@ -33,9 +33,6 @@ export class User {
   @Column({ type: "varchar", nullable: true })
   displayName!: string | null;
 
-  @Column({ type: "varchar", nullable: true })
-  phone!: string | null;
-
   @CreateDateColumn()
   createdAt!: Date;
 

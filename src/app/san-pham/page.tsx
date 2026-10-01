@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import { DroneCard } from "@/components/drone-card";
 import { SectionShell } from "@/components/section-shell";
 import { getDroneModels } from "@/lib/content";
-import { getTranslations } from "@/lib/i18n";
 
-const copy = getTranslations("vi");
 export const metadata: Metadata = {
-  title: copy.seo.productsTitle,
-  description: copy.seo.productsDescription,
+  title: "Sản phẩm drone",
+  description:
+    "Danh mục sản phẩm drone cho cấp 1, cấp 2, cấp 3, đại học, giảng viên và lab nghiên cứu.",
 };
 
 export default async function ProductsPage() {
@@ -15,9 +14,9 @@ export default async function ProductsPage() {
 
   return (
     <SectionShell
-      eyebrow={copy.pages.productsEyebrow}
-      title={copy.pages.productsTitle}
-      description={copy.pages.productsDescription}
+      eyebrow="Product catalog"
+      title="Sản phẩm drone"
+      description="Danh mục các mẫu drone và bộ thiết bị có thể dùng trong lớp học, trung tâm STEM, đại học và lab nghiên cứu."
     >
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {drones.map((drone) => (

@@ -18,7 +18,6 @@
 /.next/
 /out/
 /backend/dist/
-/backend/storage/uploads/
 
 # local feature worktrees
 /.worktrees/

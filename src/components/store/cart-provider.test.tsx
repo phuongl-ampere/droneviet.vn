@@ -1,41 +1,27 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { CartProvider, useCart } from "./cart-provider";
-
-function CartControls() {
-  const { clearCart, lineCount } = useCart();
-
-  return (
-    <>
-      <span>{lineCount}</span>
-      <button type="button" onClick={clearCart}>
-        Clear cart
-      </button>
-    </>
-  );
-}
+import CartPage from "@/app/gio-hang/page";
+import { CartProvider } from "./cart-provider";
 
 describe("CartProvider", () => {
-  it("clears every cart line after a completed checkout", () => {
+  it("shows a cart total and removes a cart line", () => {
     render(
       <CartProvider
         initialLines={[
           {
             priceVnd: 9_500_000,
-            quantity: 2,
+            quantity: 1,
             slug: "dv-primary-lab",
             title: "DV Primary Lab",
           },
         ]}
       >
-        <CartControls />
+        <CartPage />
       </CartProvider>,
     );
 
-    expect(screen.getByText("2")).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole("button", { name: "Clear cart" }));
-
-    expect(screen.getByText("0")).toBeInTheDocument();
+    expect(screen.getAllByText(/9\.500\.000\s*₫/).length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByRole("button", { name: "Xóa DV Primary Lab" }));
+    expect(screen.getByText("Giỏ hàng đang trống.")).toBeInTheDocument();
   });
 });

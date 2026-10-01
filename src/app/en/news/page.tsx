@@ -3,12 +3,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionShell } from "@/components/section-shell";
 import { getArticles } from "@/lib/content";
-import { getTranslations } from "@/lib/i18n";
 
-const copy = getTranslations("en");
 export const metadata: Metadata = {
-  title: copy.seo.newsTitle,
-  description: copy.seo.newsDescription,
+  title: "News and resources",
+  description:
+    "Articles and learning materials about drones for STEM, research, curriculum, and lab deployment.",
 };
 
 export default async function EnglishNewsPage() {
@@ -16,9 +15,9 @@ export default async function EnglishNewsPage() {
 
   return (
     <SectionShell
-      eyebrow={copy.pages.newsEyebrow}
-      title={copy.pages.newsTitle}
-      description={copy.pages.newsDescription}
+      eyebrow="Knowledge base"
+      title="News and resources"
+      description="Markdown-backed content ready to move into a CMS later."
     >
       <div className="grid gap-x-10 gap-y-4 md:grid-cols-2">
         {articles.map((article) => (
@@ -32,7 +31,7 @@ export default async function EnglishNewsPage() {
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-7 text-slate-600">{article.summary}</p>
               <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#006D66]">
-                {copy.pages.readArticle}
+                Read article
                 <ArrowUpRight aria-hidden="true" size={15} />
               </span>
             </Link>

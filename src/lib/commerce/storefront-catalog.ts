@@ -10,17 +10,8 @@ export type StoreShopCategory = "drone" | "education" | "parts";
 
 export type StorePurchaseMode = "checkout" | "preorder" | "quote_only";
 
-export type StoreLearningStage = "high-school" | "secondary" | "university";
-
-export type StoreProductSlug =
-  | "dv-ai-vision"
-  | "dv-code-fleet"
-  | "dv-instructor-kit"
-  | "dv-primary-lab"
-  | "dv-research-platform";
-
 export interface StoreProduct {
-  slug: StoreProductSlug;
+  slug: string;
   name: string;
   summary: string;
   collection: StoreCollection;
@@ -33,37 +24,38 @@ export interface StoreProduct {
   specs: Array<{ label: string; value: string }>;
   accent: "aqua" | "graphite" | "ice" | "sand";
   imageSrc: string;
-  learningStages: StoreLearningStage[];
 }
 
 export interface StoreProductFilter {
   availability?: StoreAvailability;
   collection?: StoreCollection;
-  learningStage?: StoreLearningStage;
   shopCategory?: StoreShopCategory;
   purchaseMode?: StorePurchaseMode;
   query?: string;
 }
 
-type StoreProductSeed = Omit<
-  StoreProduct,
-  "badge" | "name" | "specs" | "summary"
->;
-
-const storeProductSeeds: StoreProductSeed[] = [
+export const storeProducts: StoreProduct[] = [
   {
     slug: "dv-primary-lab",
+    name: "DV Primary Lab",
+    summary: "Nền tảng STEM an toàn để học tư duy bay và lập trình đầu tiên.",
     collection: "stem",
     availability: "in_stock",
     purchaseMode: "checkout",
     priceVnd: 9_500_000,
     variantId: "11111111-1111-4111-8111-111111111111",
+    badge: "Bán chạy",
     accent: "ice",
     imageSrc: "/store/quadcopter-flight-01.jpg",
-    learningStages: ["secondary"],
+    specs: [
+      { label: "Đối tượng", value: "Cấp 1-2" },
+      { label: "Nhóm học", value: "2-4 học sinh" },
+    ],
   },
   {
     slug: "dv-code-fleet",
+    name: "DV Code Fleet",
+    summary: "Fleet drone cho lớp lập trình, robotics và hoạt động thi đấu.",
     collection: "stem",
     availability: "in_stock",
     purchaseMode: "checkout",
@@ -72,32 +64,49 @@ const storeProductSeeds: StoreProductSeed[] = [
     compareAtVnd: 27_500_000,
     accent: "aqua",
     imageSrc: "/store/quadcopter-flight-02.jpg",
-    learningStages: ["secondary"],
+    specs: [
+      { label: "Quy mô", value: "5-10 drone" },
+      { label: "Nội dung", value: "Code + robotics" },
+    ],
   },
   {
     slug: "dv-ai-vision",
+    name: "DV AI Vision",
+    summary: "Camera, telemetry và workflow dataset cho dự án AI/IoT.",
     collection: "research",
     availability: "preorder",
     purchaseMode: "preorder",
     priceVnd: 35_900_000,
     variantId: "33333333-3333-4333-8333-333333333333",
+    badge: "Đặt trước",
     accent: "graphite",
     imageSrc: "/store/quadcopter-flight-03.jpg",
-    learningStages: ["high-school", "university"],
+    specs: [
+      { label: "Dữ liệu", value: "Flight logs" },
+      { label: "Hướng nghiên cứu", value: "AI/IoT" },
+    ],
   },
   {
     slug: "dv-research-platform",
+    name: "DV Research Platform",
+    summary: "Platform mở cho payload cảm biến, thử nghiệm và nghiên cứu.",
     collection: "research",
     availability: "quote_only",
     purchaseMode: "quote_only",
     priceVnd: 59_000_000,
     variantId: "44444444-4444-4444-8444-444444444444",
+    badge: "Báo giá lab",
     accent: "sand",
     imageSrc: "/store/quadcopter-flight-01.jpg",
-    learningStages: ["university"],
+    specs: [
+      { label: "Payload", value: "Camera + sensor" },
+      { label: "Dữ liệu", value: "Telemetry" },
+    ],
   },
   {
     slug: "dv-instructor-kit",
+    name: "DV Instructor Kit",
+    summary: "Thiết bị và tài liệu để triển khai workshop cùng đội ngũ giảng viên.",
     collection: "training",
     availability: "in_stock",
     purchaseMode: "checkout",
@@ -105,30 +114,12 @@ const storeProductSeeds: StoreProductSeed[] = [
     variantId: "55555555-5555-4555-8555-555555555555",
     accent: "ice",
     imageSrc: "/store/quadcopter-flight-02.jpg",
-    learningStages: ["secondary", "high-school", "university"],
+    specs: [
+      { label: "Đào tạo", value: "1-2 ngày" },
+      { label: "Hỗ trợ", value: "Remote/on-site" },
+    ],
   },
 ];
-
-export function getStoreProducts(locale: Locale = "vi"): StoreProduct[] {
-  const products = getTranslations(locale).catalog.products;
-
-  return storeProductSeeds.map((product) => {
-    const copy = products[product.slug];
-
-    return {
-      ...product,
-      badge: copy.badge || undefined,
-      name: copy.name,
-      specs: [
-        { label: copy.specOneLabel, value: copy.specOneValue },
-        { label: copy.specTwoLabel, value: copy.specTwoValue },
-      ],
-      summary: copy.summary,
-    };
-  });
-}
-
-export const storeProducts = getStoreProducts();
 
 export function filterStoreProducts(
   products: StoreProduct[],
@@ -143,13 +134,6 @@ export function filterStoreProducts(
     }
 
     if (filter.collection && product.collection !== filter.collection) {
-      return false;
-    }
-
-    if (
-      filter.learningStage &&
-      !product.learningStages.includes(filter.learningStage)
-    ) {
       return false;
     }
 
@@ -192,12 +176,10 @@ export function matchesShopCategory(
   return product.collection === "research";
 }
 
-export function formatVnd(value: number, locale: Locale = "vi"): string {
-  return new Intl.NumberFormat(locale === "vi" ? "vi-VN" : "en-US", {
+export function formatVnd(value: number): string {
+  return new Intl.NumberFormat("vi-VN", {
     currency: "VND",
     style: "currency",
     maximumFractionDigits: 0,
   }).format(value);
 }
-import type { Locale } from "@/lib/content";
-import { getTranslations } from "@/lib/i18n";

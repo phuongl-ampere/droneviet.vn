@@ -1,3 +1,21 @@
-import { UpdateArticleDraftDto } from "./update-article-draft.dto";
+import { IsOptional, IsString } from "class-validator";
 
-export class PublishArticleDto extends UpdateArticleDraftDto {}
+export class PublishArticleDto {
+  @IsString()
+  bodyMarkdown!: string;
+
+  @IsOptional()
+  @IsString()
+  seoDescription?: string;
+
+  @IsOptional()
+  @IsString()
+  seoTitle?: string;
+
+  @IsOptional()
+  @IsString()
+  summary?: string;
+
+  @IsString()
+  title!: string;
+}

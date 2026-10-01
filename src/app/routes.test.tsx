@@ -2,6 +2,7 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import HomePage from "./page";
 import ServicesPage from "./dich-vu/page";
+import SolutionsPage from "./giai-phap/page";
 import CurriculumPage from "./giao-trinh/page";
 import ProductsPage from "./san-pham/page";
 import ArticlesPage from "./tin-tuc/page";
@@ -16,22 +17,21 @@ describe("public routes", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: "Giải pháp drone cho giáo dục và nghiên cứu",
+        name: "Drone cho nghiên cứu và giáo dục từ cấp 1 đến đại học",
       }),
     ).toBeInTheDocument();
-    expect(screen.getByTestId("home-static-hero")).toBeInTheDocument();
     expect(
-      screen.getByRole("img", {
-        name: "Giải pháp drone cho giáo dục và nghiên cứu",
-      }),
-    ).toHaveAttribute("src", expect.stringContaining("quadcopter-flight-01.jpg"));
-    expect(screen.queryByTestId("drone-hero-carousel")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("hero-carousel-controls")).not.toBeInTheDocument();
+      screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
+    ).toHaveAttribute("href", "https://zalo.me/0384070636");
+    expect(
+      screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
+    ).toHaveAttribute("target", "_blank");
+    expect(screen.getByTestId("drone-hero-carousel")).toBeInTheDocument();
     expect(screen.getAllByText("DV Primary Lab").length).toBeGreaterThan(0);
     expect(screen.getAllByText("DV Research Platform").length).toBeGreaterThan(0);
-    expect(screen.getByText("Danh mục giải pháp")).toBeInTheDocument();
-    expect(screen.getByText("Dịch vụ")).toBeInTheDocument();
-    expect(screen.getByText("Triển khai")).toBeInTheDocument();
+    expect(screen.getByText("Solution catalog")).toBeInTheDocument();
+    expect(screen.getByText("Services")).toBeInTheDocument();
+    expect(screen.getByText("Deployment")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Cửa hàng" })).toHaveAttribute(
       "href",
       "/cua-hang",
@@ -41,7 +41,17 @@ describe("public routes", () => {
     expect(screen.queryByText("Tin tức và học liệu mới")).not.toBeInTheDocument();
   });
 
-  it("renders product, curriculum, all-solution, and article listing pages", async () => {
+  it("renders solution, product, curriculum, service, and article listing pages", async () => {
+    render(await SolutionsPage());
+    expect(
+      screen.getByRole("heading", {
+        name: "Giải pháp drone nghiên cứu & giáo dục",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("DV AI Vision")).toBeInTheDocument();
+    expect(screen.getByText("DV Research Platform")).toBeInTheDocument();
+    cleanup();
+
     render(await ProductsPage());
     expect(screen.getByRole("heading", { name: "Sản phẩm drone" })).toBeInTheDocument();
     expect(screen.getByText("DV Primary Lab")).toBeInTheDocument();
@@ -62,14 +72,11 @@ describe("public routes", () => {
     render(await ServicesPage());
     expect(
       screen.getByRole("heading", {
-        name: "Tất cả giải pháp drone cho giáo dục và nghiên cứu",
+        name: "Dịch vụ drone nghiên cứu & giáo dục",
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("DV AI Vision")).toBeInTheDocument();
-    expect(screen.getByText("DV Research Platform")).toBeInTheDocument();
-    expect(
-      screen.queryByText("Workshop và ngày hội trải nghiệm drone"),
-    ).not.toBeInTheDocument();
+    expect(screen.getByText("Workshop và ngày hội trải nghiệm drone")).toBeInTheDocument();
+    expect(screen.getByText("Thiết kế nền tảng drone nghiên cứu")).toBeInTheDocument();
     cleanup();
 
     render(await ArticlesPage());
@@ -107,11 +114,14 @@ describe("public routes", () => {
     render(await EnglishHomePage());
     expect(
       screen.getByRole("heading", {
-        name: "Drone solutions for education and research",
+        name: "Drones for research and education from grade school to university",
       }),
     ).toBeInTheDocument();
-    expect(screen.getByTestId("home-static-hero")).toBeInTheDocument();
-    expect(screen.queryByTestId("drone-hero-carousel")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Contact us now" })).toHaveAttribute(
+      "href",
+      "https://zalo.me/0384070636",
+    );
+    expect(screen.getByTestId("drone-hero-carousel")).toBeInTheDocument();
     expect(screen.getByText("A drone platform for every stage of learning")).toBeInTheDocument();
     expect(screen.getByText("From first flight to a working lab")).toBeInTheDocument();
     expect(screen.getByText("A clear path from brief to deployment")).toBeInTheDocument();

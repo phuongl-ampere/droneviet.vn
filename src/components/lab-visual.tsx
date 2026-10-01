@@ -4,23 +4,20 @@ type Metric = {
 };
 
 type LabVisualProps = {
-  locale?: Locale;
   metrics: Metric[];
 };
 
-export function LabVisual({ locale = "vi", metrics }: LabVisualProps) {
-  const copy = getTranslations(locale).labVisual;
-
+export function LabVisual({ metrics }: LabVisualProps) {
   return (
     <div className="relative min-h-[340px] overflow-hidden rounded-lg border border-white/12 bg-[#071017] p-4 shadow-2xl shadow-cyan-950/30 sm:min-h-[420px] sm:p-5">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,209,193,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(0,209,193,0.08)_1px,transparent_1px)] bg-[size:36px_36px]" />
       <div className="absolute left-1/2 top-16 h-56 w-56 -translate-x-1/2 rounded-full border border-[#00D1C1]/20 bg-[#00D1C1]/8 blur-[1px]" />
       <div className="relative z-10 flex items-center justify-between">
         <p className="font-mono text-xs uppercase tracking-[0.22em] text-[#00D1C1]">
-          {copy.telemetry}
+          Lab telemetry
         </p>
         <span className="rounded-full border border-[#FFB020]/30 px-3 py-1 font-mono text-xs text-[#FFB020]">
-          {copy.protocol}
+          EDU-FLIGHT-01
         </span>
       </div>
 
@@ -63,5 +60,3 @@ export function LabVisual({ locale = "vi", metrics }: LabVisualProps) {
     </div>
   );
 }
-import type { Locale } from "@/lib/content";
-import { getTranslations } from "@/lib/i18n";

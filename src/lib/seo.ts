@@ -1,5 +1,4 @@
 import type { DroneModel, Service, SiteContent } from "@/lib/content/schema";
-import { getTranslations } from "@/lib/i18n";
 
 export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://droneviet.vn").replace(
   /\/$/,
@@ -27,12 +26,7 @@ export function getLocalizedAlternates(viPath: string, enPath: string) {
   };
 }
 
-export function buildOrganizationJsonLd(
-  site: SiteContent,
-  locale: "vi" | "en" = "vi",
-) {
-  const copy = getTranslations(locale);
-
+export function buildOrganizationJsonLd(site: SiteContent) {
   return {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
@@ -41,17 +35,16 @@ export function buildOrganizationJsonLd(
     description: site.brand.description,
     sameAs: ["https://zalo.me/0384070636"],
     knowsAbout: [
-      copy.structuredData.knowsAboutDroneEducation,
-      copy.structuredData.knowsAboutStemKits,
-      copy.structuredData.knowsAboutCurriculum,
-      copy.structuredData.knowsAboutResearchPlatform,
-      copy.structuredData.knowsAboutVisionLab,
+      "Drone education",
+      "STEM drone kits",
+      "Drone curriculum",
+      "Research drone platform",
+      "Computer vision drone lab",
     ],
   };
 }
 
 export function buildProductJsonLd(drone: DroneModel, locale: "vi" | "en") {
-  const copy = getTranslations(locale);
   const path =
     locale === "vi" ? `/san-pham/${drone.slug}` : `/en/products/${drone.slug}`;
 
@@ -61,10 +54,10 @@ export function buildProductJsonLd(drone: DroneModel, locale: "vi" | "en") {
     name: drone.name,
     url: buildAbsoluteUrl(path),
     description: drone.summary,
-    category: copy.structuredData.productCategory,
+    category: "Drone research and education kit",
     brand: {
       "@type": "Brand",
-      name: copy.common.brandName,
+      name: locale === "vi" ? "Drone Việt" : "Drone Viet",
     },
     audience: {
       "@type": "EducationalAudience",
@@ -79,21 +72,16 @@ export function buildProductJsonLd(drone: DroneModel, locale: "vi" | "en") {
 }
 
 export function buildServiceJsonLd(service: Service, locale: "vi" | "en") {
-  const copy = getTranslations(locale);
-
   return {
     "@context": "https://schema.org",
     "@type": "Service",
     name: service.title,
     description: service.summary,
-    serviceType: copy.structuredData.serviceType,
-    areaServed:
-      locale === "vi"
-        ? copy.structuredData.areaVietnam
-        : copy.structuredData.areaInternational,
+    serviceType: "Drone research and education deployment",
+    areaServed: locale === "vi" ? "Vietnam" : "Vietnam and international programs",
     provider: {
       "@type": "EducationalOrganization",
-      name: copy.common.brandName,
+      name: locale === "vi" ? "Drone Việt" : "Drone Viet",
       url: siteUrl,
     },
     audience: service.audience.map((audience) => ({
@@ -130,3 +118,4 @@ export function buildFaqJsonLd(items: Array<{ question: string; answer: string }
     })),
   };
 }
+

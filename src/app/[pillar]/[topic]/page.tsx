@@ -1,8 +1,8 @@
 import { DronePillarDetail } from "@/components/drone-pillar-pages";
-import { getDronePillars } from "@/lib/drone-pillars";
+import { dronePillars } from "@/lib/drone-pillars";
 
 export function generateStaticParams() {
-  return getDronePillars("vi")
+  return dronePillars
     .filter((pillar) => pillar.slug !== "cua-hang")
     .flatMap((pillar) =>
       pillar.items.map((item) => ({

@@ -24,14 +24,14 @@ describe("DroneLabShowroom", () => {
     expect(screen.getByTestId("drone-lab-canvas-host")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
-        name: "Giải pháp drone cho giáo dục và nghiên cứu",
+        name: "Drone cho nghiên cứu và giáo dục từ cấp 1 đến đại học",
       }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: "Tư vấn ngay" }),
+      screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
     ).toHaveAttribute("href", "https://zalo.me/0384070636");
     expect(
-      screen.getByRole("link", { name: "Tư vấn ngay" }),
+      screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
     ).toHaveAttribute("target", "_blank");
     expect(screen.getByText("DV Primary Lab")).toBeInTheDocument();
     expect(screen.getByText("DV Code Fleet")).toBeInTheDocument();
