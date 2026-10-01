@@ -1,0 +1,1223 @@
+{
+  "common": {
+    "brandName": "Drone Việt",
+    "brandAscii": "DRONE VIET",
+    "home": "Trang chủ",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "phone": "Số điện thoại",
+    "fullName": "Họ và tên",
+    "organization": "Đơn vị",
+    "publish": "Xuất bản",
+    "preview": "Xem trước",
+    "loading": "Đang tải...",
+    "save": "Lưu",
+    "from": "Từ",
+    "back": "Quay lại",
+    "contact": "Liên hệ"
+  },
+  "seo": {
+    "defaultTitle": "Drone Việt | Drone nghiên cứu & giáo dục",
+    "titleTemplate": "%s | Drone Việt",
+    "defaultDescription": "Drone Việt cung cấp giải pháp drone cho nghiên cứu và giáo dục từ cấp 1 đến đại học: thiết bị, giáo trình, nền tảng thử nghiệm và dịch vụ triển khai.",
+    "homeTitle": "Drone nghiên cứu & giáo dục",
+    "homeDescription": "Giải pháp drone cho nghiên cứu và giáo dục từ cấp 1 đến đại học.",
+    "servicesTitle": "Tất cả giải pháp drone",
+    "servicesDescription": "Giải pháp drone cho giáo dục và nghiên cứu, từ thiết bị đến nền tảng và triển khai.",
+    "solutionsTitle": "Giải pháp drone nghiên cứu & giáo dục",
+    "solutionsDescription": "Bộ giải pháp drone cho nghiên cứu và giáo dục từ cấp 1 đến đại học.",
+    "curriculumTitle": "Giáo trình drone từ cấp 1 đến đại học",
+    "curriculumDescription": "Giáo trình, syllabus và tài liệu drone đã hoàn thành cho cấp 1, cấp 2, cấp 3, đại học và nghiên cứu.",
+    "productsTitle": "Sản phẩm drone",
+    "productsDescription": "Danh mục sản phẩm drone cho cấp 1, cấp 2, cấp 3, đại học, giảng viên và lab nghiên cứu.",
+    "newsTitle": "Tin tức và học liệu",
+    "newsDescription": "Bài viết và học liệu về drone cho nghiên cứu, giáo dục, STEM, giáo trình và triển khai phòng lab drone.",
+    "articleNotFound": "Không tìm thấy bài viết",
+    "productNotFound": "Không tìm thấy sản phẩm"
+  },
+  "structuredData": {
+    "productCategory": "Bộ drone nghiên cứu và giáo dục",
+    "serviceType": "Triển khai drone cho nghiên cứu và giáo dục",
+    "areaVietnam": "Việt Nam",
+    "areaInternational": "Việt Nam và các chương trình quốc tế",
+    "knowsAboutDroneEducation": "Drone giáo dục",
+    "knowsAboutStemKits": "Bộ drone STEM",
+    "knowsAboutCurriculum": "Giáo trình drone",
+    "knowsAboutResearchPlatform": "Nền tảng drone nghiên cứu",
+    "knowsAboutVisionLab": "Phòng lab drone thị giác máy tính"
+  },
+  "llms": {
+    "title": "# Drone Việt",
+    "summary": "> Giải pháp drone cho nghiên cứu và giáo dục từ cấp 1 đến đại học.",
+    "vietnameseHome": "Trang chủ tiếng Việt",
+    "englishHome": "Trang chủ tiếng Anh",
+    "brandSummaryVietnamese": "Tóm tắt thương hiệu VI",
+    "brandSummaryEnglish": "Tóm tắt thương hiệu EN",
+    "coreProducts": "## Các trang sản phẩm cốt lõi",
+    "serviceTopics": "## Chủ đề dịch vụ",
+    "articles": "## Bài viết",
+    "recommendedCitation": "## Trích dẫn đề xuất",
+    "citation": "Drone Việt cung cấp bộ drone, giáo trình, đào tạo giáo viên và nền tảng nghiên cứu cho giáo dục và lab drone ứng dụng."
+  },
+  "header": {
+    "mainNavigation": "Điều hướng chính",
+    "mobileNavigation": "Điều hướng trên điện thoại",
+    "researchEducation": "Đào tạo · Giáo dục",
+    "signIn": "Đăng nhập",
+    "administration": "Quản trị",
+    "consultation": "Tư vấn",
+    "openMenu": "Mở menu",
+    "closeMenu": "Đóng menu"
+  },
+  "footer": {
+    "descriptor": "Hệ thống nghiên cứu & giáo dục",
+    "navigation": "Liên kết cuối trang",
+    "contactProject": "Trao đổi dự án"
+  },
+  "locale": {
+    "label": "Ngôn ngữ",
+    "englishCode": "EN",
+    "vietnameseCode": "VI"
+  },
+  "carousel": {
+    "label": "Drone Việt",
+    "previous": "Ảnh trước",
+    "next": "Ảnh tiếp theo",
+    "selectImage": "Chọn ảnh hero",
+    "goToImage": "Chuyển tới ảnh {count}",
+    "slideAlt": "Chuyến bay drone {count}"
+  },
+  "showroom": {
+    "configuration": "Cấu hình đang giới thiệu",
+    "level": "Cấp độ",
+    "sequence": "Vị trí trưng bày"
+  },
+  "labVisual": {
+    "telemetry": "Dữ liệu phòng lab",
+    "protocol": "EDU-FLIGHT-01"
+  },
+  "home": {
+    "pillarEyebrow": "Drone Việt",
+    "pillarTitle": "Chọn đúng hành trình drone",
+    "storeLink": "Cửa hàng",
+    "solutionEyebrow": "Danh mục giải pháp",
+    "solutionTitle": "Một nền tảng drone cho mọi cấp độ học tập",
+    "solutionDescription": "Bốn cấu hình trọng điểm kết nối thiết bị, học liệu và dữ liệu, từ chuyến bay đầu tiên đến đề tài nghiên cứu.",
+    "servicesEyebrow": "Dịch vụ",
+    "servicesTitle": "Từ chuyến bay đầu tiên đến một phòng lab vận hành được",
+    "servicesDescription": "Thiết bị chỉ là điểm bắt đầu. Drone Việt đồng hành từ thiết kế cấu hình đến chuyển giao và đào tạo.",
+    "processEyebrow": "Triển khai",
+    "processTitle": "Lộ trình rõ ràng từ yêu cầu đến triển khai",
+    "processDescription": "Ba bước có kiểm soát để giải pháp phù hợp mục tiêu, không gian và năng lực vận hành thực tế.",
+    "viewProduct": "Xem cấu hình",
+    "featured": "Cấu hình tiêu biểu"
+  },
+  "store": {
+    "storeName": "Drone Viet Store",
+    "navigation": "Điều hướng cửa hàng",
+    "mobileNavigation": "Điều hướng cửa hàng trên điện thoại",
+    "navStore": "Cửa hàng",
+    "navDrones": "Drone",
+    "navParts": "Phụ kiện & Linh kiện",
+    "navEducation": "Drone giáo dục & Combo lab",
+    "search": "Tìm kiếm",
+    "searchDevices": "Tìm thiết bị",
+    "searchPlaceholder": "Tìm drone, phụ kiện hoặc khóa học",
+    "openMenu": "Mở menu",
+    "closeMenu": "Đóng menu",
+    "cartItemCount": "Giỏ hàng ({count})",
+    "heroTitle": "Cửa hàng Drone Việt",
+    "heroDescription": "Thiết bị drone, kit phòng lab và khóa học được cấu hình cho từng giai đoạn học tập và nghiên cứu.",
+    "availability": "Tình trạng",
+    "availabilityNavigation": "Tình trạng sản phẩm",
+    "availabilityInStock": "Còn hàng",
+    "availabilityPreorder": "Đặt trước",
+    "availabilityQuote": "Báo giá lab",
+    "catalog": "Danh mục sản phẩm",
+    "allProducts": "Tất cả sản phẩm",
+    "gradeTwo": "Cấp 2",
+    "gradeThree": "Cấp 3",
+    "universityResearch": "Đại học & R&D",
+    "filter": "Bộ lọc",
+    "deviceCount": "{count} thiết bị",
+    "photoCredit": "Ảnh drone: Igor Savin,",
+    "collectionParts": "Phụ kiện & Linh kiện",
+    "collectionDrone": "Drone",
+    "collectionEducation": "Drone giáo dục & Combo classroom/lab",
+    "addToCart": "Thêm vào giỏ",
+    "addedToCart": "Đã thêm vào giỏ",
+    "preorder": "Đặt trước",
+    "requestQuote": "Yêu cầu báo giá"
+  },
+  "catalog": {
+    "products": {
+      "dv-primary-lab": {
+        "name": "DV Primary Lab",
+        "summary": "Nền tảng STEM an toàn để học tư duy bay và lập trình đầu tiên.",
+        "badge": "Bán chạy",
+        "specOneLabel": "Đối tượng",
+        "specOneValue": "Cấp 1-2",
+        "specTwoLabel": "Nhóm học",
+        "specTwoValue": "2-4 học sinh"
+      },
+      "dv-code-fleet": {
+        "name": "DV Code Fleet",
+        "summary": "Fleet drone cho lớp lập trình, robotics và hoạt động thi đấu.",
+        "badge": "",
+        "specOneLabel": "Quy mô",
+        "specOneValue": "5-10 drone",
+        "specTwoLabel": "Nội dung",
+        "specTwoValue": "Code + robotics"
+      },
+      "dv-ai-vision": {
+        "name": "DV AI Vision",
+        "summary": "Camera, telemetry và workflow dataset cho dự án AI/IoT.",
+        "badge": "Đặt trước",
+        "specOneLabel": "Dữ liệu",
+        "specOneValue": "Flight logs",
+        "specTwoLabel": "Hướng nghiên cứu",
+        "specTwoValue": "AI/IoT"
+      },
+      "dv-research-platform": {
+        "name": "DV Research Platform",
+        "summary": "Platform mở cho payload cảm biến, thử nghiệm và nghiên cứu.",
+        "badge": "Báo giá lab",
+        "specOneLabel": "Payload",
+        "specOneValue": "Camera + sensor",
+        "specTwoLabel": "Dữ liệu",
+        "specTwoValue": "Telemetry"
+      },
+      "dv-instructor-kit": {
+        "name": "DV Instructor Kit",
+        "summary": "Thiết bị và tài liệu để triển khai workshop cùng đội ngũ giảng viên.",
+        "badge": "",
+        "specOneLabel": "Đào tạo",
+        "specOneValue": "1-2 ngày",
+        "specTwoLabel": "Hỗ trợ",
+        "specTwoValue": "Remote/on-site"
+      }
+    },
+    "courses": {
+      "drone-nhap-mon-cap-1": {
+        "format": "8 buổi · Cấp 1",
+        "level": "Nhập môn STEM",
+        "sessionLabel": "Khai giảng 14/09",
+        "summary": "An toàn bay, điều khiển cơ bản, lập trình khối lệnh và thử thách mê cung.",
+        "title": "Drone nhập môn cho cấp 1"
+      },
+      "lap-trinh-drone-cap-2": {
+        "format": "12 buổi · Cấp 2",
+        "level": "Lập trình drone",
+        "sessionLabel": "Khai giảng 21/09",
+        "summary": "Thuật toán, tọa độ, cảm biến và nhiệm vụ bay theo nhóm.",
+        "title": "Lập trình drone cho cấp 2"
+      },
+      "du-an-drone-cap-3": {
+        "format": "10 buổi · Cấp 3",
+        "level": "Project-based",
+        "sessionLabel": "Khai giảng 05/10",
+        "summary": "Dự án ứng dụng drone với dữ liệu, camera, AI cơ bản và báo cáo kỹ thuật.",
+        "title": "Dự án drone ứng dụng cho cấp 3"
+      },
+      "drone-ung-dung-dai-hoc": {
+        "format": "10 buổi · Đại học",
+        "level": "Lab syllabus",
+        "sessionLabel": "Theo lịch đơn vị",
+        "summary": "SDK drone, telemetry, computer vision và thiết kế lab report.",
+        "title": "Drone ứng dụng cho đại học"
+      },
+      "phuong-phap-nghien-cuu-voi-drone": {
+        "format": "Research protocol kit",
+        "level": "Nghiên cứu",
+        "sessionLabel": "Theo scope đề tài",
+        "summary": "Thiết kế protocol, thu thập dữ liệu, kiểm soát rủi ro và tái lập thí nghiệm.",
+        "title": "Phương pháp nghiên cứu với drone"
+      }
+    }
+  },
+  "cart": {
+    "title": "Giỏ hàng",
+    "empty": "Giỏ hàng đang trống.",
+    "browse": "Khám phá thiết bị",
+    "productCount": "{count} sản phẩm",
+    "remove": "Xóa {title}",
+    "summary": "Tóm tắt đơn hàng",
+    "subtotal": "Tạm tính",
+    "summaryNote": "Phí giao hàng và khuyến mãi được xác thực trong checkout.",
+    "checkout": "Tiến hành checkout"
+  },
+  "checkout": {
+    "title": "Thanh toán",
+    "empty": "Thêm thiết bị vào giỏ hàng trước khi checkout.",
+    "contact": "Thông tin liên hệ",
+    "promotion": "Khuyến mãi",
+    "promotionCode": "Mã ưu đãi",
+    "promotionNote": "Ưu đãi được xác thực và tính lại bởi Commerce API.",
+    "shipping": "Giao hàng",
+    "shippingAddress": "Địa chỉ nhận hàng",
+    "shippingNote": "Phí giao hàng được Commerce API tính lại theo tỉnh/thành, quận/huyện và trọng lượng thiết bị.",
+    "payment": "Phương thức thanh toán",
+    "payos": "PayOS",
+    "payosDescription": "Chuyển khoản/QR qua cổng thanh toán PayOS.",
+    "cod": "Thanh toán khi nhận hàng",
+    "codDescription": "Xác nhận đơn trước khi giao thiết bị.",
+    "bankTransfer": "Chuyển khoản ngân hàng",
+    "bankTransferDescription": "Nhận thông tin chuyển khoản sau khi tạo đơn.",
+    "creatingOrder": "Đang tạo đơn...",
+    "placeOrder": "Đặt đơn hàng",
+    "orderCreated": "Đơn hàng {number} đã được tạo.",
+    "orderCreateError": "Không thể tạo checkout.",
+    "flow": {
+      "stepDelivery": "Thông tin nhận hàng",
+      "stepShipping": "Giao hàng",
+      "stepReview": "Xác nhận & thanh toán",
+      "stepNumber": "Bước {number}",
+      "continue": "Tiếp tục",
+      "back": "Quay lại",
+      "edit": "Chỉnh sửa",
+      "delivery": "Giao đến địa chỉ",
+      "deliveryDescription": "Drone Việt xác nhận phí vận chuyển trước khi giao thiết bị.",
+      "showroomPickup": "Nhận tại showroom",
+      "showroomPickupDescription": "Đội ngũ liên hệ xác nhận thời gian nhận thiết bị.",
+      "province": "Tỉnh / thành phố",
+      "ward": "Phường / xã",
+      "selectProvince": "Chọn tỉnh / thành phố",
+      "selectWard": "Chọn phường / xã",
+      "loadingAddress": "Đang tải địa chỉ...",
+      "addressLoadError": "Không thể tải danh sách địa chỉ. Vui lòng thử lại.",
+      "streetAddress": "Địa chỉ chi tiết",
+      "addressNote": "Ghi chú giao nhận",
+      "savedAddresses": "Địa chỉ đã lưu",
+      "saveAddress": "Lưu địa chỉ này trên thiết bị",
+      "removeAddress": "Xóa địa chỉ {name}",
+      "shippingManualTitle": "Phí giao hàng sẽ được xác nhận",
+      "shippingManualDescription": "Drone Việt liên hệ sau khi nhận đơn để xác nhận phương án giao và chi phí.",
+      "pickupFree": "Miễn phí",
+      "pickupDescription": "Phí giao hàng không áp dụng khi nhận tại showroom.",
+      "shippingEstimateUnavailable": "Đơn vị vận chuyển sẽ được Drone Việt xác nhận sau khi nhận đơn.",
+      "reviewAddress": "Địa chỉ nhận hàng",
+      "reviewPickup": "Nhận tại showroom",
+      "reviewShipping": "Phương thức giao nhận",
+      "reviewItems": "Thiết bị trong đơn",
+      "reviewTotal": "Tổng tạm tính",
+      "fieldRequired": "Thông tin này là bắt buộc.",
+      "phoneInvalid": "Nhập số điện thoại hợp lệ.",
+      "submitError": "Không thể tạo đơn hàng. Vui lòng thử lại.",
+      "orderResult": "Xem kết quả đơn hàng"
+    },
+    "result": {
+      "title": "Đơn hàng đã được tạo",
+      "description": "Drone Việt đã nhận yêu cầu của bạn. Bạn có thể theo dõi đơn hàng bằng mã bên dưới.",
+      "missingOrder": "Không tìm thấy mã đơn trong yêu cầu này.",
+      "returnStore": "Quay lại cửa hàng"
+    }
+  },
+  "research": {
+    "title": "Nghiên cứu và phát triển drone",
+    "subtitle": "Bài viết kỹ thuật, thử nghiệm và quy trình triển khai drone.",
+    "loading": "Đang tải bài viết...",
+    "empty": "Chưa có bài nghiên cứu được xuất bản.",
+    "readMore": "Đọc bài viết",
+    "minutes": "{count} phút đọc",
+    "published": "Xuất bản",
+    "contents": "Mục lục",
+    "rating": "Đánh giá",
+    "ratingCount": "{count} đánh giá",
+    "rate": "Đánh giá bài viết",
+    "star": "{count} sao",
+    "comments": "Bình luận",
+    "comment": "Bình luận",
+    "commentPlaceholder": "Chia sẻ nhận xét của bạn",
+    "submitComment": "Gửi bình luận",
+    "signInToEngage": "Đăng nhập để đánh giá và bình luận",
+    "report": "Báo cáo",
+    "reportReason": "Lý do báo cáo",
+    "sendReport": "Gửi báo cáo",
+    "loadError": "Không thể tải nội dung nghiên cứu.",
+    "submitError": "Không thể gửi tương tác. Vui lòng thử lại."
+  },
+  "tracking": {
+    "storeName": "Drone Viet Store",
+    "title": "Theo dõi đơn hàng",
+    "description": "Nhập mã đơn và số điện thoại dùng khi checkout để xem trạng thái đóng gói, giao hàng và thanh toán.",
+    "orderNumber": "Mã đơn hàng",
+    "lookup": "Tra cứu đơn",
+    "status": "Trạng thái",
+    "notFound": "Không tìm thấy đơn hàng.",
+    "resumePayment": "Tiếp tục thanh toán PayOS",
+    "resumingPayment": "Đang mở PayOS...",
+    "resumePaymentError": "Không thể mở lại phiên thanh toán này."
+  },
+  "auth": {
+    "success": "Đăng nhập thành công",
+    "eyebrow": "Drone education & flight",
+    "panelTitle": "Học, mua và vận hành drone có định hướng.",
+    "panelDescription": "Quản lý hành trình khóa học, thiết bị và tư vấn triển khai tại một nơi.",
+    "account": "Tài khoản khách hàng",
+    "createAccount": "Tạo tài khoản",
+    "signIn": "Đăng nhập",
+    "registerDescription": "Tạo tài khoản để lưu thông tin khóa học và thiết bị.",
+    "loginDescription": "Đăng nhập để tiếp tục với Drone Việt.",
+    "continueGoogle": "Tiếp tục với Google",
+    "continueZalo": "Tiếp tục với Zalo",
+    "orEmail": "hoặc dùng email",
+    "oauthNotConfigured": "Đăng nhập {provider} chưa được cấu hình.",
+    "authenticationFailed": "Không thể xác thực tài khoản.",
+    "processing": "Đang xử lý...",
+    "hasAccount": "Đã có tài khoản?",
+    "noAccount": "Chưa có tài khoản?"
+  },
+  "account": {
+    "title": "Tài khoản của bạn",
+    "eyebrow": "Drone Viet Store",
+    "profile": "Thông tin cá nhân",
+    "profileDescription": "Cập nhật thông tin liên hệ để Drone Việt hỗ trợ đơn hàng và khóa học của bạn.",
+    "editProfile": "Chỉnh sửa hồ sơ",
+    "editProfileTitle": "Chỉnh sửa thông tin",
+    "verifiedEmail": "Email đã xác thực",
+    "emailHint": "Email được dùng để đăng nhập và không thay đổi tại đây.",
+    "phoneHint": "Dùng số điện thoại để hỗ trợ theo dõi và giao đơn.",
+    "noPhone": "Chưa cập nhật số điện thoại",
+    "saveChanges": "Lưu thay đổi",
+    "saving": "Đang lưu...",
+    "saved": "Đã lưu thông tin.",
+    "cancel": "Hủy",
+    "close": "Đóng",
+    "signOut": "Đăng xuất",
+    "orderHistory": "Đơn hàng của bạn",
+    "ordersDescription": "Các đơn được tạo khi bạn đã đăng nhập sẽ xuất hiện tại đây.",
+    "ordersLoading": "Đang tải đơn hàng...",
+    "ordersEmpty": "Bạn chưa có đơn hàng nào trong tài khoản.",
+    "shopNow": "Khám phá cửa hàng",
+    "orderDate": "Ngày tạo",
+    "paymentMethod": "Thanh toán",
+    "orderTotal": "Tổng tiền",
+    "items": "{count} sản phẩm",
+    "showItems": "Xem sản phẩm",
+    "hideItems": "Ẩn sản phẩm",
+    "paymentCod": "Thanh toán khi nhận hàng",
+    "paymentPayos": "PayOS",
+    "paymentBankTransfer": "Chuyển khoản ngân hàng",
+    "resumePayment": "Tiếp tục thanh toán PayOS",
+    "resumingPayment": "Đang mở PayOS...",
+    "resumePaymentError": "Không thể mở lại phiên thanh toán này.",
+    "ordersLoadError": "Không thể tải đơn hàng của bạn.",
+    "profileSaveError": "Không thể cập nhật hồ sơ.",
+    "sessionLoadError": "Không thể tải phiên đăng nhập.",
+    "dateLocale": "vi-VN",
+    "status": {
+      "pending_payment": "Chờ thanh toán",
+      "paid": "Đã thanh toán",
+      "packing": "Đang đóng gói",
+      "shipped": "Đang giao",
+      "delivered": "Đã giao",
+      "cancelled": "Đã hủy",
+      "payment_failed": "Thanh toán thất bại",
+      "refund_requested": "Yêu cầu hoàn tiền",
+      "refunded": "Đã hoàn tiền"
+    }
+  },
+  "quote": {
+    "eyebrow": "Drone Viet B2B",
+    "title": "Yêu cầu báo giá",
+    "description": "Nhận cấu hình thiết bị, học liệu, triển khai phòng lab và kế hoạch đào tạo theo nhu cầu đơn vị.",
+    "contactPerson": "Người liên hệ",
+    "quantity": "Số lượng dự kiến",
+    "budget": "Ngân sách dự kiến",
+    "requirements": "Thiết bị và yêu cầu triển khai",
+    "submitting": "Đang gửi...",
+    "submit": "Gửi yêu cầu",
+    "submitted": "Yêu cầu đã được gửi. Drone Việt sẽ liên hệ để xác nhận cấu hình.",
+    "submitError": "Không thể gửi yêu cầu báo giá."
+  },
+  "course": {
+    "eyebrow": "Drone Viet Learning",
+    "title": "Khóa học Drone Việt",
+    "description": "Lộ trình từ chuyến bay đầu tiên đến lab nghiên cứu, kết nối thiết bị, học liệu và đội ngũ triển khai.",
+    "path": "Lộ trình",
+    "schedule": "Lịch",
+    "seatsRemaining": "{count} chỗ còn lại",
+    "organizationDeployment": "Triển khai theo đơn vị",
+    "register": "Đăng ký",
+    "viewSyllabus": "Xem syllabus",
+    "backToCourses": "Quay lại khóa học",
+    "labQuote": "Báo giá theo cấu hình lab",
+    "discussDeployment": "Trao đổi triển khai"
+  },
+  "product": {
+    "home": "Trang chủ",
+    "products": "Sản phẩm",
+    "eyebrow": "Cấu hình drone",
+    "outcomes": "Đầu ra học tập / nghiên cứu",
+    "specs": "Thông số triển khai",
+    "useCases": "Ứng dụng phù hợp",
+    "faqLabel": "FAQ",
+    "faqTitle": "Câu hỏi thường gặp",
+    "faqDescription": "Những thông tin cần biết trước khi lựa chọn cấu hình.",
+    "contact": "Tư vấn ngay",
+    "requestQuote": "Yêu cầu báo giá",
+    "related": "Dịch vụ đi cùng giải pháp",
+    "relatedDescription": "Từ thiết bị đến học liệu và năng lực vận hành, mỗi cấu hình đều có thể được triển khai trọn gói.",
+    "back": "Quay lại danh mục",
+    "labConfiguration": "Cấu hình lab",
+    "faqOneQuestion": "Bộ drone này phù hợp với đơn vị nào?",
+    "faqOneAnswer": "Bộ drone được chọn theo cấp học, năng lực kỹ thuật, không gian bay và mục tiêu triển khai của từng trường, trung tâm hoặc lab.",
+    "faqTwoQuestion": "Drone Việt có hỗ trợ giáo trình và tập huấn không?",
+    "faqTwoAnswer": "Có. Drone Việt cung cấp giáo trình, checklist an toàn, rubric đánh giá và chương trình tập huấn giáo viên hoặc giảng viên.",
+    "faqThreeQuestion": "Có thể tùy biến cho lab nghiên cứu không?",
+    "faqThreeAnswer": "Có. Các cấu hình có thể mở rộng bằng cảm biến, camera, telemetry và protocol thử nghiệm cho đề tài nghiên cứu.",
+    "detail": "Xem chi tiết"
+  },
+  "pages": {
+    "productsEyebrow": "Danh mục sản phẩm",
+    "productsTitle": "Sản phẩm drone",
+    "productsDescription": "Danh mục các mẫu drone và bộ thiết bị có thể dùng trong lớp học, trung tâm STEM, đại học và lab nghiên cứu.",
+    "servicesEyebrow": "Tất cả giải pháp",
+    "servicesTitle": "Tất cả giải pháp drone cho giáo dục và nghiên cứu",
+    "servicesDescription": "Chọn cấu hình phù hợp cho lớp học, trung tâm STEM, đại học và phòng lab nghiên cứu.",
+    "solutionsEyebrow": "Hệ thống giải pháp",
+    "solutionsTitle": "Giải pháp drone nghiên cứu & giáo dục",
+    "solutionsDescription": "Các cấu hình mẫu giúp trường phổ thông, trung tâm STEM, đại học và lab nghiên cứu chọn đúng thiết bị, học liệu, dữ liệu và mục tiêu triển khai.",
+    "curriculumEyebrow": "Giáo trình",
+    "curriculumTitle": "Giáo trình drone từ cấp 1 đến đại học",
+    "curriculumDescription": "Mỗi cấp học và hướng nghiên cứu có mục tiêu đầu ra, module, tài liệu và định dạng triển khai riêng để đội ngũ đào tạo dùng được ngay.",
+    "newsEyebrow": "Kho kiến thức",
+    "newsTitle": "Tin tức và học liệu",
+    "newsDescription": "Nội dung được lưu bằng Markdown trong repo để dễ chỉnh sửa trước khi có admin/database.",
+    "readArticle": "Đọc bài viết",
+    "articleNotFound": "Không tìm thấy bài viết"
+  },
+  "pillar": {
+    "overview": "Drone Việt tổ chức nội dung theo nhu cầu triển khai thực tế. Đội ngũ sẽ xác định mục tiêu, năng lực người học, không gian vận hành và thiết bị cần thiết trước khi đề xuất lộ trình phù hợp.",
+    "requestConsultation": "Nhận tư vấn triển khai"
+  },
+  "pillars": {
+    "dao-tao-chung-chi": {
+      "title": "Đào tạo",
+      "eyebrow": "Đào tạo bay",
+      "description": "Lộ trình học lái drone, an toàn bay và năng lực vận hành cho cá nhân, đội ngũ doanh nghiệp.",
+      "items": {
+        "chung-chi-lai-drone": {
+          "title": "Chứng chỉ lái drone",
+          "description": "Lộ trình năng lực từ kiểm tra an toàn đến thực hành điều khiển."
+        },
+        "lo-trinh-ca-nhan-doanh-nghiep": {
+          "title": "Lộ trình học cá nhân/doanh nghiệp",
+          "description": "Khung chương trình theo mục tiêu cá nhân hoặc đội vận hành."
+        },
+        "dao-tao-an-toan-bay": {
+          "title": "Đào tạo an toàn bay",
+          "description": "Checklist, quy trình bay và xử lý tình huống vận hành."
+        },
+        "dang-ky-khoa-hoc": {
+          "title": "Đăng ký khóa học",
+          "description": "Chọn khóa học, lịch khai giảng và hình thức tư vấn."
+        }
+      }
+    },
+    "drone-giao-duc": {
+      "title": "Drone Giáo Dục",
+      "eyebrow": "Giáo dục",
+      "description": "Thiết bị, giáo trình và mô hình lab drone cho học sinh cấp 2, cấp 3 và sinh viên.",
+      "items": {
+        "cap-2": {
+          "title": "Cấp 2",
+          "description": "Lập trình, thuật toán và teamwork với drone theo đội hình."
+        },
+        "cap-3": {
+          "title": "Cấp 3",
+          "description": "AI, dữ liệu cảm biến và dự án nghiên cứu học sinh."
+        },
+        "sinh-vien-dai-hoc": {
+          "title": "Sinh viên/đại học",
+          "description": "SDK, computer vision, telemetry và bài toán R&D."
+        },
+        "giao-trinh-drone": {
+          "title": "Giáo trình drone",
+          "description": "Syllabus, bài giảng, rubric và tài liệu an toàn."
+        },
+        "thiet-bi-lab": {
+          "title": "Thiết bị/lab drone cho trường học",
+          "description": "Gói thiết bị, không gian và quy trình vận hành lab."
+        },
+        "dao-tao-giao-vien": {
+          "title": "Đào tạo giáo viên",
+          "description": "Chuẩn bị đội ngũ đứng lớp và quản trị an toàn."
+        }
+      }
+    },
+    "cua-hang": {
+      "title": "Cửa hàng",
+      "eyebrow": "Thiết bị",
+      "description": "Drone, phụ kiện, linh kiện và các gói classroom/lab để triển khai ngay.",
+      "items": {
+        "drone": {
+          "title": "Drone",
+          "description": "Drone theo nhu cầu học tập, vận hành và nghiên cứu."
+        },
+        "phu-kien-linh-kien": {
+          "title": "Phụ kiện & Linh kiện",
+          "description": "Pin, bảo vệ, sạc, cảm biến và thành phần thay thế."
+        },
+        "drone-giao-duc-combo-lab": {
+          "title": "Drone giáo dục",
+          "description": "Thiết bị drone, học liệu và combo theo quy mô lớp."
+        }
+      }
+    },
+    "bay-hop-phap": {
+      "title": "Xin phép bay",
+      "eyebrow": "Tuân thủ bay",
+      "description": "Tài liệu thực hành để chuẩn bị hồ sơ, hiểu quy định và kiểm tra khu vực bay.",
+      "items": {
+        "xin-cap-phep-bay": {
+          "title": "Hướng dẫn xin cấp phép bay",
+          "description": "Các bước chuẩn bị hồ sơ và kế hoạch chuyến bay."
+        },
+        "quy-dinh-phap-ly": {
+          "title": "Quy định pháp lý drone",
+          "description": "Nội dung pháp lý cần kiểm tra trước vận hành."
+        },
+        "ban-do-cam-bay": {
+          "title": "Bản đồ khu vực cấm/hạn chế bay",
+          "description": "Điểm bắt đầu để rà soát khu vực trước khi xin phép."
+        }
+      }
+    },
+    "dich-vu-su-kien": {
+      "title": "Bay thử miễn phí",
+      "eyebrow": "Trải nghiệm",
+      "description": "Sự kiện, workshop và tư vấn triển khai drone cho trường học, doanh nghiệp và cộng đồng.",
+      "items": {
+        "event-trai-nghiem": {
+          "title": "Event/trải nghiệm drone",
+          "description": "Hoạt động bay trải nghiệm có hướng dẫn an toàn."
+        },
+        "workshop-truong-hoc": {
+          "title": "Workshop trường học",
+          "description": "Workshop theo khối lớp, mục tiêu STEM và không gian thực tế."
+        },
+        "demo-lab": {
+          "title": "Demo lab",
+          "description": "Trình diễn thiết bị, bài học và workflow quản trị lab."
+        },
+        "tu-van-trien-khai": {
+          "title": "Tư vấn triển khai",
+          "description": "Thiết kế gói thiết bị, học liệu và đào tạo vận hành."
+        },
+        "tin-tuc-drone": {
+          "title": "Tin tức drone",
+          "description": "Tin tức, xu hướng và hoạt động drone đáng chú ý."
+        }
+      }
+    },
+    "kien-thuc-rd": {
+      "title": "R&D",
+      "eyebrow": "Kiến thức",
+      "description": "Tin tức, nghiên cứu và quy chuẩn kỹ thuật cho cộng đồng drone.",
+      "items": {
+        "nghien-cuu-phat-trien": {
+          "title": "Nghiên cứu và phát triển drone",
+          "description": "Bài toán R&D về bay, dữ liệu, AI và cảm biến."
+        },
+        "bao-cao-quy-chuan": {
+          "title": "Báo cáo/quy chuẩn kỹ thuật",
+          "description": "Tài liệu tham khảo để thiết kế và vận hành có kiểm soát."
+        }
+      }
+    }
+  },
+  "admin": {
+    "editorMode": "Chế độ soạn thảo",
+    "richText": "Soạn thảo trực quan",
+    "uploadImage": "Tải ảnh lên",
+    "articleSaved": "Đã lưu bản nháp.",
+    "articleSaveError": "Không thể lưu bản nháp.",
+    "articleMarkdownSource": "Nguồn Markdown bài nghiên cứu",
+    "uploadedImages": "Ảnh đã tải lên",
+    "editorToolbar": "Công cụ soạn thảo",
+    "visualEditorSource": "Nội dung soạn thảo trực quan",
+    "lexicalEditorSource": "Soạn thảo Lexical",
+    "bold": "In đậm",
+    "italic": "In nghiêng",
+    "underline": "Gạch chân",
+    "strikethrough": "Gạch ngang",
+    "heading1": "Tiêu đề 1",
+    "heading2": "Tiêu đề 2",
+    "heading3": "Tiêu đề 3",
+    "bulletList": "Danh sách đầu dòng",
+    "orderedList": "Danh sách đánh số",
+    "blockquote": "Trích dẫn",
+    "codeBlock": "Khối mã",
+    "insertTable": "Chèn bảng",
+    "insertImage": "Chèn ảnh",
+    "insertEmoji": "Chèn emoji",
+    "insertDivider": "Đường phân cách",
+    "imagePicker": "Chọn ảnh đã tải lên",
+    "selectImage": "Chọn ảnh {name}",
+    "closeImagePicker": "Đóng chọn ảnh",
+    "noUploadedImages": "Chưa có ảnh đã tải lên.",
+    "undo": "Hoàn tác",
+    "redo": "Làm lại",
+    "link": "Liên kết",
+    "linkPrompt": "Nhập liên kết https://",
+    "commerce": "Drone Viet Commerce",
+    "loginTitle": "Đăng nhập quản trị",
+    "loginError": "Không thể xác thực tài khoản quản trị.",
+    "authenticating": "Đang xác thực...",
+    "workspaceTitle": "Admin vận hành",
+    "products": "Sản phẩm",
+    "articles": "Bài viết",
+    "orders": "Đơn hàng",
+    "productPublished": "Đã xuất bản sản phẩm qua Commerce API.",
+    "productPublishError": "Không thể lưu sản phẩm qua Commerce API.",
+    "articlePublished": "Đã xuất bản bài viết qua Commerce API.",
+    "articlePublishError": "Không thể lưu bài viết qua Commerce API.",
+    "ordersLoadError": "Không thể tải đơn hàng từ Commerce API.",
+    "ordersDescription": "Cập nhật theo luồng đóng gói, giao hàng, hủy và hoàn tiền.",
+    "orderCount": "{count} đơn",
+    "signInToLoadOrders": "Đăng nhập quản trị để tải đơn hàng.",
+    "noOrders": "Chưa có đơn hàng.",
+    "loadingOrders": "Đang tải đơn hàng...",
+    "order": "Đơn hàng",
+    "customer": "Khách hàng",
+    "total": "Tổng tiền",
+    "status": "Trạng thái",
+    "actions": "Thao tác",
+    "nextStatus": "Trạng thái tiếp theo {number}",
+    "refundReference": "Mã hoàn tiền",
+    "enterRefundReference": "Nhập mã hoàn tiền cho {number}.",
+    "updating": "Đang cập nhật...",
+    "updateOrder": "Cập nhật đơn",
+    "noActions": "Không còn thao tác",
+    "updatedOrder": "Đã cập nhật {number} sang {status}.",
+    "updateOrderError": "Không thể cập nhật {number}.",
+    "statusCancelled": "Đã hủy",
+    "statusDelivered": "Đã giao",
+    "statusPacking": "Đang đóng gói",
+    "statusPaid": "Đã thanh toán",
+    "statusPaymentFailed": "Thanh toán lỗi",
+    "statusPendingPayment": "Chờ thanh toán",
+    "statusRefundRequested": "Chờ hoàn tiền",
+    "statusRefunded": "Đã hoàn tiền",
+    "statusShipped": "Đang giao",
+    "defaultArticleBody": "# Drone trong lớp học STEM\n\nNội dung sẽ được render từ Markdown sau khi publish.",
+    "defaultArticleTitle": "Drone trong lớp học STEM",
+    "defaultArticleSlug": "drone-trong-lop-hoc-stem",
+    "defaultProductName": "DV Primary Lab",
+    "defaultProductSlug": "dv-primary-lab",
+    "defaultProductDescription": "# DV Primary Lab\n\nDrone STEM cho lớp học tiểu học.",
+    "defaultVariantTitle": "Bộ tiêu chuẩn",
+    "productSubtitle": "Drone giáo dục · Cấu hình SKU",
+    "productName": "Tên sản phẩm",
+    "slug": "Slug",
+    "variantsAndPricing": "Variants và giá",
+    "productValidation": "Dữ liệu này sẽ được Commerce API kiểm tra trước khi xuất bản.",
+    "addVariant": "Thêm variant",
+    "productMarkdown": "Mô tả sản phẩm Markdown",
+    "variant": "Variant",
+    "priceVnd": "Giá VND",
+    "stockOnHand": "Tồn kho",
+    "purchaseMode": "Phương thức mua",
+    "purchaseCheckout": "Thanh toán trực tiếp",
+    "purchasePreorder": "Đặt trước",
+    "purchaseQuote": "Yêu cầu báo giá",
+    "configuration": "Cấu hình",
+    "stockAvailable": "24 khả dụng",
+    "compatibility": "Tương thích",
+    "compatibilityValue": "Pin Basic, Shield Kit",
+    "productDescription": "Mô tả sản phẩm",
+    "markdownRevision": "Markdown bản sửa đổi 3",
+    "newArticle": "Bài viết mới",
+    "markdownSanitized": "Markdown được làm sạch trước khi public.",
+    "articleTitle": "Tiêu đề",
+    "markdownContent": "Nội dung Markdown",
+    "previewDescription": "Chọn “Xem trước” để render Markdown với cùng pipeline public.",
+    "ordersColumnsProducts": "Sản phẩm",
+    "orderDateLocale": "vi-VN"
+  },
+  "content": {
+    "site": {
+      "brand": {
+        "name": "Drone Việt",
+        "tagline": "Drone research and education lab",
+        "description": "Drone Việt cung cấp giải pháp drone cho nghiên cứu và giáo dục từ cấp 1 đến đại học: thiết bị, giáo trình, tài liệu triển khai, nền tảng thử nghiệm và dịch vụ đồng hành."
+      },
+      "navigation": [
+        {
+          "label": "Tất cả giải pháp",
+          "href": "/dich-vu"
+        },
+        {
+          "label": "Sản phẩm",
+          "href": "/san-pham"
+        },
+        {
+          "label": "Giáo trình",
+          "href": "/giao-trinh"
+        },
+        {
+          "label": "Tin tức",
+          "href": "/tin-tuc"
+        }
+      ],
+      "hero": {
+        "eyebrow": "Drone lab cho nghiên cứu & giáo dục",
+        "title": "Giải pháp drone cho giáo dục và nghiên cứu",
+        "description": "Một hệ sinh thái drone giúp học sinh, sinh viên và nhóm nghiên cứu học lập trình bay, cảm biến, AI, dữ liệu thực nghiệm và an toàn hàng không qua dự án thực hành.",
+        "primaryCta": {
+          "label": "Tư vấn ngay",
+          "href": "https://zalo.me/0384070636"
+        },
+        "secondaryCta": {
+          "label": "Xem giáo trình và tài liệu",
+          "href": "/giao-trinh"
+        },
+        "metrics": [
+          {
+            "label": "Bộ drone mẫu",
+            "value": "05"
+          },
+          {
+            "label": "Bậc học",
+            "value": "Cấp 1 - Đại học"
+          },
+          {
+            "label": "Định hướng",
+            "value": "Edu + R&D"
+          }
+        ]
+      },
+      "audiencePaths": [
+        {
+          "name": "Trường phổ thông",
+          "summary": "Triển khai tiết học STEM, câu lạc bộ drone, phòng lab thực hành và ngày hội trải nghiệm từ cấp 1 đến cấp 3.",
+          "href": "/dich-vu"
+        },
+        {
+          "name": "Đại học và lab nghiên cứu",
+          "summary": "Xây dựng nền tảng drone cho đề tài AI, computer vision, IoT, tự động hóa bay và thu thập dữ liệu thực nghiệm.",
+          "href": "/dich-vu"
+        },
+        {
+          "name": "Trung tâm STEM",
+          "summary": "Bộ thiết bị, giáo án và chương trình đào tạo giảng viên để mở lớp drone theo cấp độ.",
+          "href": "/giao-trinh"
+        }
+      ],
+      "process": [
+        {
+          "title": "Khảo sát mục tiêu học tập hoặc nghiên cứu",
+          "summary": "Xác định độ tuổi, năng lực kỹ thuật, không gian bay, dữ liệu cần thu thập và mục tiêu đầu ra."
+        },
+        {
+          "title": "Thiết kế bộ giải pháp",
+          "summary": "Ghép thiết bị, giáo trình, tài liệu an toàn, module cảm biến và nhiệm vụ thực nghiệm thành gói triển khai rõ ràng."
+        },
+        {
+          "title": "Đào tạo và vận hành",
+          "summary": "Hướng dẫn giáo viên, giảng viên hoặc nhóm nghiên cứu vận hành drone, bàn giao học liệu và hỗ trợ buổi triển khai đầu tiên."
+        }
+      ]
+    },
+    "drones": [
+      {
+        "slug": "dv-primary-lab",
+        "name": "DV Primary Lab",
+        "summary": "Drone mini an toàn cho học sinh cấp 1, phù hợp hoạt động điều khiển, quan sát chuyển động và lập trình khối lệnh.",
+        "level": "Cấp 1",
+        "useCases": [
+          "Lớp STEM nhập môn",
+          "Ngày hội trải nghiệm",
+          "Bài học an toàn bay"
+        ],
+        "learningOutcomes": [
+          "Lập trình bay cơ bản theo khối lệnh",
+          "Hiểu quy tắc an toàn trước khi cất cánh",
+          "Quan sát chuyển động và phản hồi cảm biến"
+        ],
+        "specs": [
+          {
+            "label": "Thời lượng",
+            "value": "40-60 phút/buổi"
+          },
+          {
+            "label": "Nhóm học",
+            "value": "2-4 học sinh/drone"
+          },
+          {
+            "label": "Không gian",
+            "value": "Trong lớp"
+          }
+        ],
+        "image": "lab-grid-primary",
+        "featured": true
+      },
+      {
+        "slug": "dv-code-fleet",
+        "name": "DV Code Fleet",
+        "summary": "Bộ drone lập trình theo đội hình cho cấp 2, dùng cho bài học thuật toán, tọa độ, thử nghiệm nhiệm vụ và teamwork.",
+        "level": "Cấp 2",
+        "useCases": [
+          "Lập trình đội hình",
+          "Dự án thuật toán",
+          "Thi đấu nội bộ"
+        ],
+        "learningOutcomes": [
+          "Thiết kế nhiệm vụ bay theo tọa độ",
+          "Tối ưu thuật toán điều hướng",
+          "Phối hợp nhóm trong thử nghiệm kỹ thuật"
+        ],
+        "specs": [
+          {
+            "label": "Ngôn ngữ",
+            "value": "Block/Python"
+          },
+          {
+            "label": "Mô hình",
+            "value": "Fleet 5-10 drone"
+          },
+          {
+            "label": "Chủ đề",
+            "value": "Algorithm + robotics"
+          }
+        ],
+        "image": "lab-grid-code",
+        "featured": true
+      },
+      {
+        "slug": "dv-ai-vision",
+        "name": "DV AI Vision",
+        "summary": "Drone thực hành thị giác máy tính cho cấp 3, xử lý dữ liệu cảm biến và nhiệm vụ mô phỏng ứng dụng thực tế.",
+        "level": "Cấp 3",
+        "useCases": [
+          "AI ứng dụng",
+          "Dự án nghiên cứu học sinh",
+          "Cuộc thi sáng tạo"
+        ],
+        "learningOutcomes": [
+          "Thu thập và phân tích dữ liệu bay",
+          "Mô phỏng bài toán nhận diện vật thể",
+          "Thiết kế nhiệm vụ tự động hóa có ràng buộc"
+        ],
+        "specs": [
+          {
+            "label": "Module",
+            "value": "Camera + sensor"
+          },
+          {
+            "label": "Dữ liệu",
+            "value": "Flight logs"
+          },
+          {
+            "label": "Định hướng",
+            "value": "AI/IoT project"
+          }
+        ],
+        "image": "lab-grid-vision",
+        "featured": true
+      },
+      {
+        "slug": "dv-research-platform",
+        "name": "DV Research Platform",
+        "summary": "Nền tảng drone mở cho đại học và lab nghiên cứu, phục vụ thử nghiệm thuật toán bay, computer vision, IoT và thu thập dữ liệu.",
+        "level": "Đại học",
+        "useCases": [
+          "Lab nghiên cứu",
+          "Computer vision",
+          "Tự động hóa bay"
+        ],
+        "learningOutcomes": [
+          "Thiết kế giao thức thử nghiệm có dữ liệu",
+          "Tích hợp cảm biến và pipeline xử lý ảnh",
+          "Đánh giá thuật toán điều hướng trong môi trường kiểm soát"
+        ],
+        "specs": [
+          {
+            "label": "SDK",
+            "value": "Python/API"
+          },
+          {
+            "label": "Module",
+            "value": "Camera + sensor bus"
+          },
+          {
+            "label": "Dữ liệu",
+            "value": "Telemetry + dataset"
+          }
+        ],
+        "image": "lab-grid-research",
+        "featured": true
+      },
+      {
+        "slug": "dv-instructor-kit",
+        "name": "DV Instructor Kit",
+        "summary": "Bộ demo cho giáo viên và giảng viên với giáo án, checklist an toàn, nhiệm vụ mẫu và tài liệu đánh giá lớp học.",
+        "level": "Giảng viên",
+        "useCases": [
+          "Tập huấn giáo viên",
+          "Demo tiết học",
+          "Chuẩn hóa học liệu"
+        ],
+        "learningOutcomes": [
+          "Tổ chức lớp học drone an toàn",
+          "Đánh giá sản phẩm học sinh, sinh viên theo rubric",
+          "Điều phối thiết bị trong lớp hoặc lab đông người học"
+        ],
+        "specs": [
+          {
+            "label": "Tài liệu",
+            "value": "Lesson + lab pack"
+          },
+          {
+            "label": "Đào tạo",
+            "value": "1-2 ngày"
+          },
+          {
+            "label": "Hỗ trợ",
+            "value": "Remote/on-site"
+          }
+        ],
+        "image": "lab-grid-instructor",
+        "featured": false
+      }
+    ],
+    "curriculum": [
+      {
+        "slug": "drone-nhap-mon-cap-1",
+        "title": "Drone nhập môn cho cấp 1",
+        "level": "Cấp 1",
+        "format": "Giáo án 8 buổi",
+        "summary": "Học sinh làm quen với drone, quy tắc an toàn, điều khiển cơ bản và lập trình nhiệm vụ đơn giản.",
+        "modules": [
+          "An toàn bay",
+          "Điều khiển cơ bản",
+          "Lập trình khối lệnh",
+          "Thử thách mê cung"
+        ],
+        "outcomes": [
+          "Biết vận hành an toàn",
+          "Hoàn thành nhiệm vụ bay theo lệnh"
+        ],
+        "status": "Đã hoàn thành",
+        "downloadLabel": "Xem cấu trúc giáo án"
+      },
+      {
+        "slug": "lap-trinh-drone-cap-2",
+        "title": "Lập trình drone cho cấp 2",
+        "level": "Cấp 2",
+        "format": "Giáo trình 12 buổi",
+        "summary": "Tập trung vào thuật toán, tọa độ, cảm biến và giải quyết nhiệm vụ bay theo nhóm.",
+        "modules": [
+          "Tọa độ",
+          "Vòng lặp và điều kiện",
+          "Cảm biến",
+          "Nhiệm vụ đội hình"
+        ],
+        "outcomes": [
+          "Viết kịch bản bay",
+          "Tối ưu nhiệm vụ theo dữ liệu thử nghiệm"
+        ],
+        "status": "Đã hoàn thành",
+        "downloadLabel": "Xem mục lục"
+      },
+      {
+        "slug": "du-an-drone-cap-3",
+        "title": "Dự án drone ứng dụng cho cấp 3",
+        "level": "Cấp 3",
+        "format": "Project-based curriculum",
+        "summary": "Học sinh xây dựng dự án ứng dụng drone với dữ liệu, camera, AI cơ bản và báo cáo kỹ thuật.",
+        "modules": [
+          "Thiết kế nhiệm vụ",
+          "Dữ liệu bay",
+          "Computer vision",
+          "Báo cáo dự án"
+        ],
+        "outcomes": [
+          "Hoàn thành prototype",
+          "Trình bày quyết định kỹ thuật"
+        ],
+        "status": "Đã hoàn thành",
+        "downloadLabel": "Xem khung dự án"
+      },
+      {
+        "slug": "drone-ung-dung-dai-hoc",
+        "title": "Drone ứng dụng cho đại học",
+        "level": "Đại học",
+        "format": "Lab syllabus 10 buổi",
+        "summary": "Sinh viên thực hành lập trình bay, xử lý dữ liệu cảm biến, computer vision và thiết kế thí nghiệm.",
+        "modules": [
+          "SDK drone",
+          "Telemetry",
+          "Computer vision",
+          "Thiết kế lab report"
+        ],
+        "outcomes": [
+          "Tạo pipeline thử nghiệm",
+          "Phân tích dữ liệu bay có cấu trúc"
+        ],
+        "status": "Đã hoàn thành",
+        "downloadLabel": "Xem syllabus"
+      },
+      {
+        "slug": "phuong-phap-nghien-cuu-voi-drone",
+        "title": "Phương pháp nghiên cứu với drone",
+        "level": "Nghiên cứu",
+        "format": "Research protocol kit",
+        "summary": "Khung tài liệu cho nhóm nghiên cứu thiết kế giả thuyết, thu thập dữ liệu, kiểm soát rủi ro và tái lập thí nghiệm drone.",
+        "modules": [
+          "Thiết kế protocol",
+          "Data logging",
+          "An toàn thử nghiệm",
+          "Báo cáo kết quả"
+        ],
+        "outcomes": [
+          "Chuẩn hóa quy trình thử nghiệm",
+          "Tạo bộ dữ liệu có thể đối chiếu"
+        ],
+        "status": "Đã hoàn thành",
+        "downloadLabel": "Xem research kit"
+      }
+    ],
+    "services": [
+      {
+        "slug": "tu-van-phong-lab",
+        "title": "Tư vấn phòng lab drone nghiên cứu & giáo dục",
+        "summary": "Thiết kế cấu hình thiết bị, không gian, lịch học, dữ liệu thử nghiệm và quy trình vận hành cho trường, trung tâm hoặc đại học.",
+        "deliverables": [
+          "Bản cấu hình thiết bị",
+          "Sơ đồ lớp học/lab",
+          "Kế hoạch triển khai"
+        ],
+        "audience": [
+          "Trường phổ thông",
+          "Trung tâm STEM",
+          "Đại học"
+        ],
+        "ctaLabel": "Trao đổi cấu hình lab"
+      },
+      {
+        "slug": "cung-cap-bo-drone",
+        "title": "Cung cấp bộ drone theo cấp học",
+        "summary": "Đề xuất bộ drone, phụ kiện, học liệu và nhiệm vụ mẫu theo độ tuổi, năng lực kỹ thuật và mục tiêu đào tạo.",
+        "deliverables": [
+          "Danh mục thiết bị",
+          "Học liệu đi kèm",
+          "Checklist an toàn"
+        ],
+        "audience": [
+          "Trường phổ thông",
+          "Trung tâm STEM",
+          "Đại học"
+        ],
+        "ctaLabel": "Xem bộ thiết bị"
+      },
+      {
+        "slug": "thiet-ke-nen-tang-nghien-cuu",
+        "title": "Thiết kế nền tảng drone nghiên cứu",
+        "summary": "Tùy biến drone, cảm biến, pipeline dữ liệu và protocol thử nghiệm cho đề tài nghiên cứu hoặc lab đại học.",
+        "deliverables": [
+          "Thiết kế module",
+          "Telemetry schema",
+          "Research protocol"
+        ],
+        "audience": [
+          "Đại học",
+          "Lab nghiên cứu"
+        ],
+        "ctaLabel": "Trao đổi nền tảng R&D"
+      },
+      {
+        "slug": "giao-trinh-drone",
+        "title": "Biên soạn và chuyển giao giáo trình drone",
+        "summary": "Cung cấp giáo trình đã hoàn thành hoặc tùy biến theo chương trình STEM, robotics, AI hoặc nghiên cứu ứng dụng.",
+        "deliverables": [
+          "Giáo án",
+          "Slide bài giảng",
+          "Rubric đánh giá"
+        ],
+        "audience": [
+          "Trường phổ thông",
+          "Trung tâm STEM",
+          "Đại học"
+        ],
+        "ctaLabel": "Xem giáo trình"
+      },
+      {
+        "slug": "tap-huan-giang-vien",
+        "title": "Tập huấn giáo viên và giảng viên",
+        "summary": "Đào tạo đội ngũ vận hành drone, dạy thử, xử lý tình huống lớp học/lab và đánh giá dự án.",
+        "deliverables": [
+          "Workshop",
+          "Tài liệu giảng viên",
+          "Kịch bản dạy thử"
+        ],
+        "audience": [
+          "Giáo viên",
+          "Giảng viên",
+          "Nhà trường"
+        ],
+        "ctaLabel": "Lên lịch tập huấn"
+      },
+      {
+        "slug": "workshop-trai-nghiem",
+        "title": "Workshop và ngày hội trải nghiệm drone",
+        "summary": "Tổ chức hoạt động thực hành drone cho học sinh, sinh viên, phụ huynh hoặc sự kiện STEM của trường.",
+        "deliverables": [
+          "Kịch bản sự kiện",
+          "Thiết bị demo",
+          "Huấn luyện viên"
+        ],
+        "audience": [
+          "Học sinh",
+          "Sinh viên",
+          "Phụ huynh",
+          "Trường học"
+        ],
+        "ctaLabel": "Tổ chức workshop"
+      }
+    ],
+    "partners": [
+      {
+        "name": "Trường phổ thông",
+        "type": "Đơn vị triển khai",
+        "summary": "Tổ chức tiết học STEM, câu lạc bộ công nghệ và ngày hội trải nghiệm."
+      },
+      {
+        "name": "Đại học và viện nghiên cứu",
+        "type": "Đối tác R&D",
+        "summary": "Phát triển đề tài drone, AI, computer vision, IoT và dữ liệu thực nghiệm."
+      },
+      {
+        "name": "Trung tâm STEM",
+        "type": "Đối tác đào tạo",
+        "summary": "Mở lớp drone theo cấp độ với bộ giáo trình và thiết bị đồng bộ."
+      },
+      {
+        "name": "Đơn vị công nghệ giáo dục",
+        "type": "Đối tác nội dung",
+        "summary": "Phối hợp chuẩn hóa học liệu, rubric, syllabus và chương trình tập huấn."
+      }
+    ]
+  },
+  "articles": [
+    {
+      "slug": "drone-giao-duc-stem",
+      "title": "Drone trong lớp học STEM và nghiên cứu ứng dụng",
+      "date": "2026-07-05",
+      "summary": "Drone giúp lớp học STEM và lab nghiên cứu chuyển từ bài giảng lý thuyết sang thử nghiệm kỹ thuật có dữ liệu và kết quả quan sát được.",
+      "category": "STEM & R&D",
+      "readingTime": "4 phút đọc",
+      "content": "Drone giúp lớp học STEM có một vật thể thật để học sinh quan sát, lập trình, thử nghiệm và cải tiến. Ở đại học, cùng nền tảng đó có thể mở rộng thành bài toán computer vision, dữ liệu bay, cảm biến và tự động hóa. Thay vì chỉ học thuật toán trên màn hình, người học thấy lệnh điều khiển tạo ra chuyển động, sai số và dữ liệu phản hồi.\n\nMột tiết học hoặc buổi lab drone hiệu quả cần ba lớp nội dung: an toàn bay, tư duy lập trình và nhiệm vụ thực hành. Với cấp 1, nhiệm vụ có thể là bay qua cổng hoặc đi theo mê cung. Với cấp 2 và cấp 3, nhiệm vụ có thể mở rộng sang tọa độ, cảm biến, dữ liệu bay và mô phỏng ứng dụng thực tế. Với đại học, trọng tâm chuyển sang thiết kế thí nghiệm, logging dữ liệu và đánh giá thuật toán.\n\nGiá trị lớn nhất của drone trong nghiên cứu và giáo dục không nằm ở thiết bị riêng lẻ. Giá trị nằm ở hệ sinh thái gồm drone phù hợp cấp học, giáo trình có cấu trúc, checklist an toàn, hoạt động nhóm, rubric đánh giá và protocol thử nghiệm có thể tái lập."
+    },
+    {
+      "slug": "giao-trinh-drone-theo-cap-hoc",
+      "title": "Thiết kế giáo trình drone từ cấp 1 đến đại học",
+      "date": "2026-07-04",
+      "summary": "Giáo trình drone cần thay đổi theo độ tuổi và năng lực kỹ thuật, từ trải nghiệm an toàn ở cấp 1 đến lab dữ liệu, AI và tự động hóa ở đại học.",
+      "category": "Giáo trình",
+      "readingTime": "5 phút đọc",
+      "content": "Giáo trình drone theo cấp học phải bắt đầu từ năng lực thật của người học. Ở cấp 1, bài học nên ngắn, trực quan và tập trung vào an toàn, quan sát chuyển động, điều khiển cơ bản. Ở cấp 2, học sinh có thể học thuật toán, tọa độ, vòng lặp, điều kiện và thử nghiệm nhiệm vụ bay.\n\nỞ cấp 3, drone trở thành nền tảng cho dự án ứng dụng. Học sinh có thể làm việc với dữ liệu bay, cảm biến, camera, nhận diện vật thể và báo cáo quyết định kỹ thuật. Ở đại học, chương trình cần đi sâu vào SDK, telemetry, protocol thử nghiệm, computer vision và đánh giá thuật toán. Giảng viên cần rubric rõ để đánh giá cả quá trình thử nghiệm, không chỉ kết quả bay cuối cùng.\n\nMột bộ giáo trình hoàn chỉnh nên đi kèm thiết bị, slide, phiếu học tập, hướng dẫn giáo viên/giảng viên, checklist an toàn, protocol lab và đề xuất cách tổ chức lớp học hoặc phòng nghiên cứu."
+    }
+  ]
+}

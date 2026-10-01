@@ -17,7 +17,7 @@ vi.mock("@/lib/commerce/admin-api", () => ({
 }));
 
 describe("AdminWorkbench", () => {
-  it("lets an operator edit product pricing and preview an article in Markdown", () => {
+  it("renders one article source editor at a time", () => {
     render(<AdminWorkbench />);
 
     expect(
@@ -26,14 +26,30 @@ describe("AdminWorkbench", () => {
     expect(screen.getByLabelText("Giá VND")).toHaveValue(9_500_000);
 
     fireEvent.click(screen.getByRole("button", { name: "Bài viết" }));
-    fireEvent.change(screen.getByLabelText("Nội dung Markdown"), {
+    expect(screen.queryByLabelText("Nội dung Markdown")).not.toBeInTheDocument();
+    expect(
+      screen.getAllByLabelText("Soạn thảo Lexical"),
+    ).toHaveLength(1);
+    fireEvent.change(screen.getByLabelText("Chế độ soạn thảo"), {
+      target: { value: "markdown" },
+    });
+    expect(
+      screen.getAllByLabelText("Nguồn Markdown bài nghiên cứu"),
+    ).toHaveLength(1);
+    fireEvent.change(screen.getByLabelText("Nguồn Markdown bài nghiên cứu"), {
       target: { value: "# Drone STEM\n\nNội dung khóa học." },
     });
-    fireEvent.click(screen.getByRole("button", { name: "Xem trước" }));
-
+    expect(screen.getByLabelText("Chế độ soạn thảo")).toBeDisabled();
+    expect(
+      screen.getByRole("heading", { name: "Xem trước" }),
+    ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: "Drone STEM", level: 1 }),
     ).toBeInTheDocument();
+
+    expect(
+      screen.queryByLabelText("Nội dung Markdown"),
+    ).not.toBeInTheDocument();
   });
 
   it("lets operations move an order through an allowed next status", async () => {

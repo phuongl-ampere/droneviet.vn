@@ -3,17 +3,24 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { AddToCartButton } from "@/components/store/add-to-cart-button";
 import { formatVnd } from "@/lib/commerce/storefront-catalog";
-import { storeCourses } from "@/lib/commerce/courses";
+import { getStoreCourses } from "@/lib/commerce/courses";
+import { getTranslations } from "@/lib/i18n";
+import type { Locale } from "@/lib/content";
 
-interface CourseDetailPageProps {
+export interface CourseDetailPageProps {
+  locale?: Locale;
   params: Promise<{ slug: string }>;
 }
 
 export default async function CourseDetailPage({
+  locale = "vi",
   params,
 }: CourseDetailPageProps) {
+  const copy = getTranslations(locale).course;
   const { slug } = await params;
-  const course = storeCourses.find((item) => item.slug === slug);
+  const course = getStoreCourses(locale).find((item) => item.slug === slug);
+  const coursesHref = locale === "vi" ? "/khoa-hoc" : "/en/courses";
+  const solutionsHref = locale === "vi" ? "/dich-vu" : "/en/services";
 
   if (!course) {
     notFound();
@@ -24,11 +31,11 @@ export default async function CourseDetailPage({
       <section className="bg-[#10232A] text-white">
         <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
           <Link
-            href="/khoa-hoc"
+            href={coursesHref}
             className="inline-flex items-center gap-2 text-sm text-slate-300 hover:text-white"
           >
             <ArrowLeft aria-hidden="true" size={16} />
-            Quay lại khóa học
+            {copy.backToCourses}
           </Link>
           <p className="mt-12 text-xs font-medium text-[#7DE0D7]">
             {course.level} · {course.format}
@@ -42,9 +49,11 @@ export default async function CourseDetailPage({
           <div className="mt-8 flex flex-wrap items-center gap-5">
             <p className="text-sm text-slate-300">{course.sessionLabel}</p>
             {course.purchaseMode === "checkout" ? (
-              <p className="text-xl font-semibold">{formatVnd(course.priceVnd)}</p>
+              <p className="text-xl font-semibold">
+                {formatVnd(course.priceVnd, locale)}
+              </p>
             ) : (
-              <p className="text-sm font-semibold">Báo giá theo cấu hình lab</p>
+              <p className="text-sm font-semibold">{copy.labQuote}</p>
             )}
           </div>
           {course.purchaseMode === "checkout" ? (
@@ -59,10 +68,10 @@ export default async function CourseDetailPage({
             </div>
           ) : (
             <Link
-              href="/giai-phap#tu-van-phong-lab"
+              href={`${solutionsHref}#tu-van-phong-lab`}
               className="mt-9 inline-flex min-h-11 items-center gap-2 bg-white px-4 text-sm font-semibold text-[#10232A] hover:bg-[#00D1C1]"
             >
-              Trao đổi triển khai
+              {copy.discussDeployment}
               <ArrowUpRight aria-hidden="true" size={16} />
             </Link>
           )}

@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import { PurchaseMode } from "../catalog/entities/product-variant.entity";
-import { OrderPaymentMethod } from "./entities/order.entity";
+import {
+  OrderFulfillmentMethod,
+  OrderPaymentMethod,
+} from "./entities/order.entity";
 import { OrderStatus } from "./order-workflow";
 import { OrdersService } from "./orders.service";
 
@@ -59,7 +62,7 @@ describe("OrdersService", () => {
         contactPhone: "0900000000",
         lines: [{ quantity: 2, variantId: "variant-primary-lab" }],
         paymentMethod: OrderPaymentMethod.PAYOS,
-      }),
+      }, "customer-1"),
     ).resolves.toEqual(
       expect.objectContaining({
         status: OrderStatus.PENDING_PAYMENT,
@@ -72,6 +75,13 @@ describe("OrdersService", () => {
         sku: "DV-PL-STD",
         title: "DV Primary Lab - Standard kit",
         unitPriceVnd: 9_500_000,
+      }),
+    );
+    expect(orderRepository.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        customerId: "customer-1",
+        fulfillmentMethod: OrderFulfillmentMethod.DELIVERY,
+        shippingNote: null,
       }),
     );
     expect(dataSource.transaction).toHaveBeenCalledOnce();
@@ -91,6 +101,86 @@ describe("OrdersService", () => {
         aggregateType: "order",
       }),
     );
+  });
+
+  it("snapshots showroom pickup details supplied by checkout", async () => {
+    const variantRepository = {
+      createQueryBuilder: vi.fn(() => ({
+        getMany: vi.fn().mockResolvedValue([
+          {
+            id: "variant-primary-lab",
+            inventory: { id: "inventory-primary", onHand: 3, reserved: 0 },
+            isActive: true,
+            priceVnd: 9_500_000,
+            product: { name: "DV Primary Lab", status: "published" },
+            purchaseMode: PurchaseMode.CHECKOUT,
+            sku: "DV-PL-STD",
+            title: "Standard kit",
+          },
+        ]),
+        leftJoinAndSelect: vi.fn().mockReturnThis(),
+        setLock: vi.fn().mockReturnThis(),
+        where: vi.fn().mockReturnThis(),
+      })),
+    };
+    const orderRepository = {
+      create: vi.fn((order) => order),
+      save: vi.fn(async (order) => ({ ...order, id: "order-pickup-1" })),
+    };
+    const manager = {
+      getRepository: vi.fn((entity) => {
+        if (entity.name === "ProductVariant") return variantRepository;
+        if (entity.name === "Order") return orderRepository;
+        return { create: vi.fn((line) => line), save: vi.fn() };
+      }),
+    };
+    const service = new OrdersService(
+      { transaction: vi.fn((callback) => callback(manager)) } as never,
+      { reserve: vi.fn() } as never,
+      { reserveEnrollmentWithManager: vi.fn() } as never,
+      { recordWithManager: vi.fn() } as never,
+      { resolveDiscount: vi.fn() } as never,
+    );
+
+    await service.createOrder({
+      contactName: "Nguyen Van A",
+      contactPhone: "0900000000",
+      fulfillmentMethod: OrderFulfillmentMethod.SHOWROOM_PICKUP,
+      lines: [{ quantity: 1, variantId: "variant-primary-lab" }],
+      paymentMethod: OrderPaymentMethod.COD,
+      shippingAddress: "Drone Viet showroom",
+      shippingNote: "Call before pickup",
+    });
+
+    expect(orderRepository.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        fulfillmentMethod: OrderFulfillmentMethod.SHOWROOM_PICKUP,
+        shippingAddress: "Drone Viet showroom",
+        shippingNote: "Call before pickup",
+      }),
+    );
+  });
+
+  it("lists only orders owned by the requested customer", async () => {
+    const orderRepository = {
+      find: vi.fn().mockResolvedValue([{ customerId: "customer-1", id: "order-1" }]),
+    };
+    const service = new OrdersService(
+      { getRepository: vi.fn().mockReturnValue(orderRepository) } as never,
+      {} as never,
+      {} as never,
+      {} as never,
+      {} as never,
+    );
+
+    await expect(service.listForCustomer("customer-1")).resolves.toEqual([
+      { customerId: "customer-1", id: "order-1" },
+    ]);
+    expect(orderRepository.find).toHaveBeenCalledWith({
+      order: { createdAt: "DESC" },
+      relations: { lines: true },
+      where: { customerId: "customer-1" },
+    });
   });
 
   it("rejects an active variant whose parent product is still a draft", async () => {

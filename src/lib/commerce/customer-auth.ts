@@ -1,34 +1,24 @@
+import type { CustomerProfile } from "./customer-api";
+import { commerceApiUrl } from "./commerce-api-url";
+
 export interface CustomerSession {
   accessToken: string;
-  user: {
-    email: string;
-    id: string;
-    roles: string[];
-  };
-}
-
-function apiUrl(path: string): string {
-  const baseUrl = process.env.NEXT_PUBLIC_COMMERCE_API_URL?.replace(/\/$/, "");
-
-  if (!baseUrl) {
-    throw new Error("Commerce API is not configured");
-  }
-
-  return `${baseUrl}${path}`;
+  user: CustomerProfile;
 }
 
 async function request(
   path: string,
   payload: Record<string, string>,
 ): Promise<CustomerSession> {
-  const response = await fetch(apiUrl(path), {
+  const response = await fetch(commerceApiUrl(path), {
     method: "POST",
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 
   if (!response.ok) {
-    throw new Error("Không thể xác thực tài khoản.");
+    throw new Error("AUTHENTICATION_FAILED");
   }
 
   return response.json() as Promise<CustomerSession>;

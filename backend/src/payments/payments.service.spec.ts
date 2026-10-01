@@ -54,6 +54,51 @@ describe("PaymentsService", () => {
     );
   });
 
+  it("returns the stored pending checkout URL instead of creating a duplicate PayOS link", async () => {
+    const paymentRepository = {
+      findOne: vi.fn().mockResolvedValue({
+        checkoutUrl: "https://pay.example/existing",
+        status: PaymentStatus.PENDING,
+      }),
+    };
+    const dataSource = {
+      getRepository: vi.fn(() => paymentRepository),
+      transaction: vi.fn(),
+    };
+    const payos = { createPaymentLink: vi.fn() };
+    const service = new PaymentsService(
+      dataSource as never,
+      payos as never,
+      {} as never,
+      {} as never,
+      { recordWithManager: vi.fn() } as never,
+    );
+
+    await expect(
+      service.resumePayosCheckout({
+        contactEmail: "buyer@example.vn",
+        contactName: "Nguyen Van A",
+        contactPhone: "0900000000",
+        id: "order-1",
+        orderNumber: "DV-ABCD1234",
+        paymentMethod: OrderPaymentMethod.PAYOS,
+        paymentOrderCode: 123456,
+        status: OrderStatus.PENDING_PAYMENT,
+        totalVnd: 9_500_000,
+      }),
+    ).resolves.toEqual({ checkoutUrl: "https://pay.example/existing" });
+
+    expect(paymentRepository.findOne).toHaveBeenCalledWith({
+      order: { createdAt: "DESC" },
+      where: {
+        orderId: "order-1",
+        provider: PaymentProvider.PAYOS,
+        status: PaymentStatus.PENDING,
+      },
+    });
+    expect(payos.createPaymentLink).not.toHaveBeenCalled();
+  });
+
   it("marks a matching pending attempt and its order as paid only once", async () => {
     const order = {
       id: "order-1",

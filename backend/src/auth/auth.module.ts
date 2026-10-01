@@ -6,6 +6,7 @@ import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { User } from "./entities/user.entity";
 import { JwtAuthGuard } from "./jwt-auth.guard";
+import { OptionalJwtAuthGuard } from "./optional-jwt-auth.guard";
 import { resolveJwtSecret } from "./jwt-config";
 import { RolesGuard } from "./roles.guard";
 
@@ -24,7 +25,13 @@ import { RolesGuard } from "./roles.guard";
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtAuthGuard, RolesGuard],
-  exports: [AuthService, JwtAuthGuard, JwtModule, RolesGuard],
+  providers: [AuthService, JwtAuthGuard, OptionalJwtAuthGuard, RolesGuard],
+  exports: [
+    AuthService,
+    JwtAuthGuard,
+    OptionalJwtAuthGuard,
+    JwtModule,
+    RolesGuard,
+  ],
 })
 export class AuthModule {}

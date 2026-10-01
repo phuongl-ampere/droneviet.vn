@@ -32,4 +32,25 @@ describe("DronePillar pages", () => {
       }),
     ).toBeInTheDocument();
   });
+
+  it("uses English copy and quote destination for English topics", () => {
+    render(
+      <DronePillarDetail
+        locale="en"
+        pillarSlug="drone-giao-duc"
+        topicSlug="cap-3"
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", { name: "High school" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute(
+      "href",
+      "/en",
+    );
+    expect(
+      screen.getByRole("link", { name: "Request deployment advice" }),
+    ).toHaveAttribute("href", "/en/quote");
+  });
 });

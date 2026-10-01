@@ -36,7 +36,7 @@ describe("seo helpers", () => {
     expect(buildProductJsonLd(drone, "vi")).toMatchObject({
       "@type": "Product",
       name: "DV Primary Lab",
-      category: "Drone research and education kit",
+      category: "Bộ drone nghiên cứu và giáo dục",
     });
     expect(buildServiceJsonLd(service, "vi")).toMatchObject({
       "@type": "Service",

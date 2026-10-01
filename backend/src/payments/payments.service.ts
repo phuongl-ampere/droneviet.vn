@@ -24,6 +24,19 @@ interface PayosWebhookData {
   status: string;
 }
 
+type PayosCheckoutOrder = Pick<
+  Order,
+  | "contactEmail"
+  | "contactName"
+  | "contactPhone"
+  | "id"
+  | "orderNumber"
+  | "paymentMethod"
+  | "paymentOrderCode"
+  | "status"
+  | "totalVnd"
+>;
+
 @Injectable()
 export class PaymentsService {
   constructor(
@@ -36,18 +49,7 @@ export class PaymentsService {
   ) {}
 
   async createPayosCheckout(
-    order: Pick<
-      Order,
-      | "contactEmail"
-      | "contactName"
-      | "contactPhone"
-      | "id"
-      | "orderNumber"
-      | "paymentMethod"
-      | "paymentOrderCode"
-      | "status"
-      | "totalVnd"
-    >,
+    order: PayosCheckoutOrder,
   ): Promise<{ checkoutUrl: string; paymentAttemptId: string }> {
     if (
       order.paymentMethod !== OrderPaymentMethod.PAYOS ||
@@ -82,6 +84,36 @@ export class PaymentsService {
     });
 
     return { checkoutUrl, paymentAttemptId: attempt.id };
+  }
+
+  async resumePayosCheckout(
+    order: PayosCheckoutOrder,
+  ): Promise<{ checkoutUrl: string }> {
+    if (
+      order.paymentMethod !== OrderPaymentMethod.PAYOS ||
+      order.status !== OrderStatus.PENDING_PAYMENT
+    ) {
+      throw new BadRequestException("Order is not eligible for PayOS checkout");
+    }
+
+    const existingAttempt = await this.dataSource
+      .getRepository(PaymentAttempt)
+      .findOne({
+        order: { createdAt: "DESC" },
+        where: {
+          orderId: order.id,
+          provider: PaymentProvider.PAYOS,
+          status: PaymentStatus.PENDING,
+        },
+      });
+
+    if (existingAttempt?.checkoutUrl) {
+      return { checkoutUrl: existingAttempt.checkoutUrl };
+    }
+
+    const payment = await this.createPayosCheckout(order);
+
+    return { checkoutUrl: payment.checkoutUrl };
   }
 
   async completePayosAttempt(

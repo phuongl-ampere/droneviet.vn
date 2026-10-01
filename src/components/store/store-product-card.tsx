@@ -2,20 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { AddToCartButton } from "./add-to-cart-button";
+import type { Locale } from "@/lib/content";
 import {
   formatVnd,
   type StoreProduct,
 } from "@/lib/commerce/storefront-catalog";
+import { getTranslation } from "@/lib/i18n";
 
 interface StoreProductCardProps {
+  locale?: Locale;
   product: StoreProduct;
 }
-
-const purchaseLabels = {
-  checkout: "Thêm vào giỏ",
-  preorder: "Đặt trước",
-  quote_only: "Yêu cầu báo giá",
-} as const;
 
 const stageClasses = {
   aqua: "bg-[#0E2528]",
@@ -24,17 +21,40 @@ const stageClasses = {
   sand: "bg-[#42392D]",
 } as const;
 
-export function StoreProductCard({ product }: StoreProductCardProps) {
+export function StoreProductCard({
+  locale = "vi",
+  product,
+}: StoreProductCardProps) {
+  const productHref =
+    locale === "vi"
+      ? `/san-pham/${product.slug}`
+      : `/en/products/${product.slug}`;
+  const quoteHref =
+    locale === "vi"
+      ? `/bao-gia?product=${product.slug}`
+      : `/en/quote?product=${product.slug}`;
+  const purchaseLabels = {
+    checkout: getTranslation(locale, "store.addToCart"),
+    preorder: getTranslation(locale, "store.preorder"),
+    quote_only: getTranslation(locale, "store.requestQuote"),
+  } as const;
+  const collectionLabel =
+    product.collection === "accessories"
+      ? getTranslation(locale, "store.collectionParts")
+      : product.collection === "research"
+        ? getTranslation(locale, "store.collectionDrone")
+        : getTranslation(locale, "store.collectionEducation");
+
   return (
     <article className="group flex min-h-full flex-col border border-black/10 bg-white">
       <Link
-        href={`/san-pham/${product.slug}`}
+        href={productHref}
         aria-label={product.name}
         className={`relative grid aspect-[1.2] place-items-center overflow-hidden p-8 ${stageClasses[product.accent]}`}
       >
         <Image
           src={product.imageSrc}
-          alt={`Generic quadcopter flight photo representing ${product.name}`}
+          alt={product.name}
           fill
           sizes="(min-width: 1280px) 28vw, (min-width: 640px) 45vw, 100vw"
           className="object-cover opacity-90 transition duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
@@ -49,14 +69,10 @@ export function StoreProductCard({ product }: StoreProductCardProps) {
 
       <div className="flex flex-1 flex-col px-5 py-6">
         <p className="text-xs font-medium text-slate-500">
-          {product.collection === "accessories"
-            ? "Phụ kiện & Linh kiện"
-            : product.collection === "research"
-              ? "Drone"
-              : "Drone giáo dục & Combo classroom/lab"}
+          {collectionLabel}
         </p>
         <Link
-          href={`/san-pham/${product.slug}`}
+          href={productHref}
           className="mt-2 text-xl font-semibold leading-tight text-[#10232A]"
         >
           {product.name}
@@ -78,7 +94,9 @@ export function StoreProductCard({ product }: StoreProductCardProps) {
         </dl>
         <div className="mt-5 flex items-end justify-between gap-3">
           <div>
-            <p className="text-xs text-slate-500">Từ</p>
+            <p className="text-xs text-slate-500">
+              {getTranslation(locale, "common.from")}
+            </p>
             <p className="mt-1 text-lg font-semibold text-[#10232A]">
               {formatVnd(product.priceVnd)}
             </p>
@@ -94,8 +112,8 @@ export function StoreProductCard({ product }: StoreProductCardProps) {
             <Link
               href={
                 product.purchaseMode === "quote_only"
-                  ? `/bao-gia?product=${product.slug}`
-                  : `/san-pham/${product.slug}`
+                  ? quoteHref
+                  : productHref
               }
               className="inline-flex min-h-10 items-center gap-2 bg-[#10232A] px-3.5 text-sm font-semibold text-white transition hover:bg-[#006D66]"
             >

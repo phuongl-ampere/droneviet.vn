@@ -6,7 +6,7 @@ import { AddToCartButton } from "@/components/store/add-to-cart-button";
 import type { DroneModel } from "@/lib/content/schema";
 import {
   formatVnd,
-  storeProducts,
+  getStoreProducts,
 } from "@/lib/commerce/storefront-catalog";
 import {
   buildBreadcrumbJsonLd,
@@ -15,81 +15,12 @@ import {
   buildServiceJsonLd,
 } from "@/lib/seo";
 import { getServices } from "@/lib/content";
+import { getTranslations } from "@/lib/i18n";
 
 type ProductDetailProps = {
   drone: DroneModel;
   locale: "vi" | "en";
 };
-
-function getCopy(locale: "vi" | "en") {
-  return locale === "vi"
-    ? {
-        home: "Trang chủ",
-        products: "Sản phẩm",
-        eyebrow: "Cấu hình drone",
-        outcomes: "Đầu ra học tập / nghiên cứu",
-        specs: "Thông số triển khai",
-        useCases: "Ứng dụng phù hợp",
-        faqTitle: "Câu hỏi thường gặp",
-        faqDescription: "Những thông tin cần biết trước khi lựa chọn cấu hình.",
-        cta: "Liên hệ tư vấn ngay",
-        quoteCta: "Yêu cầu báo giá",
-        related: "Dịch vụ đi cùng giải pháp",
-        relatedDescription:
-          "Từ thiết bị đến học liệu và năng lực vận hành, mỗi cấu hình đều có thể được triển khai trọn gói.",
-        back: "Quay lại danh mục",
-        faq: [
-          {
-            question: "Bộ drone này phù hợp với đơn vị nào?",
-            answer:
-              "Bộ drone được chọn theo cấp học, năng lực kỹ thuật, không gian bay và mục tiêu triển khai của từng trường, trung tâm hoặc lab.",
-          },
-          {
-            question: "Drone Việt có hỗ trợ giáo trình và tập huấn không?",
-            answer:
-              "Có. Drone Việt cung cấp giáo trình, checklist an toàn, rubric đánh giá và chương trình tập huấn giáo viên hoặc giảng viên.",
-          },
-          {
-            question: "Có thể tùy biến cho lab nghiên cứu không?",
-            answer:
-              "Có. Các cấu hình có thể mở rộng bằng cảm biến, camera, telemetry và protocol thử nghiệm cho đề tài nghiên cứu.",
-          },
-        ],
-      }
-    : {
-        home: "Home",
-        products: "Products",
-        eyebrow: "Drone configuration",
-        outcomes: "Learning / research outcomes",
-        specs: "Deployment specs",
-        useCases: "Best-fit use cases",
-        faqTitle: "Frequently asked questions",
-        faqDescription: "What to know before choosing a configuration.",
-        cta: "Contact us now",
-        quoteCta: "Request a quote",
-        related: "Services around the solution",
-        relatedDescription:
-          "From hardware to curriculum and operating readiness, every configuration can be deployed as a complete system.",
-        back: "Back to catalog",
-        faq: [
-          {
-            question: "Who is this drone kit for?",
-            answer:
-              "Each kit is matched to learner level, technical capability, flight space, and deployment goals for schools, centers, or labs.",
-          },
-          {
-            question: "Does Drone Viet support curriculum and training?",
-            answer:
-              "Yes. Drone Viet provides curriculum, safety checklists, assessment rubrics, and teacher or instructor training.",
-          },
-          {
-            question: "Can it be customized for research labs?",
-            answer:
-              "Yes. Configurations can be extended with sensors, cameras, telemetry, and experiment protocols for research topics.",
-          },
-        ],
-      };
-}
 
 export function ProductDroneVisual() {
   return (
@@ -113,13 +44,31 @@ export function ProductDroneVisual() {
 }
 
 export function ProductDetail({ drone, locale }: ProductDetailProps) {
-  const copy = getCopy(locale);
+  const copy = getTranslations(locale).product;
+  const faq = [
+    {
+      answer: copy.faqOneAnswer,
+      question: copy.faqOneQuestion,
+    },
+    {
+      answer: copy.faqTwoAnswer,
+      question: copy.faqTwoQuestion,
+    },
+    {
+      answer: copy.faqThreeAnswer,
+      question: copy.faqThreeQuestion,
+    },
+  ];
   const productPath =
     locale === "vi" ? `/san-pham/${drone.slug}` : `/en/products/${drone.slug}`;
   const productsPath = locale === "vi" ? "/san-pham" : "/en/products";
   const servicesPath = locale === "vi" ? "/dich-vu" : "/en/services";
+  const quotePath =
+    locale === "vi"
+      ? `/bao-gia?product=${drone.slug}`
+      : `/en/quote?product=${drone.slug}`;
   const services = getServices(locale).slice(0, 3);
-  const commerceProduct = storeProducts.find(
+  const commerceProduct = getStoreProducts(locale).find(
     (product) => product.slug === drone.slug,
   );
 
@@ -133,14 +82,14 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
           { name: drone.name, url: productPath },
         ])}
       />
-      <JsonLd data={buildFaqJsonLd(copy.faq)} />
+      <JsonLd data={buildFaqJsonLd(faq)} />
       {services.map((service) => (
         <JsonLd key={service.slug} data={buildServiceJsonLd(service, locale)} />
       ))}
 
       <section className="relative overflow-hidden bg-[#071117] text-white">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_38%,rgba(0,209,193,0.14),transparent_30%)]" />
-        <div className="relative mx-auto grid min-h-[calc(100svh-80px)] w-full max-w-7xl items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.88fr_1.12fr]">
+        <div className="relative mx-auto grid min-h-[calc(100svh-56px)] w-full max-w-7xl items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[0.88fr_1.12fr]">
           <div>
             <Link
               href={productsPath}
@@ -162,12 +111,8 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
               <div className="mt-7 border-l-2 border-[#00D1C1] pl-4">
                 <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">
                   {commerceProduct.purchaseMode === "quote_only"
-                    ? locale === "vi"
-                      ? "Cấu hình lab"
-                      : "Lab configuration"
-                    : locale === "vi"
-                      ? "Từ"
-                      : "From"}
+                    ? copy.labConfiguration
+                    : getTranslations(locale).common.from}
                 </p>
                 <p className="mt-1 text-2xl font-semibold text-white">
                   {formatVnd(commerceProduct.priceVnd)}
@@ -195,12 +140,12 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
               </div>
             ) : (
               <Link
-                href={`/bao-gia?product=${drone.slug}`}
+                href={quotePath}
                 className="mt-9 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-semibold text-[#10232A] transition hover:bg-[#00D1C1]"
               >
                 {commerceProduct?.purchaseMode === "quote_only"
-                  ? copy.quoteCta
-                  : copy.cta}
+                  ? copy.requestQuote
+                  : copy.contact}
                 <ArrowUpRight aria-hidden="true" size={17} />
               </Link>
             )}
@@ -259,7 +204,7 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
         <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-[0.72fr_1.28fr]">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-              FAQ
+              {copy.faqLabel}
             </p>
             <h2 className="display-type mt-5 text-4xl font-medium leading-tight tracking-[-0.035em] text-[#10232A] sm:text-5xl">
               {copy.faqTitle}
@@ -267,7 +212,7 @@ export function ProductDetail({ drone, locale }: ProductDetailProps) {
             <p className="mt-5 max-w-sm text-sm leading-7 text-slate-600">{copy.faqDescription}</p>
           </div>
           <div>
-            {copy.faq.map((item) => (
+            {faq.map((item) => (
               <article key={item.question} className="border-t border-[#172226]/14 py-7">
                 <h3 className="display-type text-2xl font-medium text-[#10232A]">
                   {item.question}

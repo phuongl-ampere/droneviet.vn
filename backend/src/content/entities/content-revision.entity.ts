@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Article } from "./article.entity";
+import { ArticleEditorMode } from "./article-editor-mode";
 
 @Entity("content_revisions")
 export class ContentRevision {
@@ -22,6 +23,16 @@ export class ContentRevision {
   @Column({ type: "longtext" })
   bodyMarkdown!: string;
 
+  @Column({ type: "json", nullable: true })
+  bodyJson!: Record<string, unknown> | null;
+
+  @Column({
+    type: "enum",
+    enum: ArticleEditorMode,
+    default: ArticleEditorMode.MARKDOWN,
+  })
+  editorMode!: ArticleEditorMode;
+
   @Column({ type: "longtext" })
   renderedHtml!: string;
 
@@ -30,9 +41,14 @@ export class ContentRevision {
 
   @Column({ type: "json" })
   metadata!: {
+    coverImageAlt: string | null;
+    coverImageUrl: string | null;
+    readingTimeMinutes: number;
+    section: string;
     seoDescription: string | null;
     seoTitle: string | null;
     summary: string | null;
+    tags: string[];
     title: string;
   };
 

@@ -1,32 +1,3 @@
-import { IsOptional, IsString } from "class-validator";
+import { CreateArticleDraftDto } from "./create-article-draft.dto";
 
-export class CreateArticleDto {
-  @IsString()
-  bodyMarkdown!: string;
-
-  @IsOptional()
-  @IsString()
-  coverImageUrl?: string;
-
-  @IsOptional()
-  @IsString()
-  locale?: string;
-
-  @IsOptional()
-  @IsString()
-  seoDescription?: string;
-
-  @IsOptional()
-  @IsString()
-  seoTitle?: string;
-
-  @IsOptional()
-  @IsString()
-  summary?: string;
-
-  @IsString()
-  slug!: string;
-
-  @IsString()
-  title!: string;
-}
+export class CreateArticleDto extends CreateArticleDraftDto {}

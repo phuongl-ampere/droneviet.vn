@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product-detail";
 import { getDroneModels } from "@/lib/content";
+import { getTranslations } from "@/lib/i18n";
 import { getLocalizedAlternates } from "@/lib/seo";
 
 type ProductPageProps = {
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const drone = getDroneModels("en").find((item) => item.slug === slug);
 
   if (!drone) {
-    return { title: "Product not found" };
+    return { title: getTranslations("en").seo.productNotFound };
   }
 
   return {
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
       languages: getLocalizedAlternates(`/san-pham/${drone.slug}`, `/en/products/${drone.slug}`),
     },
     openGraph: {
-      title: `${drone.name} | Drone Viet`,
+      title: `${drone.name} | ${getTranslations("en").common.brandName}`,
       description: drone.summary,
       url: `/en/products/${drone.slug}`,
       type: "website",
@@ -46,4 +47,3 @@ export default async function EnglishProductDetailPage({ params }: ProductPagePr
 
   return <ProductDetail drone={drone} locale="en" />;
 }
-

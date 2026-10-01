@@ -1,36 +1,35 @@
 import Link from "next/link";
 import { SlidersHorizontal } from "lucide-react";
+import { DroneHeroCarousel } from "@/components/drone-hero-carousel";
 import { StoreProductCard } from "@/components/store/store-product-card";
 import {
   filterStoreProducts,
-  storeProducts,
-  type StoreAvailability,
+  getStoreProducts,
   type StoreCollection,
+  type StoreLearningStage,
   type StoreShopCategory,
 } from "@/lib/commerce/storefront-catalog";
+import { getTranslations, translate } from "@/lib/i18n";
+import type { Locale } from "@/lib/content";
 
-interface StorePageProps {
+export interface StorePageProps {
+  locale?: Locale;
   searchParams?: Promise<{
-    availability?: StoreAvailability;
     collection?: StoreCollection;
     category?: StoreShopCategory;
+    learningStage?: StoreLearningStage;
     q?: string;
   }>;
 }
 
-const availability: Array<{ label: string; value: StoreAvailability }> = [
-  { label: "Còn hàng", value: "in_stock" },
-  { label: "Đặt trước", value: "preorder" },
-  { label: "Báo giá lab", value: "quote_only" },
-];
-
 function filterHref(
   next: Partial<{
-    availability: StoreAvailability;
     collection: StoreCollection;
     category: StoreShopCategory;
+    learningStage: StoreLearningStage;
     q: string;
   }>,
+  locale: Locale,
 ) {
   const params = new URLSearchParams();
 
@@ -38,8 +37,8 @@ function filterHref(
     params.set("category", next.category);
   }
 
-  if (next.availability) {
-    params.set("availability", next.availability);
+  if (next.learningStage) {
+    params.set("learningStage", next.learningStage);
   }
 
   if (next.q) {
@@ -47,46 +46,69 @@ function filterHref(
   }
 
   const query = params.toString();
-  return query ? `/cua-hang?${query}` : "/cua-hang";
+  const storeHref = locale === "vi" ? "/cua-hang" : "/en/store";
+
+  return query ? `${storeHref}?${query}` : storeHref;
 }
 
-export default async function StorePage({ searchParams }: StorePageProps) {
+export default async function StorePage({
+  locale = "vi",
+  searchParams,
+}: StorePageProps) {
+  const copy = getTranslations(locale).store;
   const filters = (await searchParams) ?? {};
-  const products = filterStoreProducts(storeProducts, {
-    ...filters,
+  const products = filterStoreProducts(getStoreProducts(locale), {
+    collection: filters.collection,
+    learningStage: filters.learningStage,
     query: filters.q,
+    shopCategory: filters.category,
   });
+
+  const categories: Array<{
+    label: string;
+    query: Partial<{
+      category: StoreShopCategory;
+      learningStage: StoreLearningStage;
+    }>;
+  }> = [
+    { label: copy.allProducts, query: {} },
+    { label: copy.gradeTwo, query: { learningStage: "secondary" } },
+    { label: copy.gradeThree, query: { learningStage: "high-school" } },
+    {
+      label: copy.universityResearch,
+      query: { learningStage: "university" },
+    },
+    { label: copy.navParts, query: { category: "parts" } },
+    { label: copy.navEducation, query: { category: "education" } },
+  ];
 
   return (
     <main className="min-h-screen bg-white text-[#10232A]">
-      <section className="border-b border-black/10 bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
-          <p className="text-xs font-medium text-[#006D66]">Drone Viet Store</p>
-          <h1 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight sm:text-6xl">
-            Cửa hàng Drone Việt
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
-            Thiết bị drone, kit phòng lab và khóa học được cấu hình cho từng
-            giai đoạn học tập và nghiên cứu.
-          </p>
-        </div>
-      </section>
+      <DroneHeroCarousel
+        eyebrow={copy.storeName}
+        title={copy.heroTitle}
+        description={copy.heroDescription}
+        variant="compact"
+      />
 
       <section className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
-        <aside className="hidden lg:block">
+        <aside
+          data-testid="store-category-sidebar"
+          className="sticky top-14 hidden self-start lg:block"
+        >
           <div className="border-t border-black/15 pt-4">
-            <p className="text-sm font-semibold">Tình trạng</p>
-            <nav className="mt-3 space-y-1" aria-label="Tình trạng sản phẩm">
-              {availability.map((item) => (
+            <p className="text-sm font-semibold">{copy.catalog}</p>
+            <nav className="mt-3 space-y-1" aria-label={copy.catalog}>
+              {categories.map((item) => (
                 <Link
-                  key={item.value}
+                  key={item.label}
                   href={filterHref({
-                    category: filters.category,
-                    availability: item.value,
+                    ...item.query,
                     q: filters.q,
-                  })}
+                  }, locale)}
                   className={`block py-2 text-sm ${
-                    filters.availability === item.value
+                    filters.learningStage === item.query.learningStage &&
+                    filters.category === item.query.category
                       ? "font-semibold text-[#10232A]"
                       : "text-slate-600 hover:text-[#006D66]"
                   }`}
@@ -101,26 +123,25 @@ export default async function StorePage({ searchParams }: StorePageProps) {
         <div>
           <div className="flex items-center justify-between border-b border-black/10 pb-4">
             <p className="text-sm text-slate-600">
-              {products.length} thiết bị
+              {translate(locale, "store.deviceCount", { count: products.length })}
             </p>
             <details className="relative lg:hidden">
               <summary className="inline-flex min-h-10 cursor-pointer list-none items-center gap-2 border border-black/15 px-3 text-sm font-semibold">
                 <SlidersHorizontal aria-hidden="true" size={16} />
-                Bộ lọc
+                {copy.filter}
               </summary>
               <div className="absolute right-0 top-12 z-10 w-64 border border-black/15 bg-white p-4 shadow-xl">
                 <p className="text-xs font-semibold uppercase text-slate-500">
-                  Tình trạng
+                  {copy.catalog}
                 </p>
                 <div className="mt-2 grid gap-1">
-                  {availability.map((item) => (
+                  {categories.map((item) => (
                     <Link
-                      key={item.value}
+                      key={item.label}
                       href={filterHref({
-                        availability: item.value,
-                        category: filters.category,
+                        ...item.query,
                         q: filters.q,
-                      })}
+                      }, locale)}
                       className="py-2 text-sm text-slate-700"
                     >
                       {item.label}
@@ -132,11 +153,15 @@ export default async function StorePage({ searchParams }: StorePageProps) {
           </div>
           <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {products.map((product) => (
-              <StoreProductCard key={product.slug} product={product} />
+              <StoreProductCard
+                key={product.slug}
+                locale={locale}
+                product={product}
+              />
             ))}
           </div>
           <p className="mt-8 text-xs leading-5 text-slate-500">
-            Ảnh drone: Igor Savin,{" "}
+            {copy.photoCredit}{" "}
             <a
               href="https://creativecommons.org/licenses/by-sa/3.0/"
               target="_blank"

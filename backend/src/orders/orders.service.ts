@@ -16,7 +16,11 @@ import {
   PaymentProvider,
   PaymentStatus,
 } from "../payments/entities/payment-attempt.entity";
-import { Order, OrderPaymentMethod } from "./entities/order.entity";
+import {
+  Order,
+  OrderFulfillmentMethod,
+  OrderPaymentMethod,
+} from "./entities/order.entity";
 import { OrderLine } from "./entities/order-line.entity";
 import { canTransitionOrder, OrderStatus } from "./order-workflow";
 
@@ -32,6 +36,8 @@ export interface CreateOrderInput {
   paymentMethod: OrderPaymentMethod;
   promotionCode?: string;
   shippingAddress?: string;
+  fulfillmentMethod?: OrderFulfillmentMethod;
+  shippingNote?: string;
 }
 
 export interface TransitionOrderInput {
@@ -58,7 +64,10 @@ export class OrdersService {
     private readonly promotions: PromotionsService,
   ) {}
 
-  async createOrder(input: CreateOrderInput): Promise<Order> {
+  async createOrder(
+    input: CreateOrderInput,
+    customerId?: string,
+  ): Promise<Order> {
     if (input.lines.length === 0) {
       throw new BadRequestException("Order must include at least one line");
     }
@@ -145,10 +154,14 @@ export class OrdersService {
           contactEmail: input.contactEmail ?? null,
           contactName: input.contactName,
           contactPhone: input.contactPhone,
+          customerId: customerId ?? null,
           orderNumber: `DV-${randomUUID().slice(0, 8).toUpperCase()}`,
           paymentMethod: input.paymentMethod,
           reservationExpiresAt: new Date(Date.now() + 30 * 60 * 1000),
           shippingAddress: input.shippingAddress ?? null,
+          fulfillmentMethod:
+            input.fulfillmentMethod ?? OrderFulfillmentMethod.DELIVERY,
+          shippingNote: input.shippingNote?.trim() || null,
           status: OrderStatus.PENDING_PAYMENT,
           subtotalVnd,
           discountVnd,
@@ -244,6 +257,14 @@ export class OrdersService {
     return this.dataSource.getRepository(Order).find({
       order: { createdAt: "DESC" },
       relations: { lines: true },
+    });
+  }
+
+  async listForCustomer(customerId: string): Promise<Order[]> {
+    return this.dataSource.getRepository(Order).find({
+      order: { createdAt: "DESC" },
+      relations: { lines: true },
+      where: { customerId },
     });
   }
 
@@ -359,6 +380,28 @@ export class OrdersService {
     });
 
     if (!order || order.contactPhone !== contactPhone.trim()) {
+      throw new NotFoundException("Order was not found");
+    }
+
+    return order;
+  }
+
+  async findForPaymentResume(
+    orderNumber: string,
+    contactPhone?: string,
+    customerId?: string,
+  ): Promise<Order> {
+    const order = await this.dataSource.getRepository(Order).findOne({
+      where: { orderNumber },
+    });
+    const normalizedPhone = contactPhone?.replace(/\s/g, "");
+    const isOwner = Boolean(customerId && order?.customerId === customerId);
+    const isContact = Boolean(
+      normalizedPhone &&
+        order?.contactPhone.replace(/\s/g, "") === normalizedPhone,
+    );
+
+    if (!order || (!isOwner && !isContact)) {
       throw new NotFoundException("Order was not found");
     }
 

@@ -1,28 +1,28 @@
 import type { Metadata } from "next";
+import { DroneCard } from "@/components/drone-card";
 import { SectionShell } from "@/components/section-shell";
-import { ServiceCard } from "@/components/service-card";
-import { getServices } from "@/lib/content";
+import { getDroneModels } from "@/lib/content";
+import { getTranslations } from "@/lib/i18n";
 
+const copy = getTranslations("en");
 export const metadata: Metadata = {
-  title: "Drone services",
-  description:
-    "Consulting, drone kits, research platform design, curriculum transfer, instructor training, and workshops.",
+  title: copy.seo.servicesTitle,
+  description: copy.seo.servicesDescription,
 };
 
 export default async function EnglishServicesPage() {
-  const services = getServices("en");
+  const drones = getDroneModels("en");
 
   return (
     <SectionShell
-      eyebrow="Services"
-      title="Drone research & education services"
-      description="Services that help schools and research labs move from idea to real operation."
-      tone="dark"
+      eyebrow={copy.pages.servicesEyebrow}
+      title={copy.pages.servicesTitle}
+      description={copy.pages.servicesDescription}
     >
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {services.map((service) => (
-          <div key={service.slug} id={service.slug}>
-            <ServiceCard service={service} href={`/en/services#${service.slug}`} />
+      <div className="grid gap-5 md:grid-cols-2">
+        {drones.map((drone) => (
+          <div key={drone.slug} id={drone.slug}>
+            <DroneCard drone={drone} detailBasePath="/en/products" locale="en" />
           </div>
         ))}
       </div>

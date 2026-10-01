@@ -12,7 +12,7 @@ export async function submitQuoteRequest(input: QuoteRequestInput) {
   const apiUrl = process.env.NEXT_PUBLIC_COMMERCE_API_URL?.replace(/\/$/, "");
 
   if (!apiUrl) {
-    throw new Error("Commerce API is not configured");
+    throw new Error("COMMERCE_API_NOT_CONFIGURED");
   }
 
   const response = await fetch(`${apiUrl}/quotes`, {
@@ -23,7 +23,7 @@ export async function submitQuoteRequest(input: QuoteRequestInput) {
   const payload = (await response.json()) as unknown;
 
   if (!response.ok) {
-    throw new Error("Quote request could not be created");
+    throw new Error("QUOTE_REQUEST_CREATE_FAILED");
   }
 
   return payload;

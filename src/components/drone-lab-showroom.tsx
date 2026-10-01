@@ -8,6 +8,7 @@ import { Environment, Float, Text } from "@react-three/drei";
 import * as THREE from "three";
 import type { Locale } from "@/lib/content";
 import type { DroneModel } from "@/lib/content/schema";
+import { getTranslations } from "@/lib/i18n";
 
 type LinkItem = {
   label: string;
@@ -23,19 +24,6 @@ export type DroneLabShowroomProps = {
   secondaryCta: LinkItem;
   drones: DroneModel[];
 };
-
-const showroomCopy = {
-  vi: {
-    configuration: "Cấu hình đang giới thiệu",
-    level: "Cấp độ",
-    sequence: "Vị trí trưng bày",
-  },
-  en: {
-    configuration: "Featured configuration",
-    level: "Level",
-    sequence: "Showroom position",
-  },
-} satisfies Record<Locale, Record<string, string>>;
 
 type PointerState = {
   x: number;
@@ -157,7 +145,7 @@ function TestShowroomFallback({
   secondaryCta,
   drones,
 }: DroneLabShowroomProps) {
-  const copy = showroomCopy[locale];
+  const copy = getTranslations(locale).showroom;
 
   return (
     <section data-testid="drone-lab-showroom">
@@ -438,7 +426,7 @@ function InteractiveDroneLabShowroom(props: DroneLabShowroomProps) {
   const primaryCtaIsExternal = primaryCta.href.startsWith("http");
   const activeIndex = Math.round(progress * Math.max(Math.min(drones.length, 5) - 1, 1));
   const activeDrone = drones[activeIndex] ?? drones[0];
-  const copy = showroomCopy[locale];
+  const copy = getTranslations(locale).showroom;
 
   return (
     <section

@@ -1,8 +1,13 @@
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { UserRole } from "./entities/user.entity";
 
-interface AccessTokenPayload {
+export interface AccessTokenPayload {
   sub: string;
   email: string;
   roles: UserRole[];
@@ -14,22 +19,26 @@ export class JwtAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<{
+      cookies?: { droneviet_access?: string };
       headers: { authorization?: string };
       user?: AccessTokenPayload;
     }>();
     const authorization = request.headers.authorization;
+    const token = authorization?.startsWith("Bearer ")
+      ? authorization.slice("Bearer ".length)
+      : request.cookies?.droneviet_access;
 
-    if (!authorization?.startsWith("Bearer ")) {
-      return false;
+    if (!token) {
+      throw new UnauthorizedException();
     }
 
     try {
       request.user = await this.jwtService.verifyAsync<AccessTokenPayload>(
-        authorization.slice("Bearer ".length),
+        token,
       );
       return true;
     } catch {
-      return false;
+      throw new UnauthorizedException();
     }
   }
 }

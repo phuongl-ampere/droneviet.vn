@@ -1,4 +1,14 @@
+import type { Locale } from "@/lib/content";
+import { getTranslations } from "@/lib/i18n";
+
 export type CoursePurchaseMode = "checkout" | "quote_only";
+
+export type StoreCourseSlug =
+  | "drone-nhap-mon-cap-1"
+  | "drone-ung-dung-dai-hoc"
+  | "du-an-drone-cap-3"
+  | "lap-trinh-drone-cap-2"
+  | "phuong-phap-nghien-cuu-voi-drone";
 
 export interface StoreCourse {
   format: string;
@@ -9,74 +19,60 @@ export interface StoreCourse {
   variantId?: string;
   seatsRemaining?: number;
   sessionLabel: string;
-  slug: string;
+  slug: StoreCourseSlug;
   summary: string;
   title: string;
 }
 
-export const storeCourses: StoreCourse[] = [
+type StoreCourseSeed = Omit<
+  StoreCourse,
+  "format" | "level" | "sessionLabel" | "summary" | "title"
+>;
+
+const storeCourseSeeds: StoreCourseSeed[] = [
   {
-    format: "8 buổi · Cấp 1",
-    level: "Nhập môn STEM",
     priceVnd: 2_400_000,
     purchaseMode: "checkout",
     variantId: "66666666-6666-4666-8666-666666666666",
     seatsRemaining: 8,
-    sessionLabel: "Khai giảng 14/09",
     sessionId: "99999999-9999-4999-8999-999999999999",
     slug: "drone-nhap-mon-cap-1",
-    summary:
-      "An toàn bay, điều khiển cơ bản, lập trình khối lệnh và thử thách mê cung.",
-    title: "Drone nhập môn cho cấp 1",
   },
   {
-    format: "12 buổi · Cấp 2",
-    level: "Lập trình drone",
     priceVnd: 3_600_000,
     purchaseMode: "checkout",
     variantId: "77777777-7777-4777-8777-777777777777",
     seatsRemaining: 5,
-    sessionLabel: "Khai giảng 21/09",
     sessionId: "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee",
     slug: "lap-trinh-drone-cap-2",
-    summary:
-      "Thuật toán, tọa độ, cảm biến và nhiệm vụ bay theo nhóm.",
-    title: "Lập trình drone cho cấp 2",
   },
   {
-    format: "10 buổi · Cấp 3",
-    level: "Project-based",
     priceVnd: 5_200_000,
     purchaseMode: "checkout",
     variantId: "88888888-8888-4888-8888-888888888888",
     seatsRemaining: 10,
-    sessionLabel: "Khai giảng 05/10",
     sessionId: "bbbbbbbb-cccc-4ddd-8eee-ffffffffffff",
     slug: "du-an-drone-cap-3",
-    summary:
-      "Dự án ứng dụng drone với dữ liệu, camera, AI cơ bản và báo cáo kỹ thuật.",
-    title: "Dự án drone ứng dụng cho cấp 3",
   },
   {
-    format: "10 buổi · Đại học",
-    level: "Lab syllabus",
     priceVnd: 0,
     purchaseMode: "quote_only",
-    sessionLabel: "Theo lịch đơn vị",
     slug: "drone-ung-dung-dai-hoc",
-    summary:
-      "SDK drone, telemetry, computer vision và thiết kế lab report.",
-    title: "Drone ứng dụng cho đại học",
   },
   {
-    format: "Research protocol kit",
-    level: "Nghiên cứu",
     priceVnd: 0,
     purchaseMode: "quote_only",
-    sessionLabel: "Theo scope đề tài",
     slug: "phuong-phap-nghien-cuu-voi-drone",
-    summary:
-      "Thiết kế protocol, thu thập dữ liệu, kiểm soát rủi ro và tái lập thí nghiệm.",
-    title: "Phương pháp nghiên cứu với drone",
   },
 ];
+
+export function getStoreCourses(locale: Locale = "vi"): StoreCourse[] {
+  const courses = getTranslations(locale).catalog.courses;
+
+  return storeCourseSeeds.map((course) => ({
+    ...course,
+    ...courses[course.slug],
+  }));
+}
+
+export const storeCourses = getStoreCourses();

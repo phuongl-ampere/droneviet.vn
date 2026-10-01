@@ -62,7 +62,7 @@ describe("product detail routes", () => {
     expect(screen.getByText("Frequently asked questions")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Request a quote" })).toHaveAttribute(
       "href",
-      "/bao-gia?product=dv-research-platform",
+      "/en/quote?product=dv-research-platform",
     );
   });
 });

@@ -1,0 +1,1222 @@
+{
+  "common": {
+    "brandName": "Drone Viet",
+    "brandAscii": "DRONE VIET",
+    "home": "Home",
+    "email": "Email",
+    "password": "Password",
+    "phone": "Phone number",
+    "fullName": "Full name",
+    "organization": "Organization",
+    "publish": "Publish",
+    "preview": "Preview",
+    "loading": "Loading...",
+    "save": "Save",
+    "from": "From",
+    "back": "Back",
+    "contact": "Contact"
+  },
+  "seo": {
+    "defaultTitle": "Drone Viet | Research & education drones",
+    "titleTemplate": "%s | Drone Viet",
+    "defaultDescription": "Drone Viet provides drone solutions for research and education from grade school to university, including equipment, curriculum, test platforms, and deployment services.",
+    "homeTitle": "Drone research & education",
+    "homeDescription": "Drone solutions for research and education from grade school to university.",
+    "servicesTitle": "All drone solutions",
+    "servicesDescription": "Drone solutions for education and research, from hardware to platforms and delivery.",
+    "solutionsTitle": "Drone research & education solutions",
+    "solutionsDescription": "Drone solution packages for schools, STEM centers, universities, and research labs.",
+    "curriculumTitle": "Drone curriculum",
+    "curriculumDescription": "Completed drone curriculum, syllabi, and research protocol materials from grade school to university.",
+    "productsTitle": "Drone products",
+    "productsDescription": "Drone product catalog for grade school, high school, university, instructors, and research labs.",
+    "newsTitle": "News and resources",
+    "newsDescription": "Articles and learning materials about drones for STEM, research, curriculum, and lab deployment.",
+    "articleNotFound": "Article not found",
+    "productNotFound": "Product not found"
+  },
+  "structuredData": {
+    "productCategory": "Drone research and education kit",
+    "serviceType": "Drone research and education deployment",
+    "areaVietnam": "Vietnam",
+    "areaInternational": "Vietnam and international programs",
+    "knowsAboutDroneEducation": "Drone education",
+    "knowsAboutStemKits": "STEM drone kits",
+    "knowsAboutCurriculum": "Drone curriculum",
+    "knowsAboutResearchPlatform": "Research drone platform",
+    "knowsAboutVisionLab": "Computer vision drone lab"
+  },
+  "llms": {
+    "title": "# Drone Viet",
+    "summary": "> Drone research and education solutions from grade school to university.",
+    "vietnameseHome": "Vietnamese home",
+    "englishHome": "English home",
+    "brandSummaryVietnamese": "Brand summary VI",
+    "brandSummaryEnglish": "Brand summary EN",
+    "coreProducts": "## Core product pages",
+    "serviceTopics": "## Service topics",
+    "articles": "## Articles",
+    "recommendedCitation": "## Recommended citation",
+    "citation": "Drone Viet provides drone kits, curriculum, teacher training, and research platforms for education and applied drone labs."
+  },
+  "header": {
+    "mainNavigation": "Main navigation",
+    "mobileNavigation": "Mobile navigation",
+    "researchEducation": "Training · Education",
+    "signIn": "Sign in",
+    "administration": "Administration",
+    "consultation": "Consultation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "footer": {
+    "descriptor": "Research & education systems",
+    "navigation": "Footer navigation",
+    "contactProject": "Discuss a project"
+  },
+  "locale": {
+    "label": "Language",
+    "englishCode": "EN",
+    "vietnameseCode": "VI"
+  },
+  "carousel": {
+    "label": "Drone Viet",
+    "previous": "Previous image",
+    "next": "Next image",
+    "selectImage": "Select hero image",
+    "goToImage": "Go to image {count}",
+    "slideAlt": "Drone flight {count}"
+  },
+  "showroom": {
+    "configuration": "Featured configuration",
+    "level": "Level",
+    "sequence": "Showroom position"
+  },
+  "labVisual": {
+    "telemetry": "Lab telemetry",
+    "protocol": "EDU-FLIGHT-01"
+  },
+  "home": {
+    "pillarEyebrow": "Drone Viet",
+    "pillarTitle": "Choose the right drone journey",
+    "storeLink": "Store",
+    "solutionEyebrow": "Solution catalog",
+    "solutionTitle": "A drone platform for every stage of learning",
+    "solutionDescription": "Four core configurations connect hardware, curriculum, and data, from a first flight to applied research.",
+    "servicesEyebrow": "Services",
+    "servicesTitle": "From first flight to a working lab",
+    "servicesDescription": "Hardware is only the beginning. Drone Viet supports configuration, transfer, and instructor readiness.",
+    "processEyebrow": "Deployment",
+    "processTitle": "A clear path from brief to deployment",
+    "processDescription": "Three controlled steps align the solution with real objectives, space, and operating capability.",
+    "viewProduct": "View configuration",
+    "featured": "Featured configuration"
+  },
+  "store": {
+    "storeName": "Drone Viet Store",
+    "navigation": "Store navigation",
+    "mobileNavigation": "Mobile store navigation",
+    "navStore": "Store",
+    "navDrones": "Drones",
+    "navParts": "Accessories & Parts",
+    "navEducation": "Education & Lab Kits",
+    "search": "Search",
+    "searchDevices": "Search devices",
+    "searchPlaceholder": "Search drones, accessories or courses",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "cartItemCount": "Cart ({count})",
+    "heroTitle": "Drone Viet Store",
+    "heroDescription": "Drone equipment, lab kits, and courses configured for every learning and research stage.",
+    "availability": "Availability",
+    "availabilityNavigation": "Product availability",
+    "availabilityInStock": "In stock",
+    "availabilityPreorder": "Pre-order",
+    "availabilityQuote": "Lab quote",
+    "catalog": "Product categories",
+    "allProducts": "All products",
+    "gradeTwo": "Grade 8",
+    "gradeThree": "High school",
+    "universityResearch": "University & R&D",
+    "filter": "Filter",
+    "deviceCount": "{count} devices",
+    "photoCredit": "Drone photo: Igor Savin,",
+    "collectionParts": "Accessories & Parts",
+    "collectionDrone": "Drones",
+    "collectionEducation": "Education drones & classroom/lab kits",
+    "addToCart": "Add to cart",
+    "addedToCart": "Added to cart",
+    "preorder": "Pre-order",
+    "requestQuote": "Request a quote"
+  },
+  "catalog": {
+    "products": {
+      "dv-primary-lab": {
+        "name": "DV Primary Lab",
+        "summary": "A safe STEM platform for first-flight thinking and programming.",
+        "badge": "Best seller",
+        "specOneLabel": "Audience",
+        "specOneValue": "Grades 1-2",
+        "specTwoLabel": "Learning group",
+        "specTwoValue": "2-4 learners"
+      },
+      "dv-code-fleet": {
+        "name": "DV Code Fleet",
+        "summary": "A drone fleet for programming classes, robotics, and competitions.",
+        "badge": "",
+        "specOneLabel": "Scale",
+        "specOneValue": "5-10 drones",
+        "specTwoLabel": "Focus",
+        "specTwoValue": "Code + robotics"
+      },
+      "dv-ai-vision": {
+        "name": "DV AI Vision",
+        "summary": "Camera, telemetry, and a dataset workflow for AI and IoT projects.",
+        "badge": "Pre-order",
+        "specOneLabel": "Data",
+        "specOneValue": "Flight logs",
+        "specTwoLabel": "Research focus",
+        "specTwoValue": "AI/IoT"
+      },
+      "dv-research-platform": {
+        "name": "DV Research Platform",
+        "summary": "An open platform for sensor payloads, experiments, and research.",
+        "badge": "Lab quote",
+        "specOneLabel": "Payload",
+        "specOneValue": "Camera + sensor",
+        "specTwoLabel": "Data",
+        "specTwoValue": "Telemetry"
+      },
+      "dv-instructor-kit": {
+        "name": "DV Instructor Kit",
+        "summary": "Equipment and materials for workshops with the teaching team.",
+        "badge": "",
+        "specOneLabel": "Training",
+        "specOneValue": "1-2 days",
+        "specTwoLabel": "Support",
+        "specTwoValue": "Remote/on-site"
+      }
+    },
+    "courses": {
+      "drone-nhap-mon-cap-1": {
+        "format": "8 sessions · Grade 1",
+        "level": "STEM introduction",
+        "sessionLabel": "Starts 14 Sep",
+        "summary": "Flight safety, basic controls, block programming, and a maze challenge.",
+        "title": "Introductory drones for grade 1"
+      },
+      "lap-trinh-drone-cap-2": {
+        "format": "12 sessions · Grade 8",
+        "level": "Drone programming",
+        "sessionLabel": "Starts 21 Sep",
+        "summary": "Algorithms, coordinates, sensors, and collaborative flight missions.",
+        "title": "Drone programming for grade 8"
+      },
+      "du-an-drone-cap-3": {
+        "format": "10 sessions · High school",
+        "level": "Project-based",
+        "sessionLabel": "Starts 05 Oct",
+        "summary": "Applied drone projects with data, cameras, introductory AI, and technical reports.",
+        "title": "Applied drone projects for high school"
+      },
+      "drone-ung-dung-dai-hoc": {
+        "format": "10 sessions · University",
+        "level": "Lab syllabus",
+        "sessionLabel": "Organization schedule",
+        "summary": "Drone SDKs, telemetry, computer vision, and lab report design.",
+        "title": "Applied drones for university"
+      },
+      "phuong-phap-nghien-cuu-voi-drone": {
+        "format": "Research protocol kit",
+        "level": "Research",
+        "sessionLabel": "Research scope schedule",
+        "summary": "Protocol design, data collection, risk control, and reproducible experiments.",
+        "title": "Research methods with drones"
+      }
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "browse": "Browse equipment",
+    "productCount": "{count} products",
+    "remove": "Remove {title}",
+    "summary": "Order summary",
+    "subtotal": "Subtotal",
+    "summaryNote": "Shipping and promotions are validated at checkout.",
+    "checkout": "Proceed to checkout"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "empty": "Add equipment to your cart before checkout.",
+    "contact": "Contact information",
+    "promotion": "Promotion",
+    "promotionCode": "Promotion code",
+    "promotionNote": "Promotions are validated and recalculated by the Commerce API.",
+    "shipping": "Shipping",
+    "shippingAddress": "Shipping address",
+    "shippingNote": "The Commerce API recalculates shipping by province, district, and equipment weight.",
+    "payment": "Payment method",
+    "payos": "PayOS",
+    "payosDescription": "Bank transfer or QR through the PayOS payment gateway.",
+    "cod": "Cash on delivery",
+    "codDescription": "Confirm the order before equipment is delivered.",
+    "bankTransfer": "Bank transfer",
+    "bankTransferDescription": "Receive transfer details after placing the order.",
+    "creatingOrder": "Creating order...",
+    "placeOrder": "Place order",
+    "orderCreated": "Order {number} has been created.",
+    "orderCreateError": "Checkout could not be created.",
+    "flow": {
+      "stepDelivery": "Delivery details",
+      "stepShipping": "Shipping",
+      "stepReview": "Review and payment",
+      "stepNumber": "Step {number}",
+      "continue": "Continue",
+      "back": "Back",
+      "edit": "Edit",
+      "delivery": "Deliver to an address",
+      "deliveryDescription": "Drone Viet confirms shipping cost before equipment is dispatched.",
+      "showroomPickup": "Showroom pickup",
+      "showroomPickupDescription": "Our team will confirm a pickup time for the equipment.",
+      "province": "Province / city",
+      "ward": "Ward / commune",
+      "selectProvince": "Select a province / city",
+      "selectWard": "Select a ward / commune",
+      "loadingAddress": "Loading addresses...",
+      "addressLoadError": "The address list could not be loaded. Please try again.",
+      "streetAddress": "Street address",
+      "addressNote": "Delivery note",
+      "savedAddresses": "Saved addresses",
+      "saveAddress": "Save this address on this device",
+      "removeAddress": "Remove address {name}",
+      "shippingManualTitle": "Shipping cost will be confirmed",
+      "shippingManualDescription": "Drone Viet will contact you after the order to confirm delivery and cost.",
+      "pickupFree": "Free",
+      "pickupDescription": "No shipping fee applies to showroom pickup.",
+      "shippingEstimateUnavailable": "Drone Viet will confirm the delivery carrier after the order is received.",
+      "reviewAddress": "Delivery address",
+      "reviewPickup": "Showroom pickup",
+      "reviewShipping": "Fulfillment method",
+      "reviewItems": "Equipment in this order",
+      "reviewTotal": "Estimated total",
+      "fieldRequired": "This field is required.",
+      "phoneInvalid": "Enter a valid phone number.",
+      "submitError": "The order could not be created. Please try again.",
+      "orderResult": "View order result"
+    },
+    "result": {
+      "title": "Order created",
+      "description": "Drone Viet has received your request. Use the order number below to track it.",
+      "missingOrder": "No order number was found in this request.",
+      "returnStore": "Return to store"
+    }
+  },
+  "research": {
+    "title": "Drone research and development",
+    "subtitle": "Technical articles, experiments, and drone deployment protocols.",
+    "loading": "Loading articles...",
+    "empty": "No research articles have been published yet.",
+    "readMore": "Read article",
+    "minutes": "{count} min read",
+    "published": "Published",
+    "contents": "Contents",
+    "rating": "Rating",
+    "ratingCount": "{count} ratings",
+    "rate": "Rate this article",
+    "star": "{count} stars",
+    "comments": "Comments",
+    "comment": "Comment",
+    "commentPlaceholder": "Share your thoughts",
+    "submitComment": "Post comment",
+    "signInToEngage": "Sign in to rate and comment",
+    "report": "Report",
+    "reportReason": "Report reason",
+    "sendReport": "Send report",
+    "loadError": "Research content could not be loaded.",
+    "submitError": "Your interaction could not be submitted. Please try again."
+  },
+  "tracking": {
+    "storeName": "Drone Viet Store",
+    "title": "Track your order",
+    "description": "Enter the order number and checkout phone number to view packing, delivery, and payment status.",
+    "orderNumber": "Order number",
+    "lookup": "Look up order",
+    "status": "Status",
+    "notFound": "Order was not found.",
+    "resumePayment": "Resume PayOS payment",
+    "resumingPayment": "Opening PayOS...",
+    "resumePaymentError": "This payment session could not be reopened."
+  },
+  "auth": {
+    "success": "Signed in successfully",
+    "eyebrow": "Drone education & flight",
+    "panelTitle": "Learn, buy, and operate drones with a clear path.",
+    "panelDescription": "Manage courses, equipment, and deployment advice in one place.",
+    "account": "Customer account",
+    "createAccount": "Create account",
+    "signIn": "Sign in",
+    "registerDescription": "Create an account to save course and equipment information.",
+    "loginDescription": "Sign in to continue with Drone Viet.",
+    "continueGoogle": "Continue with Google",
+    "continueZalo": "Continue with Zalo",
+    "orEmail": "or use email",
+    "oauthNotConfigured": "{provider} sign-in has not been configured.",
+    "authenticationFailed": "Could not authenticate this account.",
+    "processing": "Processing...",
+    "hasAccount": "Already have an account?",
+    "noAccount": "New to Drone Viet?"
+  },
+  "account": {
+    "title": "Your account",
+    "eyebrow": "Drone Viet Store",
+    "profile": "Personal details",
+    "profileDescription": "Keep your contact details current so Drone Viet can support your orders and courses.",
+    "editProfile": "Edit profile",
+    "editProfileTitle": "Edit personal details",
+    "verifiedEmail": "Verified email",
+    "emailHint": "This email is used to sign in and cannot be changed here.",
+    "phoneHint": "Use this number for order tracking and delivery support.",
+    "noPhone": "No phone number yet",
+    "saveChanges": "Save changes",
+    "saving": "Saving...",
+    "saved": "Details saved.",
+    "cancel": "Cancel",
+    "close": "Close",
+    "signOut": "Sign out",
+    "orderHistory": "Your orders",
+    "ordersDescription": "Orders created while signed in appear here.",
+    "ordersLoading": "Loading orders...",
+    "ordersEmpty": "There are no orders in this account yet.",
+    "shopNow": "Explore the store",
+    "orderDate": "Created",
+    "paymentMethod": "Payment",
+    "orderTotal": "Total",
+    "items": "{count} items",
+    "showItems": "Show items",
+    "hideItems": "Hide items",
+    "paymentCod": "Cash on delivery",
+    "paymentPayos": "PayOS",
+    "paymentBankTransfer": "Bank transfer",
+    "resumePayment": "Resume PayOS payment",
+    "resumingPayment": "Opening PayOS...",
+    "resumePaymentError": "This payment session could not be reopened.",
+    "ordersLoadError": "Could not load your orders.",
+    "profileSaveError": "Could not update the profile.",
+    "sessionLoadError": "Could not load the signed-in session.",
+    "dateLocale": "en-US",
+    "status": {
+      "pending_payment": "Pending payment",
+      "paid": "Paid",
+      "packing": "Packing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "payment_failed": "Payment failed",
+      "refund_requested": "Refund requested",
+      "refunded": "Refunded"
+    }
+  },
+  "quote": {
+    "eyebrow": "Drone Viet B2B",
+    "title": "Request a quote",
+    "description": "Get an equipment configuration, learning materials, lab deployment plan, and training plan for your organization.",
+    "contactPerson": "Contact person",
+    "quantity": "Expected quantity",
+    "budget": "Expected budget",
+    "requirements": "Equipment and deployment requirements",
+    "submitting": "Sending...",
+    "submit": "Send request",
+    "submitted": "Your request has been sent. Drone Viet will confirm the configuration.",
+    "submitError": "Could not send the quote request."
+  },
+  "course": {
+    "eyebrow": "Drone Viet Learning",
+    "title": "Drone Viet courses",
+    "description": "A path from first flight to a research lab, connecting equipment, curriculum, and the delivery team.",
+    "path": "Learning path",
+    "schedule": "Schedule",
+    "seatsRemaining": "{count} seats remaining",
+    "organizationDeployment": "Organization deployment",
+    "register": "Register",
+    "viewSyllabus": "View syllabus",
+    "backToCourses": "Back to courses",
+    "labQuote": "Lab configuration quote",
+    "discussDeployment": "Discuss deployment"
+  },
+  "product": {
+    "home": "Home",
+    "products": "Products",
+    "eyebrow": "Drone configuration",
+    "outcomes": "Learning / research outcomes",
+    "specs": "Deployment specifications",
+    "useCases": "Best-fit use cases",
+    "faqLabel": "FAQ",
+    "faqTitle": "Frequently asked questions",
+    "faqDescription": "What to know before choosing a configuration.",
+    "contact": "Contact us now",
+    "requestQuote": "Request a quote",
+    "related": "Services around the solution",
+    "relatedDescription": "From hardware to curriculum and operating readiness, every configuration can be deployed as a complete system.",
+    "back": "Back to catalog",
+    "labConfiguration": "Lab configuration",
+    "faqOneQuestion": "Who is this drone kit for?",
+    "faqOneAnswer": "Each kit is matched to learner level, technical capability, flight space, and deployment goals for schools, centers, or labs.",
+    "faqTwoQuestion": "Does Drone Viet support curriculum and training?",
+    "faqTwoAnswer": "Yes. Drone Viet provides curriculum, safety checklists, assessment rubrics, and teacher or instructor training.",
+    "faqThreeQuestion": "Can it be customized for research labs?",
+    "faqThreeAnswer": "Yes. Configurations can be extended with sensors, cameras, telemetry, and experiment protocols for research topics.",
+    "detail": "View details"
+  },
+  "pages": {
+    "productsEyebrow": "Product catalog",
+    "productsTitle": "Drone products",
+    "productsDescription": "Drone kits and hardware packages for classrooms, STEM centers, universities, and research labs.",
+    "servicesEyebrow": "All solutions",
+    "servicesTitle": "All drone solutions for education and research",
+    "servicesDescription": "Choose the right configuration for classrooms, STEM centers, universities, and research labs.",
+    "solutionsEyebrow": "Solution system",
+    "solutionsTitle": "Drone research & education solutions",
+    "solutionsDescription": "Hardware, curriculum, data, and deployment paths for each learning or research context.",
+    "curriculumEyebrow": "Curriculum",
+    "curriculumTitle": "Drone curriculum from grade school to university",
+    "curriculumDescription": "Structured learning paths and lab materials for each level.",
+    "newsEyebrow": "Knowledge base",
+    "newsTitle": "News and resources",
+    "newsDescription": "Markdown-backed content ready to move into a CMS later.",
+    "readArticle": "Read article",
+    "articleNotFound": "Article not found"
+  },
+  "pillar": {
+    "overview": "Drone Viet organizes content around real deployment needs. Our team identifies objectives, learner capability, operating space, and equipment before proposing the right path.",
+    "requestConsultation": "Request deployment advice"
+  },
+  "pillars": {
+    "dao-tao-chung-chi": {
+      "title": "Training",
+      "eyebrow": "Flight training",
+      "description": "Drone piloting, flight safety, and operational capability paths for individuals and teams.",
+      "items": {
+        "chung-chi-lai-drone": {
+          "title": "Drone pilot certification",
+          "description": "A capability path from safety checks to hands-on flight control."
+        },
+        "lo-trinh-ca-nhan-doanh-nghiep": {
+          "title": "Individual and team learning paths",
+          "description": "A program framework for personal goals or an operating team."
+        },
+        "dao-tao-an-toan-bay": {
+          "title": "Flight safety training",
+          "description": "Checklists, flight procedures, and operational incident response."
+        },
+        "dang-ky-khoa-hoc": {
+          "title": "Course registration",
+          "description": "Choose a course, start date, and consultation format."
+        }
+      }
+    },
+    "drone-giao-duc": {
+      "title": "Education drones",
+      "eyebrow": "Education",
+      "description": "Drone equipment, curriculum, and lab models for middle school, high school, and university students.",
+      "items": {
+        "cap-2": {
+          "title": "Middle school",
+          "description": "Programming, algorithms, and teamwork with drone formations."
+        },
+        "cap-3": {
+          "title": "High school",
+          "description": "AI, sensor data, and student research projects."
+        },
+        "sinh-vien-dai-hoc": {
+          "title": "University students",
+          "description": "SDKs, computer vision, telemetry, and R&D problems."
+        },
+        "giao-trinh-drone": {
+          "title": "Drone curriculum",
+          "description": "Syllabi, lessons, rubrics, and safety materials."
+        },
+        "thiet-bi-lab": {
+          "title": "School drone lab equipment",
+          "description": "Equipment, space, and lab operating packages."
+        },
+        "dao-tao-giao-vien": {
+          "title": "Teacher training",
+          "description": "Prepare instructors and safety governance for classes."
+        }
+      }
+    },
+    "cua-hang": {
+      "title": "Store",
+      "eyebrow": "Equipment",
+      "description": "Drones, accessories, parts, and classroom/lab packages ready for deployment.",
+      "items": {
+        "drone": {
+          "title": "Drones",
+          "description": "Drones for learning, operations, and research needs."
+        },
+        "phu-kien-linh-kien": {
+          "title": "Accessories and parts",
+          "description": "Batteries, guards, chargers, sensors, and replacement parts."
+        },
+        "drone-giao-duc-combo-lab": {
+          "title": "Education drones",
+          "description": "Drone equipment, learning materials, and classroom-scale bundles."
+        }
+      }
+    },
+    "bay-hop-phap": {
+      "title": "Flight permits",
+      "eyebrow": "Flight compliance",
+      "description": "Practical material for preparing documents, understanding rules, and checking flight areas.",
+      "items": {
+        "xin-cap-phep-bay": {
+          "title": "Flight permit guidance",
+          "description": "Steps to prepare documents and a flight plan."
+        },
+        "quy-dinh-phap-ly": {
+          "title": "Drone legal requirements",
+          "description": "Legal requirements to check before operating."
+        },
+        "ban-do-cam-bay": {
+          "title": "Restricted flight area map",
+          "description": "A starting point to review a flight area before applying."
+        }
+      }
+    },
+    "dich-vu-su-kien": {
+      "title": "Free flight demo",
+      "eyebrow": "Experiences",
+      "description": "Events, workshops, and drone deployment consultations for schools, businesses, and communities.",
+      "items": {
+        "event-trai-nghiem": {
+          "title": "Drone events and experiences",
+          "description": "Guided flight experiences with safety support."
+        },
+        "workshop-truong-hoc": {
+          "title": "School workshops",
+          "description": "Workshops tailored to grades, STEM goals, and the available space."
+        },
+        "demo-lab": {
+          "title": "Lab demo",
+          "description": "Equipment, lesson, and lab governance workflow demonstrations."
+        },
+        "tu-van-trien-khai": {
+          "title": "Deployment consultation",
+          "description": "Design equipment, learning materials, and operator training."
+        },
+        "tin-tuc-drone": {
+          "title": "Drone news",
+          "description": "Drone news, trends, and notable activities."
+        }
+      }
+    },
+    "kien-thuc-rd": {
+      "title": "R&D",
+      "eyebrow": "Knowledge",
+      "description": "Research, news, and technical standards for the drone community.",
+      "items": {
+        "nghien-cuu-phat-trien": {
+          "title": "Drone research and development",
+          "description": "R&D problems in flight, data, AI, and sensing."
+        },
+        "bao-cao-quy-chuan": {
+          "title": "Technical reports and standards",
+          "description": "Reference material for controlled design and operations."
+        }
+      }
+    }
+  },
+  "admin": {
+    "editorMode": "Editor mode",
+    "richText": "Rich text",
+    "uploadImage": "Upload image",
+    "articleSaved": "Draft saved.",
+    "articleSaveError": "Draft could not be saved.",
+    "articleMarkdownSource": "Research article Markdown source",
+    "uploadedImages": "Uploaded images",
+    "editorToolbar": "Editor tools",
+    "visualEditorSource": "Visual editor content",
+    "lexicalEditorSource": "Lexical editor",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "strikethrough": "Strikethrough",
+    "heading1": "Heading 1",
+    "heading2": "Heading 2",
+    "heading3": "Heading 3",
+    "bulletList": "Bullet list",
+    "orderedList": "Numbered list",
+    "blockquote": "Block quote",
+    "codeBlock": "Code block",
+    "insertTable": "Insert table",
+    "insertImage": "Insert image",
+    "insertEmoji": "Insert emoji",
+    "insertDivider": "Horizontal rule",
+    "imagePicker": "Choose an uploaded image",
+    "selectImage": "Select image {name}",
+    "closeImagePicker": "Close image picker",
+    "noUploadedImages": "No uploaded images yet.",
+    "undo": "Undo",
+    "redo": "Redo",
+    "link": "Link",
+    "linkPrompt": "Enter an https:// link",
+    "commerce": "Drone Viet Commerce",
+    "loginTitle": "Administrator sign in",
+    "loginError": "Could not authenticate the administrator account.",
+    "authenticating": "Authenticating...",
+    "workspaceTitle": "Operations admin",
+    "products": "Products",
+    "articles": "Articles",
+    "orders": "Orders",
+    "productPublished": "Product published through the Commerce API.",
+    "productPublishError": "Could not save the product through the Commerce API.",
+    "articlePublished": "Article published through the Commerce API.",
+    "articlePublishError": "Could not save the article through the Commerce API.",
+    "ordersLoadError": "Could not load orders from the Commerce API.",
+    "ordersDescription": "Update packing, shipping, cancellation, and refund workflow.",
+    "orderCount": "{count} orders",
+    "signInToLoadOrders": "Sign in as an administrator to load orders.",
+    "noOrders": "No orders yet.",
+    "loadingOrders": "Loading orders...",
+    "order": "Order",
+    "customer": "Customer",
+    "total": "Total",
+    "status": "Status",
+    "actions": "Actions",
+    "nextStatus": "Next status for {number}",
+    "refundReference": "Refund reference",
+    "enterRefundReference": "Enter a refund reference for {number}.",
+    "updating": "Updating...",
+    "updateOrder": "Update order",
+    "noActions": "No more actions",
+    "updatedOrder": "Updated {number} to {status}.",
+    "updateOrderError": "Could not update {number}.",
+    "statusCancelled": "Cancelled",
+    "statusDelivered": "Delivered",
+    "statusPacking": "Packing",
+    "statusPaid": "Paid",
+    "statusPaymentFailed": "Payment failed",
+    "statusPendingPayment": "Pending payment",
+    "statusRefundRequested": "Refund requested",
+    "statusRefunded": "Refunded",
+    "statusShipped": "Shipped",
+    "defaultArticleBody": "# Drones in STEM classrooms\n\nContent is rendered from Markdown after publishing.",
+    "defaultArticleTitle": "Drones in STEM classrooms",
+    "defaultArticleSlug": "drones-in-stem-classrooms",
+    "defaultProductName": "DV Primary Lab",
+    "defaultProductSlug": "dv-primary-lab",
+    "defaultProductDescription": "# DV Primary Lab\n\nA STEM drone for primary school classrooms.",
+    "defaultVariantTitle": "Standard kit",
+    "productSubtitle": "Education drone · SKU configuration",
+    "productName": "Product name",
+    "slug": "Slug",
+    "variantsAndPricing": "Variants and pricing",
+    "productValidation": "The Commerce API validates this data before publishing.",
+    "addVariant": "Add variant",
+    "productMarkdown": "Product Markdown description",
+    "variant": "Variant",
+    "priceVnd": "Price VND",
+    "stockOnHand": "Stock on hand",
+    "purchaseMode": "Purchase mode",
+    "purchaseCheckout": "Checkout",
+    "purchasePreorder": "Pre-order",
+    "purchaseQuote": "Quote only",
+    "configuration": "Configuration",
+    "stockAvailable": "24 available",
+    "compatibility": "Compatibility",
+    "compatibilityValue": "Basic battery, Shield Kit",
+    "productDescription": "Product description",
+    "markdownRevision": "Markdown revision 3",
+    "newArticle": "New article",
+    "markdownSanitized": "Markdown is sanitized before it is public.",
+    "articleTitle": "Title",
+    "markdownContent": "Markdown content",
+    "previewDescription": "Select “Preview” to render Markdown through the public pipeline.",
+    "ordersColumnsProducts": "Products",
+    "orderDateLocale": "en-US"
+  },
+  "content": {
+    "site": {
+      "brand": {
+        "name": "Drone Viet",
+        "tagline": "Drone research and education lab",
+        "description": "Drone Viet provides drone solutions for research and education from grade school to university: hardware, curriculum, deployment materials, test platforms, and implementation support."
+      },
+      "navigation": [
+        {
+          "label": "All solutions",
+          "href": "/en/services"
+        },
+        {
+          "label": "Products",
+          "href": "/en/products"
+        },
+        {
+          "label": "Curriculum",
+          "href": "/en/curriculum"
+        },
+        {
+          "label": "News",
+          "href": "/en/news"
+        }
+      ],
+      "hero": {
+        "eyebrow": "Drone lab for research & education",
+        "title": "Drone solutions for education and research",
+        "description": "A drone ecosystem for students, universities, and research teams to learn flight programming, sensors, AI, experimental data, and aviation safety through hands-on projects.",
+        "primaryCta": {
+          "label": "Contact us now",
+          "href": "https://zalo.me/0384070636"
+        },
+        "secondaryCta": {
+          "label": "View curriculum",
+          "href": "/en/curriculum"
+        },
+        "metrics": [
+          {
+            "label": "Drone kits",
+            "value": "05"
+          },
+          {
+            "label": "Levels",
+            "value": "Grade 1 - University"
+          },
+          {
+            "label": "Focus",
+            "value": "Edu + R&D"
+          }
+        ]
+      },
+      "audiencePaths": [
+        {
+          "name": "Schools",
+          "summary": "Deploy STEM lessons, drone clubs, hands-on labs, and experience days from grade school to high school.",
+          "href": "/en/services"
+        },
+        {
+          "name": "Universities and research labs",
+          "summary": "Build drone platforms for AI, computer vision, IoT, autonomous flight, and experimental data collection.",
+          "href": "/en/services"
+        },
+        {
+          "name": "STEM centers",
+          "summary": "Hardware kits, lesson plans, and instructor training programs for running drone classes by level.",
+          "href": "/en/curriculum"
+        }
+      ],
+      "process": [
+        {
+          "title": "Define learning or research goals",
+          "summary": "Clarify learner age, technical level, flight space, data requirements, and expected outcomes."
+        },
+        {
+          "title": "Design the solution package",
+          "summary": "Match drone hardware, curriculum, safety documents, sensor modules, and experimental tasks."
+        },
+        {
+          "title": "Train and operate",
+          "summary": "Train teachers, instructors, or research teams to operate drones and run the first class or lab."
+        }
+      ]
+    },
+    "drones": [
+      {
+        "slug": "dv-primary-lab",
+        "name": "DV Primary Lab",
+        "summary": "A safe mini drone kit for grade-school learners, designed for basic control, movement observation, and block-based programming.",
+        "level": "Grade 1",
+        "useCases": [
+          "Intro STEM class",
+          "Experience day",
+          "Flight safety lesson"
+        ],
+        "learningOutcomes": [
+          "Program basic flight using block commands",
+          "Understand safety rules before takeoff",
+          "Observe motion and sensor feedback"
+        ],
+        "specs": [
+          {
+            "label": "Session",
+            "value": "40-60 min"
+          },
+          {
+            "label": "Group",
+            "value": "2-4 learners/drone"
+          },
+          {
+            "label": "Space",
+            "value": "Indoor class"
+          }
+        ],
+        "image": "lab-grid-primary",
+        "featured": true
+      },
+      {
+        "slug": "dv-code-fleet",
+        "name": "DV Code Fleet",
+        "summary": "A fleet-programming drone kit for middle school, built for algorithms, coordinates, missions, and teamwork.",
+        "level": "Grade 2",
+        "useCases": [
+          "Formation programming",
+          "Algorithm projects",
+          "Internal competitions"
+        ],
+        "learningOutcomes": [
+          "Design flight missions with coordinates",
+          "Optimize navigation algorithms",
+          "Collaborate on technical experiments"
+        ],
+        "specs": [
+          {
+            "label": "Language",
+            "value": "Block/Python"
+          },
+          {
+            "label": "Model",
+            "value": "Fleet 5-10 drones"
+          },
+          {
+            "label": "Theme",
+            "value": "Algorithm + robotics"
+          }
+        ],
+        "image": "lab-grid-code",
+        "featured": true
+      },
+      {
+        "slug": "dv-ai-vision",
+        "name": "DV AI Vision",
+        "summary": "A computer-vision drone kit for high school projects, sensor data practice, and real-world mission simulation.",
+        "level": "Grade 3",
+        "useCases": [
+          "Applied AI",
+          "Student research",
+          "Innovation contests"
+        ],
+        "learningOutcomes": [
+          "Collect and analyze flight data",
+          "Simulate object recognition missions",
+          "Design constrained automation tasks"
+        ],
+        "specs": [
+          {
+            "label": "Module",
+            "value": "Camera + sensor"
+          },
+          {
+            "label": "Data",
+            "value": "Flight logs"
+          },
+          {
+            "label": "Focus",
+            "value": "AI/IoT project"
+          }
+        ],
+        "image": "lab-grid-vision",
+        "featured": true
+      },
+      {
+        "slug": "dv-research-platform",
+        "name": "DV Research Platform",
+        "summary": "An open drone platform for universities and research labs testing flight algorithms, computer vision, IoT, and datasets.",
+        "level": "University",
+        "useCases": [
+          "Research lab",
+          "Computer vision",
+          "Autonomous flight"
+        ],
+        "learningOutcomes": [
+          "Design data-backed experiment protocols",
+          "Integrate sensors and image-processing pipelines",
+          "Evaluate navigation algorithms in controlled environments"
+        ],
+        "specs": [
+          {
+            "label": "SDK",
+            "value": "Python/API"
+          },
+          {
+            "label": "Module",
+            "value": "Camera + sensor bus"
+          },
+          {
+            "label": "Data",
+            "value": "Telemetry + dataset"
+          }
+        ],
+        "image": "lab-grid-research",
+        "featured": true
+      },
+      {
+        "slug": "dv-instructor-kit",
+        "name": "DV Instructor Kit",
+        "summary": "A demo kit for teachers and university instructors with lesson plans, safety checklists, sample missions, and assessment materials.",
+        "level": "Instructor",
+        "useCases": [
+          "Teacher training",
+          "Demo lesson",
+          "Curriculum standardization"
+        ],
+        "learningOutcomes": [
+          "Run safe drone classes",
+          "Assess student projects with rubrics",
+          "Coordinate devices in classrooms or labs"
+        ],
+        "specs": [
+          {
+            "label": "Materials",
+            "value": "Lesson + lab pack"
+          },
+          {
+            "label": "Training",
+            "value": "1-2 days"
+          },
+          {
+            "label": "Support",
+            "value": "Remote/on-site"
+          }
+        ],
+        "image": "lab-grid-instructor",
+        "featured": false
+      }
+    ],
+    "curriculum": [
+      {
+        "slug": "drone-basics-grade-school",
+        "title": "Drone basics for grade school",
+        "level": "Grade 1",
+        "format": "8-session lesson plan",
+        "summary": "Learners start with safety, basic control, and simple block-programmed missions.",
+        "modules": [
+          "Flight safety",
+          "Basic control",
+          "Block programming",
+          "Maze challenge"
+        ],
+        "outcomes": [
+          "Operate safely",
+          "Complete a command-based flight mission"
+        ],
+        "status": "Completed",
+        "downloadLabel": "View lesson plan"
+      },
+      {
+        "slug": "drone-programming-middle-school",
+        "title": "Drone programming for middle school",
+        "level": "Grade 2",
+        "format": "12-session curriculum",
+        "summary": "A structured path through algorithms, coordinates, sensors, and group missions.",
+        "modules": [
+          "Coordinates",
+          "Loops and conditions",
+          "Sensors",
+          "Formation missions"
+        ],
+        "outcomes": [
+          "Write flight scripts",
+          "Optimize missions using test data"
+        ],
+        "status": "Completed",
+        "downloadLabel": "View outline"
+      },
+      {
+        "slug": "applied-drone-projects-high-school",
+        "title": "Applied drone projects for high school",
+        "level": "Grade 3",
+        "format": "Project-based curriculum",
+        "summary": "Students build drone projects using flight data, cameras, basic AI, and technical reports.",
+        "modules": [
+          "Mission design",
+          "Flight data",
+          "Computer vision",
+          "Project report"
+        ],
+        "outcomes": [
+          "Complete a prototype",
+          "Present technical decisions"
+        ],
+        "status": "Completed",
+        "downloadLabel": "View project frame"
+      },
+      {
+        "slug": "drone-lab-university",
+        "title": "Applied drone lab for university",
+        "level": "University",
+        "format": "10-session lab syllabus",
+        "summary": "Students practice SDK programming, telemetry, sensor data, computer vision, and experiment design.",
+        "modules": [
+          "Drone SDK",
+          "Telemetry",
+          "Computer vision",
+          "Lab report design"
+        ],
+        "outcomes": [
+          "Build an experiment pipeline",
+          "Analyze structured flight data"
+        ],
+        "status": "Completed",
+        "downloadLabel": "View syllabus"
+      },
+      {
+        "slug": "drone-research-methods",
+        "title": "Drone research methods",
+        "level": "Research",
+        "format": "Research protocol kit",
+        "summary": "A framework for research teams to design hypotheses, collect data, control risk, and reproduce experiments.",
+        "modules": [
+          "Protocol design",
+          "Data logging",
+          "Experiment safety",
+          "Results reporting"
+        ],
+        "outcomes": [
+          "Standardize test procedures",
+          "Create comparable datasets"
+        ],
+        "status": "Completed",
+        "downloadLabel": "View research kit"
+      }
+    ],
+    "services": [
+      {
+        "slug": "lab-consulting",
+        "title": "Drone lab consulting",
+        "summary": "Design device configuration, learning space, lab data, and operating procedures for schools, centers, or universities.",
+        "deliverables": [
+          "Hardware configuration",
+          "Class/lab layout",
+          "Deployment plan"
+        ],
+        "audience": [
+          "Schools",
+          "STEM centers",
+          "Universities"
+        ],
+        "ctaLabel": "Discuss lab setup"
+      },
+      {
+        "slug": "drone-kit-supply",
+        "title": "Drone kits by level",
+        "summary": "Select drones, accessories, learning materials, and sample missions by age, skill, and training goals.",
+        "deliverables": [
+          "Device list",
+          "Learning materials",
+          "Safety checklist"
+        ],
+        "audience": [
+          "Schools",
+          "STEM centers",
+          "Universities"
+        ],
+        "ctaLabel": "View kits"
+      },
+      {
+        "slug": "research-platform-design",
+        "title": "Research drone platform design",
+        "summary": "Customize drones, sensors, data pipelines, and experiment protocols for research topics or university labs.",
+        "deliverables": [
+          "Module design",
+          "Telemetry schema",
+          "Research protocol"
+        ],
+        "audience": [
+          "Universities",
+          "Research labs"
+        ],
+        "ctaLabel": "Discuss R&D platform"
+      },
+      {
+        "slug": "curriculum-transfer",
+        "title": "Drone curriculum transfer",
+        "summary": "Provide completed curriculum or customize programs for STEM, robotics, AI, or applied research.",
+        "deliverables": [
+          "Lesson plans",
+          "Slides",
+          "Assessment rubrics"
+        ],
+        "audience": [
+          "Schools",
+          "STEM centers",
+          "Universities"
+        ],
+        "ctaLabel": "View curriculum"
+      },
+      {
+        "slug": "instructor-training",
+        "title": "Teacher and instructor training",
+        "summary": "Train teams to operate drones, run classes/labs, handle edge cases, and evaluate projects.",
+        "deliverables": [
+          "Workshop",
+          "Instructor materials",
+          "Demo lesson plan"
+        ],
+        "audience": [
+          "Teachers",
+          "Instructors",
+          "Schools"
+        ],
+        "ctaLabel": "Schedule training"
+      },
+      {
+        "slug": "drone-workshops",
+        "title": "Drone workshops and experience days",
+        "summary": "Run hands-on drone activities for students, parents, or STEM events.",
+        "deliverables": [
+          "Event script",
+          "Demo devices",
+          "Coaches"
+        ],
+        "audience": [
+          "Students",
+          "Parents",
+          "Schools"
+        ],
+        "ctaLabel": "Plan workshop"
+      }
+    ],
+    "partners": [
+      {
+        "name": "Schools",
+        "type": "Deployment units",
+        "summary": "STEM lessons, tech clubs, and experience days."
+      },
+      {
+        "name": "Universities and research institutes",
+        "type": "R&D partners",
+        "summary": "Drone, AI, computer vision, IoT, and experimental data projects."
+      },
+      {
+        "name": "STEM centers",
+        "type": "Training partners",
+        "summary": "Drone classes with aligned curriculum and hardware kits."
+      },
+      {
+        "name": "EdTech organizations",
+        "type": "Content partners",
+        "summary": "Curriculum, rubrics, syllabi, and instructor training programs."
+      }
+    ]
+  },
+  "articles": [
+    {
+      "slug": "drone-stem-research",
+      "title": "Drones in STEM classrooms and applied research",
+      "date": "2026-07-05",
+      "summary": "Drones help STEM classrooms and research labs move from theory to technical experiments with observable data.",
+      "category": "STEM & R&D",
+      "readingTime": "4 min read",
+      "content": "Drones give STEM classrooms a physical system learners can observe, program, test, and improve. In university labs, the same platform can expand into computer vision, flight data, sensors, and automation.\n\nAn effective drone lesson or lab needs three layers: flight safety, programming thinking, and practical missions. Younger learners can fly through gates or mazes. Older learners can work with coordinates, sensors, flight data, and real-world mission simulation.\n\nThe real value is not the drone alone. The value is the ecosystem: suitable hardware, structured curriculum, safety checklists, teamwork, assessment rubrics, and repeatable experiment protocols."
+    },
+    {
+      "slug": "drone-curriculum-levels",
+      "title": "Designing drone curriculum from grade school to university",
+      "date": "2026-07-04",
+      "summary": "Drone curriculum should evolve from safe exploration in grade school to data, AI, and automation labs at university level.",
+      "category": "Curriculum",
+      "readingTime": "5 min read",
+      "content": "Drone curriculum should start from the real capability of learners. In grade school, lessons should be short, visual, and focused on safety, movement observation, and basic control. In middle school, learners can work with algorithms, coordinates, loops, conditions, and mission testing.\n\nIn high school, drones become a platform for applied projects. Students can work with flight data, sensors, cameras, object recognition, and technical reporting. At university level, the program should go deeper into SDKs, telemetry, experiment protocols, computer vision, and algorithm evaluation.\n\nA complete curriculum should include devices, slides, worksheets, teacher or instructor guides, safety checklists, lab protocols, and a clear class or research-room structure."
+    }
+  ]
+}

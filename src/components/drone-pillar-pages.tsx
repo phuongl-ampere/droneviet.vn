@@ -1,44 +1,57 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Locale } from "@/lib/content";
 import {
   getDronePillar,
   getDronePillarItem,
   type DronePillar,
 } from "@/lib/drone-pillars";
+import { getTranslation } from "@/lib/i18n";
 
 export function DronePillarDetail({
   pillarSlug,
   topicSlug,
+  locale = "vi",
 }: {
   pillarSlug: string;
   topicSlug: string;
+  locale?: Locale;
 }) {
-  const pillar = getDronePillar(pillarSlug);
-  const topic = getDronePillarItem(pillarSlug, topicSlug);
+  const pillar = getDronePillar(pillarSlug, locale);
+  const topic = getDronePillarItem(pillarSlug, topicSlug, locale);
 
   if (!pillar || !topic) {
     notFound();
   }
 
-  return <PillarDetail pillar={pillar} title={topic.title} description={topic.description} />;
+  return (
+    <PillarDetail
+      locale={locale}
+      pillar={pillar}
+      title={topic.title}
+      description={topic.description}
+    />
+  );
 }
 
 function PillarDetail({
   pillar,
   title,
   description,
+  locale,
 }: {
   pillar: DronePillar;
   title: string;
   description: string;
+  locale: Locale;
 }) {
   return (
     <main className="bg-white text-[#10232A]">
       <section className="border-b border-black/10 bg-white">
         <div className="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-24">
-          <Link className="text-sm font-semibold text-[#006D66] hover:text-[#10232A]" href="/">
-            Trang chủ
+          <Link className="text-sm font-semibold text-[#006D66] hover:text-[#10232A]" href={locale === "vi" ? "/" : "/en"}>
+            {getTranslation(locale, "common.home")}
           </Link>
           <p className="mt-10 text-xs font-semibold uppercase tracking-[0.16em] text-[#007F75]">
             {pillar.eyebrow}
@@ -53,15 +66,13 @@ function PillarDetail({
       </section>
       <section className="mx-auto grid max-w-4xl gap-8 px-5 py-14 sm:px-8 sm:py-20">
         <p className="text-lg leading-9 text-slate-700">
-          Drone Việt tổ chức nội dung theo nhu cầu triển khai thực tế. Đội ngũ
-          sẽ xác định mục tiêu, năng lực người học, không gian vận hành và
-          thiết bị cần thiết trước khi đề xuất lộ trình phù hợp.
+          {getTranslation(locale, "pillar.overview")}
         </p>
         <Link
           className="inline-flex min-h-11 w-fit items-center gap-2 bg-[#10232A] px-4 text-sm font-semibold text-white hover:bg-[#006D66]"
-          href="/bao-gia"
+          href={locale === "vi" ? "/bao-gia" : "/en/quote"}
         >
-          Nhận tư vấn triển khai
+          {getTranslation(locale, "pillar.requestConsultation")}
           <ArrowRight aria-hidden="true" size={16} />
         </Link>
       </section>

@@ -2,10 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { User } from "../../auth/entities/user.entity";
 import { OrderLine } from "./order-line.entity";
 import { OrderStatus } from "../order-workflow";
 import { bigintVndTransformer } from "../../common/money/bigint-vnd.transformer";
@@ -15,6 +18,11 @@ export enum OrderPaymentMethod {
   BANK_TRANSFER = "bank_transfer",
   COD = "cod",
   PAYOS = "payos",
+}
+
+export enum OrderFulfillmentMethod {
+  DELIVERY = "delivery",
+  SHOWROOM_PICKUP = "showroom_pickup",
 }
 
 @Entity("orders")
@@ -61,8 +69,25 @@ export class Order {
   @Column({ type: "varchar", nullable: true })
   contactEmail!: string | null;
 
+  @Column({ type: "varchar", length: 36, nullable: true })
+  customerId!: string | null;
+
+  @ManyToOne(() => User, { nullable: true, onDelete: "SET NULL" })
+  @JoinColumn({ name: "customerId" })
+  customer!: User | null;
+
   @Column({ type: "text", nullable: true })
   shippingAddress!: string | null;
+
+  @Column({
+    type: "enum",
+    enum: OrderFulfillmentMethod,
+    default: OrderFulfillmentMethod.DELIVERY,
+  })
+  fulfillmentMethod!: OrderFulfillmentMethod;
+
+  @Column({ type: "text", nullable: true })
+  shippingNote!: string | null;
 
   @Column({ type: "timestamp", nullable: true })
   reservationExpiresAt!: Date | null;

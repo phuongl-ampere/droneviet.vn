@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionShell } from "@/components/section-shell";
 import { getArticles } from "@/lib/content";
+import { getTranslations } from "@/lib/i18n";
 
+const copy = getTranslations("vi");
 export const metadata: Metadata = {
-  title: "Tin tức và học liệu",
-  description:
-    "Bài viết và học liệu về drone cho nghiên cứu, giáo dục, STEM, giáo trình và triển khai phòng lab drone.",
+  title: copy.seo.newsTitle,
+  description: copy.seo.newsDescription,
 };
 
 export default async function ArticlesPage() {
@@ -15,9 +16,9 @@ export default async function ArticlesPage() {
 
   return (
     <SectionShell
-      eyebrow="Knowledge base"
-      title="Tin tức và học liệu"
-      description="Nội dung được lưu bằng Markdown trong repo để dễ chỉnh sửa trước khi có admin/database."
+      eyebrow={copy.pages.newsEyebrow}
+      title={copy.pages.newsTitle}
+      description={copy.pages.newsDescription}
     >
       <div className="grid gap-x-10 gap-y-4 md:grid-cols-2">
         {articles.map((article) => (
@@ -31,7 +32,7 @@ export default async function ArticlesPage() {
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-7 text-slate-600">{article.summary}</p>
               <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#006D66]">
-                Đọc bài viết
+                {copy.pages.readArticle}
                 <ArrowUpRight aria-hidden="true" size={15} />
               </span>
             </Link>

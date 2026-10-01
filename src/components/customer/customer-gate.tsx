@@ -2,19 +2,69 @@
 
 import Link from "next/link";
 import { Globe2, LogIn, MessageCircle, UserPlus } from "lucide-react";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+import { useRouter } from "next/navigation";
+import { useCustomerSession } from "@/components/customer/customer-session-provider";
+import { useI18n } from "@/components/i18n-provider";
 import {
   loginCustomer,
   registerCustomer,
-  type CustomerSession,
 } from "@/lib/commerce/customer-auth";
 
+function nextPathFromSearch(search: string, defaultPath: string): string {
+  const requestedNext = new URLSearchParams(search).get("next");
+
+  return requestedNext?.startsWith("/") && isSafeLocalPath(requestedNext)
+    ? requestedNext
+    : defaultPath;
+}
+
+function isSafeLocalPath(path: string): boolean {
+  return new URL(path, "https://droneviet.local").origin ===
+    "https://droneviet.local";
+}
+
+function nextPathFromLocation(defaultPath: string): string {
+  return nextPathFromSearch(window.location.search, defaultPath);
+}
+
+function subscribeToLocationChange(onStoreChange: () => void) {
+  window.addEventListener("popstate", onStoreChange);
+
+  return () => window.removeEventListener("popstate", onStoreChange);
+}
+
+function getBrowserSearch() {
+  return window.location.search;
+}
+
+function getServerSearch() {
+  return "";
+}
+
+function useNextPath(defaultPath: string): string {
+  const search = useSyncExternalStore(
+    subscribeToLocationChange,
+    getBrowserSearch,
+    getServerSearch,
+  );
+
+  return nextPathFromSearch(search, defaultPath);
+}
+
 export function CustomerGate({ mode }: { mode: "login" | "register" }) {
+  const { locale, t } = useI18n();
+  const router = useRouter();
+  const { setUser } = useCustomerSession();
   const [message, setMessage] = useState("");
   const [oauthPending, setOauthPending] = useState<"google" | "zalo" | null>(null);
-  const [session, setSession] = useState<CustomerSession | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const isRegister = mode === "register";
+  const homeHref = locale === "vi" ? "/" : "/en";
+  const loginHref = locale === "vi" ? "/dang-nhap" : "/en/login";
+  const registerHref = locale === "vi" ? "/dang-ky" : "/en/register";
+  const accountHref = locale === "vi" ? "/tai-khoan" : "/en/account";
+  const nextPath = useNextPath(accountHref);
 
   function startOauth(provider: "google" | "zalo") {
     const authUrl =
@@ -24,7 +74,9 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
 
     if (!authUrl) {
       setMessage(
-        `Đăng nhập ${provider === "google" ? "Google" : "Zalo"} chưa được cấu hình.`,
+        t("auth.oauthNotConfigured", {
+          provider: provider === "google" ? "Google" : "Zalo",
+        }),
       );
       return;
     }
@@ -33,53 +85,41 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
     window.location.assign(authUrl);
   }
 
-  if (session) {
-    return (
-      <main className="grid min-h-screen place-items-center bg-white px-5 text-[#10232A]">
-        <section className="w-full max-w-sm border border-black/10 bg-white p-6">
-          <h1 className="text-2xl font-semibold">Đăng nhập thành công</h1>
-          <p className="mt-4 text-sm text-slate-600">{session.user.email}</p>
-        </section>
-      </main>
-    );
-  }
-
   return (
     <main className="grid min-h-screen bg-white lg:grid-cols-[0.88fr_1.12fr]">
       <aside className="hidden bg-[#10232A] px-10 py-12 text-white lg:flex lg:flex-col lg:justify-between">
-        <Link href="/" className="text-sm font-bold">
-          DRONE VIET
+        <Link href={homeHref} className="text-sm font-bold">
+          {t("common.brandAscii")}
         </Link>
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7DE0D7]">
-            Drone education & flight
+            {t("auth.eyebrow")}
           </p>
           <h1 className="mt-5 max-w-md text-5xl font-semibold leading-tight">
-            Học, mua và vận hành drone có định hướng.
+            {t("auth.panelTitle")}
           </h1>
           <p className="mt-6 max-w-md text-sm leading-7 text-slate-300">
-            Quản lý hành trình khóa học, thiết bị và tư vấn triển khai tại một
-            nơi.
+            {t("auth.panelDescription")}
           </p>
         </div>
-        <p className="text-xs text-slate-500">Drone Việt</p>
+        <p className="text-xs text-slate-500">{t("common.brandName")}</p>
       </aside>
 
       <section className="grid place-items-center px-5 py-12 text-[#10232A] sm:px-8">
         <div className="w-full max-w-sm">
-          <Link href="/" className="text-sm font-bold lg:hidden">
-            DRONE VIET
+          <Link href={homeHref} className="text-sm font-bold lg:hidden">
+            {t("common.brandAscii")}
           </Link>
           <p className="mt-10 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 lg:mt-0">
-            Tài khoản khách hàng
+            {t("auth.account")}
           </p>
           <h1 className="mt-3 text-3xl font-semibold">
-            {isRegister ? "Tạo tài khoản" : "Đăng nhập"}
+            {isRegister ? t("auth.createAccount") : t("auth.signIn")}
           </h1>
           <p className="mt-3 text-sm leading-6 text-slate-600">
             {isRegister
-              ? "Tạo tài khoản để lưu thông tin khóa học và thiết bị."
-              : "Đăng nhập để tiếp tục với Drone Việt."}
+              ? t("auth.registerDescription")
+              : t("auth.loginDescription")}
           </p>
 
           {!isRegister ? (
@@ -92,7 +132,7 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
                   className="inline-flex min-h-11 items-center justify-center gap-3 border border-black/15 bg-white text-sm font-semibold hover:border-[#006D66] disabled:text-slate-400"
                 >
                   <Globe2 aria-hidden="true" size={18} />
-                  Tiếp tục với Google
+                  {t("auth.continueGoogle")}
                 </button>
                 <button
                   type="button"
@@ -101,12 +141,12 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
                   className="inline-flex min-h-11 items-center justify-center gap-3 border border-black/15 bg-white text-sm font-semibold hover:border-[#006D66] disabled:text-slate-400"
                 >
                   <MessageCircle aria-hidden="true" size={18} />
-                  Tiếp tục với Zalo
+                  {t("auth.continueZalo")}
                 </button>
               </div>
               <div className="my-7 flex items-center gap-3 text-xs text-slate-400">
                 <span className="h-px flex-1 bg-black/10" />
-                hoặc dùng email
+                {t("auth.orEmail")}
                 <span className="h-px flex-1 bg-black/10" />
               </div>
             </>
@@ -114,6 +154,7 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
 
           <form
             className={isRegister ? "mt-8" : ""}
+            method="post"
             onSubmit={async (event) => {
               event.preventDefault();
               setSubmitting(true);
@@ -130,10 +171,15 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
                       password,
                     )
                   : await loginCustomer(email, password);
-                setSession(nextSession);
+                setUser(nextSession.user);
+                router.replace(nextPathFromLocation(accountHref));
               } catch (error) {
                 setMessage(
-                  error instanceof Error ? error.message : "Không thể xác thực tài khoản.",
+                  error instanceof Error &&
+                    error.message !== "AUTHENTICATION_FAILED" &&
+                    error.message !== "COMMERCE_API_NOT_CONFIGURED"
+                    ? error.message
+                    : t("auth.authenticationFailed"),
                 );
               } finally {
                 setSubmitting(false);
@@ -142,7 +188,7 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
           >
             {isRegister ? (
               <label className="grid gap-2 text-sm font-medium">
-                Họ và tên
+                {t("common.fullName")}
                 <input
                   required
                   minLength={2}
@@ -152,7 +198,7 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
               </label>
             ) : null}
             <label className={`grid gap-2 text-sm font-medium ${isRegister ? "mt-4" : ""}`}>
-              Email
+              {t("common.email")}
               <input
                 required
                 name="email"
@@ -161,10 +207,10 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
               />
             </label>
             <label className="mt-4 grid gap-2 text-sm font-medium">
-              Mật khẩu
+              {t("common.password")}
               <input
                 required
-                minLength={12}
+                minLength={6}
                 name="password"
                 type="password"
                 className="min-h-11 border border-black/15 px-3 font-normal outline-none focus:border-[#006D66]"
@@ -177,21 +223,25 @@ export function CustomerGate({ mode }: { mode: "login" | "register" }) {
             >
               {isRegister ? <UserPlus aria-hidden="true" size={16} /> : <LogIn aria-hidden="true" size={16} />}
               {submitting
-                ? "Đang xử lý..."
+                ? t("auth.processing")
                 : isRegister
-                  ? "Tạo tài khoản"
-                  : "Đăng nhập"}
+                  ? t("auth.createAccount")
+                  : t("auth.signIn")}
             </button>
             {message ? <p className="mt-4 text-sm text-red-700">{message}</p> : null}
           </form>
 
           <p className="mt-6 text-sm text-slate-600">
-            {isRegister ? "Đã có tài khoản?" : "Chưa có tài khoản?"}{" "}
+            {isRegister ? t("auth.hasAccount") : t("auth.noAccount")}{" "}
             <Link
-              href={isRegister ? "/dang-nhap" : "/dang-ky"}
+              href={
+                isRegister
+                  ? `${loginHref}?next=${encodeURIComponent(nextPath)}`
+                  : `${registerHref}?next=${encodeURIComponent(nextPath)}`
+              }
               className="font-semibold text-[#006D66] hover:text-[#10232A]"
             >
-              {isRegister ? "Đăng nhập" : "Tạo tài khoản"}
+              {isRegister ? t("auth.signIn") : t("auth.createAccount")}
             </Link>
           </p>
         </div>

@@ -16,6 +16,7 @@ import {
 
 interface CartContextValue {
   addLine: (line: CartLine) => void;
+  clearCart: () => void;
   lineCount: number;
   lines: CartLine[];
   removeLine: (slug: string) => void;
@@ -35,6 +36,7 @@ export function CartProvider({ children, initialLines }: CartProviderProps) {
   const value = useMemo<CartContextValue>(
     () => ({
       addLine: (line) => setLines((current) => addCartLine(current, line)),
+      clearCart: () => setLines([]),
       lineCount: lines.reduce((total, line) => total + line.quantity, 0),
       lines,
       removeLine: (slug) =>

@@ -55,6 +55,6 @@ describe("createDatabaseOptions", () => {
         PromoCode,
       ]),
     );
-    expect(options.migrations).toHaveLength(16);
+    expect(options.migrations).toHaveLength(19);
   });
 });

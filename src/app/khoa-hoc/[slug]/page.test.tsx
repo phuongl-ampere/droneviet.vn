@@ -17,4 +17,19 @@ describe("CourseDetailPage", () => {
       screen.getByRole("button", { name: "Thêm vào giỏ" }),
     ).toBeInTheDocument();
   });
+
+  it("links quote-only courses to the canonical solution page", async () => {
+    render(
+      <CartProvider>
+        {await CourseDetailPage({
+          params: Promise.resolve({ slug: "phuong-phap-nghien-cuu-voi-drone" }),
+        })}
+      </CartProvider>,
+    );
+
+    expect(screen.getByRole("link", { name: "Trao đổi triển khai" })).toHaveAttribute(
+      "href",
+      "/dich-vu#tu-van-phong-lab",
+    );
+  });
 });

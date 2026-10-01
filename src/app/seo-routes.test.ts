@@ -20,6 +20,10 @@ describe("seo route metadata", () => {
 
     expect(urls).toContain("https://droneviet.vn/");
     expect(urls).toContain("https://droneviet.vn/en");
+    expect(urls).toContain("https://droneviet.vn/dich-vu");
+    expect(urls).toContain("https://droneviet.vn/en/services");
+    expect(urls).not.toContain("https://droneviet.vn/giai-phap");
+    expect(urls).not.toContain("https://droneviet.vn/en/solutions");
     expect(urls).toContain("https://droneviet.vn/san-pham/dv-primary-lab");
     expect(urls).toContain("https://droneviet.vn/en/products/dv-primary-lab");
     expect(urls).toContain("https://droneviet.vn/tin-tuc/drone-giao-duc-stem");
@@ -30,4 +34,3 @@ describe("seo route metadata", () => {
     });
   });
 });
-

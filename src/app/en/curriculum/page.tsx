@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { CurriculumCard } from "@/components/curriculum-card";
 import { SectionShell } from "@/components/section-shell";
 import { getCurriculumItems } from "@/lib/content";
+import { getTranslations } from "@/lib/i18n";
 
+const copy = getTranslations("en");
 export const metadata: Metadata = {
-  title: "Drone curriculum",
-  description:
-    "Completed drone curriculum, syllabi, and research protocol materials from grade school to university.",
+  title: copy.seo.curriculumTitle,
+  description: copy.seo.curriculumDescription,
 };
 
 export default async function EnglishCurriculumPage() {
@@ -14,9 +15,9 @@ export default async function EnglishCurriculumPage() {
 
   return (
     <SectionShell
-      eyebrow="Curriculum"
-      title="Drone curriculum from grade school to university"
-      description="Structured learning paths and lab materials for each level."
+      eyebrow={copy.pages.curriculumEyebrow}
+      title={copy.pages.curriculumTitle}
+      description={copy.pages.curriculumDescription}
     >
       <div className="grid gap-5 md:grid-cols-2">
         {curriculum.map((item) => (

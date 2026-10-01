@@ -8,7 +8,10 @@ import {
   Min,
   ValidateNested,
 } from "class-validator";
-import { OrderPaymentMethod } from "../entities/order.entity";
+import {
+  OrderFulfillmentMethod,
+  OrderPaymentMethod,
+} from "../entities/order.entity";
 
 export class CreateOrderLineDto {
   @Min(1)
@@ -48,4 +51,12 @@ export class CreateOrderDto {
   @IsOptional()
   @IsString()
   shippingAddress?: string;
+
+  @IsOptional()
+  @IsEnum(OrderFulfillmentMethod)
+  fulfillmentMethod?: OrderFulfillmentMethod;
+
+  @IsOptional()
+  @IsString()
+  shippingNote?: string;
 }

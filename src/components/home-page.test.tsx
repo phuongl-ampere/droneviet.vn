@@ -1,5 +1,5 @@
 import { cleanup, render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   getCurriculumItems,
   getDroneModels,
@@ -12,6 +12,11 @@ import { LabVisual } from "./lab-visual";
 import { ServiceCard } from "./service-card";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
+import { HomePageContent } from "./home-page-content";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ replace: vi.fn() }),
+}));
 
 describe("shared site components", () => {
   it("renders navigation and the primary solution CTA", () => {
@@ -30,14 +35,21 @@ describe("shared site components", () => {
       "/",
     );
     expect(
-      screen.getByRole("button", { name: "Đào tạo & Chứng chỉ" }),
+      screen.getByRole("button", { name: "Đào tạo" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Cửa hàng" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Cửa hàng" })).toHaveAttribute(
+      "href",
+      "/cua-hang",
+    );
+    expect(screen.getByRole("link", { name: "Đăng nhập" })).toHaveAttribute(
+      "href",
+      "/dang-nhap",
+    );
     expect(
-      screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
+      screen.getByRole("link", { name: "Tư vấn ngay" }),
     ).toHaveAttribute("href", "https://zalo.me/0384070636");
     expect(
-      screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
+      screen.getByRole("link", { name: "Tư vấn ngay" }),
     ).toHaveAttribute("target", "_blank");
   });
 
@@ -89,7 +101,7 @@ describe("shared site components", () => {
       </>,
     );
 
-    expect(screen.getByText("Lab telemetry")).toBeInTheDocument();
+    expect(screen.getByText("Dữ liệu phòng lab")).toBeInTheDocument();
     expect(screen.getByText("DV Primary Lab")).toBeInTheDocument();
     expect(
       screen.getByText("Drone nhập môn cho cấp 1"),
@@ -124,5 +136,26 @@ describe("shared site components", () => {
       "href",
       `/en/services#${service.slug}`,
     );
+  });
+
+  it("reveals the store category links from the home store pillar on desktop hover", () => {
+    render(<HomePageContent />);
+
+    const storeMenu = screen.getByTestId("home-store-categories");
+
+    expect(storeMenu).toHaveClass(
+      "md:group-hover:max-h-40",
+      "md:group-hover:opacity-100",
+    );
+    expect(
+      screen
+        .getAllByRole("link", { name: "Drone" })
+        .some((link) => link.getAttribute("href") === "/cua-hang?category=drone"),
+    ).toBe(true);
+    expect(
+      screen
+        .getAllByRole("link", { name: "Phụ kiện & Linh kiện" })
+        .some((link) => link.getAttribute("href") === "/cua-hang?category=parts"),
+    ).toBe(true);
   });
 });

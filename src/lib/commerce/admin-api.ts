@@ -38,7 +38,7 @@ function apiUrl(path: string): string {
   const baseUrl = process.env.NEXT_PUBLIC_COMMERCE_API_URL?.replace(/\/$/, "");
 
   if (!baseUrl) {
-    throw new Error("Commerce API is not configured");
+    throw new Error("COMMERCE_API_NOT_CONFIGURED");
   }
 
   return `${baseUrl}${path}`;
@@ -62,7 +62,7 @@ async function request<T>(
   const payload = (await response.json()) as T;
 
   if (!response.ok) {
-    throw new Error("Commerce API request failed");
+    throw new Error("ADMIN_API_REQUEST_FAILED");
   }
 
   return payload;
@@ -92,7 +92,7 @@ export function createAdminProduct(
       kind: "drone",
       name: payload.name,
       slug: payload.slug,
-      summary: `${payload.name} product configuration`,
+      summary: payload.name,
       variants: [
         {
           priceVnd: payload.priceVnd,

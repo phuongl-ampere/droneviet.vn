@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useI18n } from "@/components/i18n-provider";
 import { submitQuoteRequest } from "@/lib/commerce/quotes";
 
 interface QuoteFormProps {
@@ -8,6 +9,7 @@ interface QuoteFormProps {
 }
 
 export function QuoteForm({ productName = "" }: QuoteFormProps) {
+  const { t } = useI18n();
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -30,12 +32,14 @@ export function QuoteForm({ productName = "" }: QuoteFormProps) {
             quantity: Number(data.get("quantity") ?? 1),
             requirements: String(data.get("requirements") ?? ""),
           });
-          setMessage("Yêu cầu đã được gửi. Drone Việt sẽ liên hệ để xác nhận cấu hình.");
+          setMessage(t("quote.submitted"));
         } catch (error) {
           setMessage(
-            error instanceof Error
+            error instanceof Error &&
+              error.message !== "COMMERCE_API_NOT_CONFIGURED" &&
+              error.message !== "QUOTE_REQUEST_CREATE_FAILED"
               ? error.message
-              : "Không thể gửi yêu cầu báo giá.",
+              : t("quote.submitError"),
           );
         } finally {
           setIsSubmitting(false);
@@ -44,7 +48,7 @@ export function QuoteForm({ productName = "" }: QuoteFormProps) {
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="grid gap-2 text-sm font-medium">
-          Đơn vị
+          {t("common.organization")}
           <input
             required
             name="organization"
@@ -52,7 +56,7 @@ export function QuoteForm({ productName = "" }: QuoteFormProps) {
           />
         </label>
         <label className="grid gap-2 text-sm font-medium">
-          Người liên hệ
+          {t("quote.contactPerson")}
           <input
             required
             name="contactName"
@@ -60,7 +64,7 @@ export function QuoteForm({ productName = "" }: QuoteFormProps) {
           />
         </label>
         <label className="grid gap-2 text-sm font-medium">
-          Số điện thoại
+          {t("common.phone")}
           <input
             required
             name="phone"
@@ -69,7 +73,7 @@ export function QuoteForm({ productName = "" }: QuoteFormProps) {
           />
         </label>
         <label className="grid gap-2 text-sm font-medium">
-          Email
+          {t("common.email")}
           <input
             name="email"
             type="email"
@@ -77,7 +81,7 @@ export function QuoteForm({ productName = "" }: QuoteFormProps) {
           />
         </label>
         <label className="grid gap-2 text-sm font-medium">
-          Số lượng dự kiến
+          {t("quote.quantity")}
           <input
             required
             min={1}
@@ -88,7 +92,7 @@ export function QuoteForm({ productName = "" }: QuoteFormProps) {
           />
         </label>
         <label className="grid gap-2 text-sm font-medium">
-          Ngân sách dự kiến
+          {t("quote.budget")}
           <input
             name="budgetVnd"
             inputMode="numeric"
@@ -98,7 +102,7 @@ export function QuoteForm({ productName = "" }: QuoteFormProps) {
         </label>
       </div>
       <label className="mt-5 grid gap-2 text-sm font-medium">
-        Thiết bị và yêu cầu triển khai
+        {t("quote.requirements")}
         <textarea
           name="requirements"
           defaultValue={productName}
@@ -110,7 +114,7 @@ export function QuoteForm({ productName = "" }: QuoteFormProps) {
         disabled={isSubmitting}
         className="mt-6 min-h-11 bg-[#10232A] px-4 text-sm font-semibold text-white hover:bg-[#006D66]"
       >
-        {isSubmitting ? "Đang gửi..." : "Gửi yêu cầu"}
+        {isSubmitting ? t("quote.submitting") : t("quote.submit")}
       </button>
       {message ? (
         <p className="mt-4 border-l-2 border-[#00A99B] pl-3 text-sm leading-6 text-slate-600">

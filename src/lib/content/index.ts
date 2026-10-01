@@ -1,7 +1,7 @@
-import { articlesEn, articlesVi } from "@/content/data/articles";
-import { sourceContentEn, sourceContentVi } from "@/content/data/site";
+import { getTranslations } from "@/lib/i18n";
 import {
   articleFrontmatterSchema,
+  articleSchema,
   sourceContentSchema,
   type Article,
   type ArticleSummary,
@@ -15,13 +15,13 @@ import {
 export type Locale = "vi" | "en";
 
 const contentByLocale = {
-  vi: sourceContentSchema.parse(sourceContentVi),
-  en: sourceContentSchema.parse(sourceContentEn),
+  vi: sourceContentSchema.parse(getTranslations("vi").content),
+  en: sourceContentSchema.parse(getTranslations("en").content),
 };
 
 const articlesByLocale: Record<Locale, Article[]> = {
-  vi: articlesVi,
-  en: articlesEn,
+  vi: getTranslations("vi").articles.map((article) => articleSchema.parse(article)),
+  en: getTranslations("en").articles.map((article) => articleSchema.parse(article)),
 };
 
 export function getSiteContent(locale: Locale = "vi"): SiteContent {
@@ -46,7 +46,7 @@ export function getPartners(locale: Locale = "vi"): Partner[] {
 
 export function getArticles(locale: Locale = "vi"): ArticleSummary[] {
   return articlesByLocale[locale]
-    .sort((first, second) => second.date.localeCompare(first.date))
+    .toSorted((first, second) => second.date.localeCompare(first.date))
     .map((article) => articleFrontmatterSchema.parse(article));
 }
 

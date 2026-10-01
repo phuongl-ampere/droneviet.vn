@@ -4,6 +4,10 @@ import { ProductVariant } from "../catalog/entities/product-variant.entity";
 import { Product } from "../catalog/entities/product.entity";
 import { Article } from "../content/entities/article.entity";
 import { ContentRevision } from "../content/entities/content-revision.entity";
+import { ArticleMedia } from "../content/entities/article-media.entity";
+import { ArticleComment } from "../content/entities/article-comment.entity";
+import { ArticleCommentReport } from "../content/entities/article-comment-report.entity";
+import { ArticleRating } from "../content/entities/article-rating.entity";
 import { User } from "../auth/entities/user.entity";
 import { OrderLine } from "../orders/entities/order-line.entity";
 import { Order } from "../orders/entities/order.entity";
@@ -32,6 +36,9 @@ import { PromotionsMigration1766919800000 } from "./migrations/1766919800000-pro
 import { OrderLineInventoryReservationMigration1766919900000 } from "./migrations/1766919900000-order-line-inventory-reservation";
 import { CourseVariantLinkMigration1766920000000 } from "./migrations/1766920000000-course-variant-link";
 import { PaymentRefundReferenceMigration1766920100000 } from "./migrations/1766920100000-payment-refund-reference";
+import { CustomerAccountMigration1766920200000 } from "./migrations/1766920200000-customer-account";
+import { CheckoutFulfillmentMigration1766920300000 } from "./migrations/1766920300000-checkout-fulfillment";
+import { ResearchArticleCmsMigration1766920400000 } from "./migrations/1766920400000-research-article-cms";
 
 export function createDatabaseOptions(
   environment: NodeJS.ProcessEnv,
@@ -49,6 +56,10 @@ export function createDatabaseOptions(
       ProductVariant,
       Article,
       ContentRevision,
+      ArticleMedia,
+      ArticleComment,
+      ArticleCommentReport,
+      ArticleRating,
       User,
       Order,
       OrderLine,
@@ -79,6 +90,9 @@ export function createDatabaseOptions(
       OrderLineInventoryReservationMigration1766919900000,
       CourseVariantLinkMigration1766920000000,
       PaymentRefundReferenceMigration1766920100000,
+      CustomerAccountMigration1766920200000,
+      CheckoutFulfillmentMigration1766920300000,
+      ResearchArticleCmsMigration1766920400000,
     ],
     synchronize: false,
   };

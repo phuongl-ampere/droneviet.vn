@@ -1,17 +1,19 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import type { Locale } from "@/lib/content";
 import type { DroneModel } from "@/lib/content/schema";
+import { getTranslation } from "@/lib/i18n";
 
 type DroneCardProps = {
   drone: DroneModel;
   detailBasePath?: string;
-  ctaLabel?: string;
+  locale?: Locale;
 };
 
 export function DroneCard({
   drone,
   detailBasePath = "/san-pham",
-  ctaLabel = "Xem chi tiết",
+  locale = "vi",
 }: DroneCardProps) {
   return (
     <article className="group flex h-full flex-col overflow-hidden border border-[#172226]/10 bg-white transition hover:border-[#10232A]/40">
@@ -67,7 +69,7 @@ export function DroneCard({
           href={`${detailBasePath}/${drone.slug}`}
           className="mt-6 inline-flex w-fit items-center gap-2 border-b border-[#00A99B]/50 pb-1 text-sm font-semibold text-[#006D66] transition group-hover:border-[#10232A] group-hover:text-[#10232A]"
         >
-          {ctaLabel}
+          {getTranslation(locale, "product.detail")}
           <ArrowUpRight aria-hidden="true" size={16} />
         </Link>
       </div>
