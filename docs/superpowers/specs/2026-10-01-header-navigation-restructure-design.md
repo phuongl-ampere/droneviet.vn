@@ -2,7 +2,7 @@
 
 ## Goal
 
-Make the Vietnamese header navigation less crowded by reducing it from six to five top-level pillars, while preserving the three useful event-related destinations under their natural content groups.
+Make the Vietnamese header navigation less crowded by reducing it from six to five top-level pillars and rendering a single, polished top row on desktop. Preserve the three useful event-related destinations under their natural content groups.
 
 ## Navigation structure
 
@@ -16,12 +16,14 @@ Make the Vietnamese header navigation less crowded by reducing it from six to fi
 ## Header behavior
 
 - Keep the existing five visible Vietnamese top-level pillars: Đào tạo & Chứng chỉ, Drone Giáo Dục, Cửa hàng, Bay Hợp Pháp, and Kiến thức & R&D.
-- Preserve desktop dropdown navigation and mobile disclosure navigation, sourced from the same `dronePillars` data.
-- Tighten desktop navigation spacing and header-side controls so the five pillars remain on one deliberate row without visual crowding at desktop widths.
-- Keep the Store as a direct link and retain all existing authentication, admin, locale, and consultation actions.
+- Apply fog / navy / coral only to the header: `#eef1f2` for a subtle muted surface, `#253957` for the fixed header and primary elements, `#ff775c` for focus and active accents, and `9px` radii on menu surfaces.
+- At widths of 980px and above, render exactly one fixed header row: brand at the left, all five desktop destinations in the center, and account, locale, and consultation actions at the right.
+- Keep desktop dropdown navigation sourced from `dronePillars`; the Store remains a direct link.
+- Below 980px, keep the header itself to one row and expose the same shared navigation only after a hamburger button is pressed. The menu closes after a destination is selected.
+- Retain the existing typography, authentication, administration, locale, and consultation behavior outside the header layout change.
 
 ## Validation
 
-- Header tests assert five Vietnamese pillars, the three relocated entries and their new URLs, and the absence of the retired group and removed entries.
+- Header tests assert five Vietnamese pillars, the three relocated entries and their new URLs, the absence of the retired group and removed entries, and the closed/open mobile-menu state.
 - Dynamic topic route tests assert the new destinations render and retired event paths return `notFound`.
 - Existing homepage and localized chrome tests continue to consume the shared pillar data without regressions.
