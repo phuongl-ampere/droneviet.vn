@@ -11,7 +11,13 @@ describe("StorePage", () => {
 
     expect(
       screen.getByRole("heading", { name: "Cửa hàng Drone Việt" }),
-    ).toBeInTheDocument();
+    ).toHaveClass("sr-only");
+    expect(screen.queryByText("Drone Viet Store")).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "Thiết bị drone, kit phòng lab và khóa học được cấu hình cho từng giai đoạn học tập và nghiên cứu.",
+      ),
+    ).not.toBeInTheDocument();
     expect(
       screen
         .getAllByRole("link", { name: "DV Primary Lab" })

@@ -59,20 +59,8 @@ export default async function StorePage({ searchParams }: StorePageProps) {
 
   return (
     <main className="min-h-screen bg-white text-[#10232A]">
-      <section className="border-b border-black/10 bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8 sm:py-20">
-          <p className="text-xs font-medium text-[#006D66]">Drone Viet Store</p>
-          <h1 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight sm:text-6xl">
-            Cửa hàng Drone Việt
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
-            Thiết bị drone, kit phòng lab và khóa học được cấu hình cho từng
-            giai đoạn học tập và nghiên cứu.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
+      <h1 className="sr-only">Cửa hàng Drone Việt</h1>
+      <section className="mx-auto grid max-w-7xl gap-8 px-5 py-8 sm:px-8 sm:py-10 lg:grid-cols-[13rem_minmax(0,1fr)]">
         <aside className="hidden lg:block">
           <div className="border-t border-black/15 pt-4">
             <p className="text-sm font-semibold">Tình trạng</p>
