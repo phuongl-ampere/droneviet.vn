@@ -27,15 +27,11 @@ describe("public routes", () => {
       screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
     ).toHaveAttribute("target", "_blank");
     expect(screen.getByTestId("drone-hero-carousel")).toBeInTheDocument();
-    expect(screen.getAllByText("DV Primary Lab").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("DV Research Platform").length).toBeGreaterThan(0);
-    expect(screen.getByText("Solution catalog")).toBeInTheDocument();
-    expect(screen.getByText("Services")).toBeInTheDocument();
-    expect(screen.getByText("Deployment")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Cửa hàng" })).toHaveAttribute(
-      "href",
-      "/cua-hang",
-    );
+    expect(screen.queryByText("Solution catalog")).not.toBeInTheDocument();
+    expect(screen.queryByText("Services")).not.toBeInTheDocument();
+    expect(screen.queryByText("Deployment")).not.toBeInTheDocument();
+    expect(screen.queryByText("DV Primary Lab")).not.toBeInTheDocument();
+    expect(screen.queryByText("DV Research Platform")).not.toBeInTheDocument();
     expect(screen.queryByText("Giáo trình và tài liệu đã hoàn thành")).not.toBeInTheDocument();
     expect(screen.queryByText("Hệ sinh thái đối tác giáo dục và nghiên cứu")).not.toBeInTheDocument();
     expect(screen.queryByText("Tin tức và học liệu mới")).not.toBeInTheDocument();
@@ -122,9 +118,9 @@ describe("public routes", () => {
       "https://zalo.me/0384070636",
     );
     expect(screen.getByTestId("drone-hero-carousel")).toBeInTheDocument();
-    expect(screen.getByText("A drone platform for every stage of learning")).toBeInTheDocument();
-    expect(screen.getByText("From first flight to a working lab")).toBeInTheDocument();
-    expect(screen.getByText("A clear path from brief to deployment")).toBeInTheDocument();
+    expect(screen.queryByText("A drone platform for every stage of learning")).not.toBeInTheDocument();
+    expect(screen.queryByText("From first flight to a working lab")).not.toBeInTheDocument();
+    expect(screen.queryByText("A clear path from brief to deployment")).not.toBeInTheDocument();
     cleanup();
 
     render(await EnglishProductsPage());

@@ -32,7 +32,10 @@ describe("shared site components", () => {
     expect(
       screen.getByRole("button", { name: "Đào tạo & Chứng chỉ" }),
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Cửa hàng" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Cửa hàng" })).toHaveAttribute(
+      "href",
+      "/cua-hang",
+    );
     expect(
       screen.getByRole("link", { name: "Liên hệ tư vấn ngay" }),
     ).toHaveAttribute("href", "https://zalo.me/0384070636");

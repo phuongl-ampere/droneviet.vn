@@ -25,6 +25,7 @@ export const dronePillars: DronePillar[] = [
     description:
       "Lộ trình học lái drone, an toàn bay và năng lực vận hành cho cá nhân, đội ngũ doanh nghiệp.",
     items: [
+      { slug: "event-trai-nghiem", title: "Event/trải nghiệm drone", href: "/dao-tao-chung-chi/event-trai-nghiem", description: "Hoạt động bay trải nghiệm có hướng dẫn an toàn." },
       { slug: "chung-chi-lai-drone", title: "Chứng chỉ lái drone", href: "/dao-tao-chung-chi/chung-chi-lai-drone", description: "Lộ trình năng lực từ kiểm tra an toàn đến thực hành điều khiển." },
       { slug: "lo-trinh-ca-nhan-doanh-nghiep", title: "Lộ trình học cá nhân/doanh nghiệp", href: "/dao-tao-chung-chi/lo-trinh-ca-nhan-doanh-nghiep", description: "Khung chương trình theo mục tiêu cá nhân hoặc đội vận hành." },
       { slug: "dao-tao-an-toan-bay", title: "Đào tạo an toàn bay", href: "/dao-tao-chung-chi/dao-tao-an-toan-bay", description: "Checklist, quy trình bay và xử lý tình huống vận hành." },
@@ -46,6 +47,7 @@ export const dronePillars: DronePillar[] = [
       { slug: "giao-trinh-drone", title: "Giáo trình drone", href: "/drone-giao-duc/giao-trinh-drone", description: "Syllabus, bài giảng, rubric và tài liệu an toàn." },
       { slug: "thiet-bi-lab", title: "Thiết bị/lab drone cho trường học", href: "/drone-giao-duc/thiet-bi-lab", description: "Gói thiết bị, không gian và quy trình vận hành lab." },
       { slug: "dao-tao-giao-vien", title: "Đào tạo giáo viên", href: "/drone-giao-duc/dao-tao-giao-vien", description: "Chuẩn bị đội ngũ đứng lớp và quản trị an toàn." },
+      { slug: "workshop-truong-hoc", title: "Workshop trường học", href: "/drone-giao-duc/workshop-truong-hoc", description: "Workshop theo khối lớp, mục tiêu STEM và không gian thực tế." },
     ],
   },
   {
@@ -64,7 +66,7 @@ export const dronePillars: DronePillar[] = [
   },
   {
     slug: "bay-hop-phap",
-    title: "Bay Hợp Pháp",
+    title: "Cấp phép bay",
     eyebrow: "Flight compliance",
     href: "/bay-hop-phap",
     image: "/store/quadcopter-flight-01.jpg",
@@ -74,22 +76,6 @@ export const dronePillars: DronePillar[] = [
       { slug: "xin-cap-phep-bay", title: "Hướng dẫn xin cấp phép bay", href: "/bay-hop-phap/xin-cap-phep-bay", description: "Các bước chuẩn bị hồ sơ và kế hoạch chuyến bay." },
       { slug: "quy-dinh-phap-ly", title: "Quy định pháp lý drone", href: "/bay-hop-phap/quy-dinh-phap-ly", description: "Nội dung pháp lý cần kiểm tra trước vận hành." },
       { slug: "ban-do-cam-bay", title: "Bản đồ khu vực cấm/hạn chế bay", href: "/bay-hop-phap/ban-do-cam-bay", description: "Điểm bắt đầu để rà soát khu vực trước khi xin phép." },
-    ],
-  },
-  {
-    slug: "dich-vu-su-kien",
-    title: "Dịch vụ & Sự kiện",
-    eyebrow: "Experiences",
-    href: "/dich-vu-su-kien",
-    image: "/store/quadcopter-flight-02.jpg",
-    description:
-      "Sự kiện, workshop và tư vấn triển khai drone cho trường học, doanh nghiệp và cộng đồng.",
-    items: [
-      { slug: "event-trai-nghiem", title: "Event/trải nghiệm drone", href: "/dich-vu-su-kien/event-trai-nghiem", description: "Hoạt động bay trải nghiệm có hướng dẫn an toàn." },
-      { slug: "workshop-truong-hoc", title: "Workshop trường học", href: "/dich-vu-su-kien/workshop-truong-hoc", description: "Workshop theo khối lớp, mục tiêu STEM và không gian thực tế." },
-      { slug: "demo-lab", title: "Demo lab", href: "/dich-vu-su-kien/demo-lab", description: "Trình diễn thiết bị, bài học và workflow quản trị lab." },
-      { slug: "tu-van-trien-khai", title: "Tư vấn triển khai", href: "/dich-vu-su-kien/tu-van-trien-khai", description: "Thiết kế gói thiết bị, học liệu và đào tạo vận hành." },
-      { slug: "tin-tuc-drone", title: "Tin tức drone", href: "/tin-tuc", description: "Tin tức, xu hướng và hoạt động drone đáng chú ý." },
     ],
   },
   {
@@ -103,6 +89,7 @@ export const dronePillars: DronePillar[] = [
     items: [
       { slug: "nghien-cuu-phat-trien", title: "Nghiên cứu và phát triển drone", href: "/kien-thuc-rd/nghien-cuu-phat-trien", description: "Bài toán R&D về bay, dữ liệu, AI và cảm biến." },
       { slug: "bao-cao-quy-chuan", title: "Báo cáo/quy chuẩn kỹ thuật", href: "/kien-thuc-rd/bao-cao-quy-chuan", description: "Tài liệu tham khảo để thiết kế và vận hành có kiểm soát." },
+      { slug: "tin-tuc-drone", title: "Tin tức drone", href: "/kien-thuc-rd/tin-tuc-drone", description: "Tin tức, xu hướng và hoạt động drone đáng chú ý." },
     ],
   },
 ];
